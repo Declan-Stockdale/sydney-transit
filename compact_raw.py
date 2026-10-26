@@ -44,7 +44,15 @@ log = setup_logging("compact_raw")
 
 
 def compact_day(day_dir) -> None:
-    snapshots = sorted(day_dir.glob("*.pb.gz"))
+    snapshots, damaged = [], []
+    for snap in sorted(day_dir.glob("*.pb.gz")):
+        try:
+            gzip.decompress(snap.read_bytes())
+            snapshots.append(snap)
+        except (OSError, EOFError):
+            damaged.append(snap.name)  # e.g. zero-filled after a power loss mid-write
+    if damaged:
+        log.warning("%s: skipping %d damaged snapshot(s): %s", day_dir.relative_to(DATA_DIR), len(damaged), ", ".join(damaged))
     archive = day_dir.with_suffix(".tar.xz")
     tmp = day_dir.with_suffix(".tar.xz.tmp")
 

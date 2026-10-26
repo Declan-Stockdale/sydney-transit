@@ -17,6 +17,10 @@ What it does, every --interval seconds:
        data/logs/feed_intervals.csv. Use this to choose the polling interval
        (record the result in DECISIONS.md).
 
+It also launches the other frequent collectors as separate processes on their
+own clocks (see SIDE_JOBS): rain radar every 30 min, Park&Ride car parks every
+15 min, weather every 6 h. Use --no-side-jobs to switch that off.
+
 Each night, compact_raw.py bundles finished days into one .tar.xz per feed,
 which is a further ~5 to 8x smaller.
 
@@ -34,6 +38,8 @@ import argparse
 import csv
 import gzip
 import statistics
+import subprocess
+import sys
 import time
 from collections import defaultdict
 from datetime import datetime, timezone
@@ -42,7 +48,7 @@ import requests
 from google.protobuf.message import DecodeError
 from google.transit import gtfs_realtime_pb2
 
-from tfnsw import DATA_DIR, LOG_DIR, REALTIME_FEEDS, REALTIME_PATHS, get_api_key, setup_logging, tfnsw_get
+from tfnsw import DATA_DIR, LOG_DIR, PROJECT_DIR, REALTIME_FEEDS, REALTIME_PATHS, get_api_key, setup_logging, tfnsw_get
 
 RAW_DIR = DATA_DIR / "raw" / "realtime"
 INTERVALS_CSV = LOG_DIR / "feed_intervals.csv"
@@ -122,8 +128,31 @@ def new_stats():
     return defaultdict(lambda: {"saved": 0, "skipped": 0, "errors": 0, "bytes": 0, "intervals": []})
 
 
+# Other collectors launched from this always-running loop, as separate processes so a
+# failure in one never stops realtime collection. Windows Task Scheduler's repeating
+# triggers proved unreliable for these (on 26 Oct 2026 radar and car parks stopped after
+# 5:30pm with the PC awake), and radar frames are only kept for 2 hours upstream.
+SIDE_JOBS = {"pull_radar.py": 30 * 60, "pull_carpark.py": 15 * 60, "pull_weather.py": 6 * 3600}
+
+
+def run_side_jobs(last_run: dict, running: dict) -> None:
+    now = time.monotonic()
+    for script, every in SIDE_JOBS.items():
+        proc = running.get(script)
+        if proc is not None and proc.poll() is None:
+            continue  # still running from last time
+        if proc is not None and proc.returncode not in (0, None):
+            log.warning("%s exited with code %s", script, proc.returncode)
+        running.pop(script, None)
+        if now - last_run.get(script, -1e9) >= every:
+            running[script] = subprocess.Popen([sys.executable, str(PROJECT_DIR / script)], cwd=PROJECT_DIR)
+            last_run[script] = now
+            log.info("Started %s", script)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Collect TfNSW realtime snapshots.")
+    parser.add_argument("--no-side-jobs", action="store_true", help="Don't also run radar, car park and weather collection")
     parser.add_argument("--interval", type=float, default=30, help="Seconds between polls (default 30)")
     parser.add_argument("--minutes", type=float, default=None, help="Stop after this many minutes (default: run forever)")
     parser.add_argument("--kinds", nargs="+", choices=list(REALTIME_PATHS), default=list(REALTIME_PATHS))
@@ -138,10 +167,13 @@ def main() -> None:
     started = time.monotonic()
     next_summary = started + SUMMARY_EVERY_S
     log.info("Started: kinds=%s feeds=%s interval=%ss", args.kinds, args.feeds, args.interval)
+    side_last, side_running = {}, {}
 
     try:
         while args.minutes is None or time.monotonic() - started < args.minutes * 60:
             cycle_start = time.monotonic()
+            if not args.no_side_jobs:
+                run_side_jobs(side_last, side_running)
             for kind in args.kinds:
                 for feed in args.feeds:
                     poll_once(session, api_key, kind, feed, last_ts, stats)

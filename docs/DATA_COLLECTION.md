@@ -95,9 +95,11 @@ Start-ScheduledTask -TaskName "SydneyTransit-CollectRealtime"
 | --- | --- | --- |
 | `SydneyTransit-CollectRealtime` | `collect_realtime.py` | At logon, plus a check every 15 min that restarts it if it stopped |
 | `SydneyTransit-Daily` | `pull_static.py`, then `compact_raw.py` | 3:30am daily, or as soon as possible if the PC was off |
-| `SydneyTransit-Weather` | `pull_weather.py` | Every 6 hours |
-| `SydneyTransit-Radar` | `pull_radar.py` | Every 30 minutes |
-| `SydneyTransit-Carpark` | `pull_carpark.py` | Every 15 minutes |
+
+Radar (every 30 min), car parks (every 15 min) and weather (every 6 h) are launched by
+the collector itself as separate processes, not by Task Scheduler. Task Scheduler's
+repeating triggers stalled on 26 Oct 2026 (radar and car parks stopped after 5:30pm
+with the PC awake), and radar frames are only kept for 2 hours upstream.
 
 Both run as you, only while you are logged on, with no window (they use `pythonw.exe`).
 

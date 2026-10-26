@@ -1,5 +1,5 @@
 <#
-Registers the five Windows Task Scheduler tasks that collect data for this project.
+Registers the two Windows Task Scheduler tasks that collect data for this project.
 Safe to run again: existing tasks with the same names are replaced.
 
     SydneyTransit-CollectRealtime
@@ -12,15 +12,8 @@ Safe to run again: existing tasks with the same names are replaced.
         compact_raw.py (bundle yesterday's snapshots). If the PC was off or asleep
         at 3:30am, it runs as soon as possible afterwards.
 
-    SydneyTransit-Weather
-        Every 6 hours: pull_weather.py (BOM station observations + Open-Meteo
-        hourly weather at every rail station).
-
-    SydneyTransit-Radar
-        Every 30 minutes: pull_radar.py (BOM rain radar frames, kept only 2 hours).
-
-    SydneyTransit-Carpark
-        Every 15 minutes: pull_carpark.py (Park&Ride car park occupancy).
+    Radar (every 30 min), car parks (every 15 min) and weather (every 6 h) are
+    launched by the collector itself, not by Task Scheduler (see collect_realtime.py).
 
 All run as you, only while you are logged on, with no console window
 (pythonw.exe). Output goes to data\logs\. No admin rights or password needed.
@@ -80,9 +73,15 @@ function Register-Repeating($name, $script, $minutes, $description) {
     Register-ScheduledTask -TaskName $name -TaskPath "\" -Force -Description $description `
         -Action $action -Trigger $trigger -Settings $settings -Principal $principal | Out-Null
 }
-Register-Repeating "SydneyTransit-Weather" "pull_weather.py" 360 "BOM station observations and Open-Meteo hourly weather at every rail station"
-Register-Repeating "SydneyTransit-Radar" "pull_radar.py" 30 "BOM Sydney rain radar frames (kept only 2 hours by the BOM)"
-Register-Repeating "SydneyTransit-Carpark" "pull_carpark.py" 15 "TfNSW Park&Ride car park occupancy"
+# Radar, car park and weather used to be separate repeating tasks, but Task Scheduler's
+# repeats stalled (26 Oct 2026). The collector now launches them itself (collect_realtime.py,
+# SIDE_JOBS), so remove the old tasks if they exist to avoid running everything twice.
+foreach ($old in "SydneyTransit-Weather", "SydneyTransit-Radar", "SydneyTransit-Carpark") {
+    if (Get-ScheduledTask -TaskName $old -ErrorAction SilentlyContinue) {
+        Unregister-ScheduledTask -TaskName $old -Confirm:$false
+        Write-Host "Removed old task $old (now run by the collector)"
+    }
+}
 
 Get-ScheduledTask -TaskName "SydneyTransit-*" | Format-Table TaskName, State -AutoSize
 Write-Host "Registered. The collector starts at next logon, or now with:"

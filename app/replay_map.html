@@ -1,0 +1,181 @@
+<!doctype html>
+<!-- Animated train replay, embedded by the "Train replay" page of streamlit_app.py.
+     The page swaps __REPLAY__ and __SEGMENTS__ for app/data/replay.json and segments.csv rows.
+     Everything animates in the browser, so Streamlit doesn't rerun for each frame. -->
+<html>
+<head>
+<meta charset="utf-8">
+<script src="https://unpkg.com/deck.gl@9.0.38/dist.min.js"></script>
+<style>
+  body {margin: 0; font-family: "Source Sans Pro", sans-serif; color: #33322f;}
+  #wrap {position: relative; height: 600px; border: 1px solid #e4e3df; border-radius: 10px; overflow: hidden;}
+  #map {position: absolute; inset: 0;}
+  .panel {position: absolute; background: rgba(255,255,255,0.94); border: 1px solid #e4e3df; border-radius: 8px;
+          padding: 10px 12px; font-size: 13px; z-index: 2;}
+  #clock {top: 10px; left: 10px;}
+  #clock .t {font-size: 26px; font-weight: 600; line-height: 1.1;}
+  #clock .d {color: #6b6a66;}
+  #clock .gap {color: #b5470b; font-weight: 600; margin-top: 4px;}
+  #legend {top: 10px; right: 10px;}
+  #legend div {display: flex; align-items: center; gap: 6px; margin: 2px 0;}
+  #legend i {width: 11px; height: 11px; border-radius: 50%; display: inline-block;}
+  #legend label {display: block; margin: 1px 0;}
+  #controls {left: 10px; right: 10px; bottom: 10px; display: flex; align-items: center; gap: 10px;}
+  #controls button {width: 74px; padding: 5px 0; border: 1px solid #2a78d6; background: #2a78d6; color: #fff;
+                    border-radius: 6px; font-size: 14px; cursor: pointer;}
+  #slider {flex: 1;}
+  #credit {position: absolute; right: 12px; bottom: 62px; font-size: 10px; color: #6b6a66; z-index: 2;}
+  #controls select {padding: 3px;}
+</style>
+</head>
+<body>
+<div id="wrap">
+  <div id="map"></div>
+  <div id="credit">Basemap: Esri, HERE, Garmin, &copy; OpenStreetMap contributors</div>
+  <div id="clock" class="panel"><div class="t" id="time"></div><div class="d" id="date"></div>
+    <div id="count"></div><div class="gap" id="gap"></div></div>
+  <div id="legend" class="panel">
+    <b>Running</b>
+    <div><i style="background:#2a78d6"></i>On time or early (under 1 min late)</div>
+    <div><i style="background:#e0a526"></i>1 to 3 min late</div>
+    <div><i style="background:#e0702a"></i>3 to 5 min late</div>
+    <div><i style="background:#c0392b"></i>5+ min late</div>
+    <div><i style="background:#b9b7b1"></i>Out of service (empty run)</div>
+    <hr style="border:none;border-top:1px solid #e4e3df">
+    <label><input type="checkbox" class="mode" value="Trains" checked> Sydney Trains</label>
+    <label><input type="checkbox" class="mode" value="Metro" checked> Metro</label>
+    <label><input type="checkbox" class="mode" value="TrainLink" checked> NSW TrainLink</label>
+    <label><input type="checkbox" id="oos"> Show out of service</label>
+  </div>
+  <div id="controls" class="panel">
+    <button id="play">Play</button>
+    <input type="range" id="slider" min="0" step="1">
+    <select id="speed" title="Playback speed">
+      <option value="60">1 min / s</option>
+      <option value="300" selected>5 min / s</option>
+      <option value="900">15 min / s</option>
+      <option value="1800">30 min / s</option>
+    </select>
+  </div>
+</div>
+<script>
+const R = __REPLAY__;
+const SEG = __SEGMENTS__;
+const MAX_GAP = 300;  // only draw a train between GPS fixes under 5 minutes apart (matches analysis/replay.py)
+const OOS = "Out of service";
+
+// Unpack each trip into typed arrays for quick lookup: t (s since start), lon, lat, late (min)
+const trips = R.trips.map(tr => {
+  const n = tr.p.length, t = new Float64Array(n), lon = new Float64Array(n), lat = new Float64Array(n), late = new Float32Array(n);
+  tr.p.forEach((p, i) => { lon[i] = p[0]; lat[i] = p[1]; t[i] = p[2]; late[i] = p[3]; });
+  return {line: tr.line, mode: tr.mode, oos: tr.line === OOS, t, lon, lat, late};
+});
+const span = R.end - R.start;
+
+// GPS fixes per minute, so playback can jump over collection gaps (PC off or asleep)
+const covered = new Uint16Array(Math.ceil(span / 60) + 2);
+trips.forEach(tr => tr.t.forEach(s => covered[Math.floor(s / 60)]++));
+function nextCovered(s, minFixes = 1) {
+  for (let m = Math.floor(s / 60); m < covered.length; m++) if (covered[m] >= minFixes) return Math.max(s, m * 60);
+  return span;
+}
+
+function positionsAt(s, modes, showOos) {
+  const out = [];
+  for (const tr of trips) {
+    if (!modes.has(tr.mode) || (tr.oos && !showOos)) continue;
+    const t = tr.t, n = t.length;
+    if (s < t[0] || s > t[n - 1]) continue;
+    let lo = 0, hi = n - 1;  // last fix at or before s
+    while (lo < hi) { const mid = (lo + hi + 1) >> 1; if (t[mid] <= s) lo = mid; else hi = mid - 1; }
+    if (lo === n - 1) { out.push({tr, lon: tr.lon[lo], lat: tr.lat[lo], late: tr.late[lo]}); continue; }
+    const gap = t[lo + 1] - t[lo];
+    if (gap > MAX_GAP) continue;
+    const f = (s - t[lo]) / gap;
+    out.push({tr, lon: tr.lon[lo] + f * (tr.lon[lo + 1] - tr.lon[lo]),
+              lat: tr.lat[lo] + f * (tr.lat[lo + 1] - tr.lat[lo]), late: tr.late[lo]});
+  }
+  return out;
+}
+
+function colour(d) {
+  if (d.tr.oos) return [185, 183, 177, 200];
+  if (d.late < 1) return [42, 120, 214, 230];
+  if (d.late < 3) return [224, 165, 38, 240];
+  if (d.late < 5) return [224, 112, 42, 240];
+  return [192, 57, 43, 250];
+}
+
+const fmtTime = new Intl.DateTimeFormat("en-AU", {timeZone: "Australia/Sydney", hour: "numeric", minute: "2-digit"});
+const fmtDate = new Intl.DateTimeFormat("en-AU", {timeZone: "Australia/Sydney", weekday: "long", day: "numeric", month: "long"});
+
+const network = new deck.LineLayer({
+  id: "network", data: SEG, getSourcePosition: d => [d.a_lon, d.a_lat], getTargetPosition: d => [d.b_lon, d.b_lat],
+  getColor: d => d.mode === "Metro" ? [22, 131, 136, 110] : [120, 120, 120, 90], getWidth: 2, widthUnits: "pixels",
+});
+
+// Esri light grey raster basemap (no API key; Carto tiles now need one), as deck.gl tiles so no separate map library is needed
+const basemap = new deck.TileLayer({
+  id: "basemap", data: "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}", minZoom: 0, maxZoom: 16, tileSize: 256,
+  renderSubLayers: props => {
+    const {west, south, east, north} = props.tile.bbox;
+    return new deck.BitmapLayer(props, {data: null, image: props.data, bounds: [west, south, east, north]});
+  },
+});
+
+const map = new deck.DeckGL({
+  container: "map",
+  initialViewState: {latitude: -33.84, longitude: 151.0, zoom: 9.2},
+  controller: true,
+  getTooltip: ({object}) => object && {
+    html: `<b>${object.tr.line}</b> (${object.tr.mode})<br>` +
+          (object.tr.oos ? "Not carrying passengers" : `${object.late >= 0 ? object.late.toFixed(1) + " min late" : (-object.late).toFixed(1) + " min early"}`),
+    style: {fontSize: "13px"},
+  },
+});
+
+const slider = document.getElementById("slider"), playBtn = document.getElementById("play"), speedSel = document.getElementById("speed");
+slider.max = span;
+// Start a minute in, once every train has had its first fix (and skip any stray early fixes)
+const firstFull = Math.min(nextCovered(0, 20) + 60, span);
+let now = firstFull, playing = false, lastFrame = null;
+
+function render() {
+  const modes = new Set([...document.querySelectorAll(".mode:checked")].map(c => c.value));
+  const pts = positionsAt(now, modes, document.getElementById("oos").checked);
+  map.setProps({layers: [basemap, network, new deck.ScatterplotLayer({
+    id: "trains", data: pts, getPosition: d => [d.lon, d.lat], getFillColor: colour,
+    getRadius: 5, radiusUnits: "pixels", stroked: true, getLineColor: [255, 255, 255], lineWidthMinPixels: 1, pickable: true,
+  })]});
+  const when = new Date((R.start + now) * 1000);
+  document.getElementById("time").textContent = fmtTime.format(when);
+  document.getElementById("date").textContent = fmtDate.format(when);
+  const running = pts.filter(d => !d.tr.oos), late = running.filter(d => d.late >= 5).length;
+  document.getElementById("count").textContent = `${running.length} trains running, ${late} 5+ min late`;
+  document.getElementById("gap").textContent = covered[Math.floor(now / 60)] ? "" : "No data collected at this time";
+  slider.value = now;
+}
+
+function tick(ts) {
+  if (!playing) return;
+  if (lastFrame !== null) {
+    now += (ts - lastFrame) / 1000 * Number(speedSel.value);
+    if (!covered[Math.floor(now / 60)]) now = nextCovered(now);
+    if (now >= span) { now = span; playing = false; playBtn.textContent = "Play"; }
+  }
+  lastFrame = ts;
+  render();
+  if (playing) requestAnimationFrame(tick);
+}
+
+playBtn.onclick = () => {
+  if (!playing && now >= span) now = firstFull;
+  playing = !playing; playBtn.textContent = playing ? "Pause" : "Play"; lastFrame = null;
+  if (playing) requestAnimationFrame(tick);
+};
+slider.oninput = () => { now = Number(slider.value); render(); };
+document.querySelectorAll("#legend input").forEach(c => c.onchange = render);
+render();
+</script>
+</body>
+</html>

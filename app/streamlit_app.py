@@ -15,6 +15,7 @@ import numpy as np
 import pandas as pd
 import pydeck as pdk
 import streamlit as st
+import streamlit.components.v1 as components
 
 DATA = Path(__file__).parent / "data"
 BLUE, METRO, RED, GREY = "#2a78d6", "#168388", "#c85a5a", "#9aa4b1"
@@ -531,6 +532,33 @@ def reliability():
     source("Transport for London's excess wait time: the extra average wait caused by uneven gaps between trains. Platforms with a train at least every 10 minutes.")
 
 
+REPLAY_JSON, REPLAY_TEMPLATE = DATA / "replay.json", Path(__file__).parent / "replay_map.html"
+
+
+@st.cache_data
+def replay_html(versions: tuple) -> str:
+    """The animated map with its data inlined. Cached per file modification times, so a
+    rebuilt replay.json shows up without restarting the app."""
+    seg = D["segments"][["mode", "a_lon", "a_lat", "b_lon", "b_lat"]].to_json(orient="records")
+    template = REPLAY_TEMPLATE.read_text(encoding="utf-8")
+    return template.replace("__REPLAY__", REPLAY_JSON.read_text()).replace("__SEGMENTS__", seg)
+
+
+def replay():
+    st.title("Train replay")
+    html = replay_html((REPLAY_JSON.stat().st_mtime, REPLAY_TEMPLATE.stat().st_mtime)) if REPLAY_JSON.exists() else None
+    if html is None:
+        st.info("No replay data yet. Run `python -m analysis.replay` to build app/data/replay.json.")
+        return
+    preview("Every train's GPS position from the realtime feed, replayed. Only covers the hours collected so far; "
+            "gaps are times the collector wasn't running.")
+    st.markdown("Press **Play**, or drag the slider. Each dot is a train, coloured by how late it was running "
+                "at that moment (its latest measured delay at a station). Hover a dot for its line.")
+    components.html(html, height=610)
+    source("GPS fixes arrive about every 30 seconds; the replay keeps one per train per minute and moves the dot in a "
+           "straight line between fixes, so it can cut corners on curved track. A train is hidden across gaps of 5+ minutes.")
+
+
 def hunter():
     st.title("Newcastle and the Hunter")
     h = META["hunter"]
@@ -604,6 +632,7 @@ pg = st.navigation([
     st.Page(demand, title="Demand vs supply", icon="👥"),
     st.Page(trains_vs_metro, title="Trains vs Metro", icon="🚇"),
     st.Page(reliability, title="Reliability (preview)", icon="⏱️"),
+    st.Page(replay, title="Train replay", icon="▶️"),
     st.Page(hunter, title="Newcastle & Hunter", icon="🚂"),
     st.Page(glossary, title="Glossary", icon="📖"),
     st.Page(about, title="About", icon="ℹ️"),

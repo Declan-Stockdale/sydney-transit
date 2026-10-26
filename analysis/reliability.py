@@ -51,6 +51,15 @@ TO_METRES = Transformer.from_crs("EPSG:4326", "EPSG:7856", always_xy=True)
 MAX_GPS_M = 300  # a GPS fix this close to the station counts as the train being there
 
 
+def read_snapshot(path) -> bytes | None:
+    """Decompress one saved snapshot; None if the file is damaged (e.g. zero-filled when the
+    PC lost power or slept mid-write, as happened on 27 Oct 2026)."""
+    try:
+        return gzip.decompress(path.read_bytes())
+    except (OSError, EOFError):
+        return None
+
+
 def iter_snapshots(feed: str, dates: list[str] | None):
     """Yield raw snapshot bytes in time order, from day folders and .tar.xz archives."""
     base = RAW_RT / feed
@@ -62,7 +71,9 @@ def iter_snapshots(feed: str, dates: list[str] | None):
             continue
         if day.is_dir():
             for f in sorted(day.glob("*.pb.gz")):
-                yield gzip.decompress(f.read_bytes())
+                raw = read_snapshot(f)
+                if raw is not None:
+                    yield raw
         elif day.name.endswith(".tar.xz"):
             with tarfile.open(day) as tf:
                 for member in sorted(tf.getmembers(), key=lambda m: m.name):
@@ -108,8 +119,14 @@ def last_seen(feed: str, dates) -> pd.DataFrame:
         # Trains only (route IDs 4T.T.*); the feed also carries road coaches
         df = df[df["route_id"].str.startswith("4T.T.")]
     last_ts = df["snapshot_ts"].max()
+    # When collection pauses (PC asleep or off), every stop pending at that moment "drops out"
+    # of the data without being served. Only trust a last sighting if the next snapshot came
+    # within 3 minutes, i.e. the stop really disappeared while we were watching.
+    snaps = np.sort(df["snapshot_ts"].unique())
+    next_snap = dict(zip(snaps[:-1], snaps[1:]))
     df = df.sort_values("snapshot_ts").drop_duplicates(["start_date", "trip_id", "stop_id"], keep="last")
-    df = df[(df["snapshot_ts"] < last_ts) | df["cancelled"]]  # still in the last snapshot = not served yet
+    gap = df["snapshot_ts"].map(next_snap) - df["snapshot_ts"]
+    df = df[((df["snapshot_ts"] < last_ts) & (gap <= 180)) | df["cancelled"]]  # still in the last snapshot = not served yet
     df["feed"] = feed
     return df
 
@@ -157,7 +174,9 @@ def iter_vp_snapshots(feed: str, dates):
             continue
         if day.is_dir():
             for f in sorted(day.glob("*.pb.gz")):
-                yield gzip.decompress(f.read_bytes())
+                raw = read_snapshot(f)
+                if raw is not None:
+                    yield raw
         elif day.name.endswith(".tar.xz"):
             with tarfile.open(day) as tf:
                 for member in sorted(tf.getmembers(), key=lambda m: m.name):
@@ -173,8 +192,8 @@ def vehicle_points(feed: str, dates) -> pd.DataFrame:
         for e in msg.entity:
             v = e.vehicle
             if e.HasField("vehicle") and v.HasField("position") and v.timestamp:
-                rows.append((v.trip.trip_id, v.timestamp, v.position.longitude, v.position.latitude, v.occupancy_status))
-    vp = pd.DataFrame(rows, columns=["trip_id", "vp_ts", "lon", "lat", "occupancy"]).drop_duplicates(["trip_id", "vp_ts"])
+                rows.append((v.trip.trip_id, v.trip.route_id, v.timestamp, v.position.longitude, v.position.latitude, v.occupancy_status))
+    vp = pd.DataFrame(rows, columns=["trip_id", "route_id", "vp_ts", "lon", "lat", "occupancy"]).drop_duplicates(["trip_id", "vp_ts"])
     vp["x"], vp["y"] = TO_METRES.transform(vp["lon"].to_numpy(), vp["lat"].to_numpy())
     return vp
 
@@ -251,6 +270,10 @@ def build(dates=None) -> pd.DataFrame:
         m["obs_time"] = m["sched_time"] + m["delay_s"]
         out.append(m)
     df = pd.concat(out, ignore_index=True)
+    # A stop that vanished from the feed more than 30 minutes before it was due (with no GPS
+    # sighting) was removed from the trip, e.g. a train terminating early, not served.
+    early = (df["delay_source"] == "prediction") & ((df["sched_time"] - df["snapshot_ts"]) > 1800)
+    df = df[~early]
     # Some NSW TrainLink trains (Blue Mountains, South Coast, Southern Highlands) appear in both
     # the Sydney Trains and NSW TrainLink feeds under different trip IDs. Keep the Sydney Trains
     # copy: drop a TrainLink row when the same station has a Sydney Trains row scheduled at the same minute.
