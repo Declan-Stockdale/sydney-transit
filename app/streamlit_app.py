@@ -269,7 +269,8 @@ def methods():
         bins = np.array([-5, -1, -0.5, 0, 0.5, 1, 1.5, 5])
         pal = ["#0d366b", "#5598e7", "#d9e6f5", "#f6dcd6", "#e4938a", "#c85a5a", "#7a1f1f"]
         vv = v + 5  # shift so the colouring helper treats all values as present
-        legend = choropleth(vv.where(hi), "<b>{SA2_NAME21}</b><br/>Gap (+5 offset): {value_fmt}", palette=pal, bins=bins + 5)
+        legend = choropleth(vv.where(hi), "<b>{SA2_NAME21}</b><br/>Transit gap: {transit_gap}<br/>Need: {need_z} · Supply: {supply_z}",
+                            palette=pal, bins=bins + 5)
         legend_bar([(c, a - 5, b - 5) for c, a, b in legend], fmt="{:+.1f}", none_label="Not high-need")
         top = sa2[hi & (sa2["residents"] >= 2000)].nlargest(10, "transit_gap")[["SA2_NAME21", "SA3_NAME21", "need_z", "supply_z", "transit_gap"]]
         st.dataframe(top.round(2), hide_index=True, use_container_width=True,

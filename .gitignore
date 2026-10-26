@@ -1,5 +1,6 @@
 # Secrets: the TfNSW API key lives here. Never commit it.
 .env
+.streamlit/secrets.toml
 
 # Python
 .venv/
@@ -7,5 +8,6 @@ __pycache__/
 *.pyc
 .ipynb_checkpoints/
 
-# Collected data and logs (large, and replayable from the source)
-data/
+# Collected data and logs (large, and replayable from the source).
+# Root only: app/data/ holds the small dashboard extracts and IS committed.
+/data/
