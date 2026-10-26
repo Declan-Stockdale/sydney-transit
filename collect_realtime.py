@@ -1,13 +1,16 @@
 """
 Collect TfNSW realtime feeds (trip updates, alerts, vehicle positions) for
-Sydney Trains, Metro and NSW TrainLink, and save each new snapshot untouched.
+Sydney Trains, Metro, NSW TrainLink, buses, Sydney Ferries and light rail, and
+save each new snapshot untouched.
 
 This replaces collect_snapshots.py. It is meant to run all the time: Windows Task
 Scheduler starts it at logon (see scheduling/register_tasks.ps1). In week 2 the
 same script moves to a cloud VM.
 
-What it does, every --interval seconds:
-    1. Requests each of the 9 endpoints in turn (3 feed types x 3 networks).
+What it does, every --interval seconds (trains) or every 60 s (buses, ferries,
+light rail; see tfnsw.POLL_EVERY_S):
+    1. Requests each of the 24 endpoints in turn (see tfnsw.REALTIME_PATHS),
+       with a short pause between calls to respect the API's rate limit.
     2. Reads the feed's header timestamp. If it matches the last snapshot saved
        for that endpoint, the feed hasn't changed, so the snapshot is skipped.
     3. Otherwise saves the raw protobuf, gzip-compressed (about 5x smaller), to
@@ -48,9 +51,13 @@ import requests
 from google.protobuf.message import DecodeError
 from google.transit import gtfs_realtime_pb2
 
-from tfnsw import DATA_DIR, LOG_DIR, PROJECT_DIR, REALTIME_FEEDS, REALTIME_PATHS, get_api_key, setup_logging, tfnsw_get
+from tfnsw import (DATA_DIR, DEFAULT_POLL_EVERY_S, LOG_DIR, POLL_EVERY_S, PROJECT_DIR, REALTIME_FEEDS, REALTIME_PATHS,
+                   get_api_key, setup_logging, tfnsw_get)
 
 RAW_DIR = DATA_DIR / "raw" / "realtime"
+# Pause between API calls: the API allows about 5 calls a second, and back-to-back
+# calls to small feeds tripped HTTP 429 (rate limited) when tested on 27 Oct 2026
+CALL_GAP_S = 0.3
 INTERVALS_CSV = LOG_DIR / "feed_intervals.csv"
 SUMMARY_EVERY_S = 3600
 
@@ -168,6 +175,7 @@ def main() -> None:
     next_summary = started + SUMMARY_EVERY_S
     log.info("Started: kinds=%s feeds=%s interval=%ss", args.kinds, args.feeds, args.interval)
     side_last, side_running = {}, {}
+    last_poll: dict = {}
 
     try:
         while args.minutes is None or time.monotonic() - started < args.minutes * 60:
@@ -176,7 +184,15 @@ def main() -> None:
                 run_side_jobs(side_last, side_running)
             for kind in args.kinds:
                 for feed in args.feeds:
+                    if feed not in REALTIME_PATHS[kind]:
+                        continue
+                    # Trains every cycle; other modes only when their own interval is due
+                    every = POLL_EVERY_S.get(feed, DEFAULT_POLL_EVERY_S)
+                    if cycle_start - last_poll.get((kind, feed), -1e9) < every - 1:
+                        continue
+                    last_poll[(kind, feed)] = cycle_start
                     poll_once(session, api_key, kind, feed, last_ts, stats)
+                    time.sleep(CALL_GAP_S)
             polls += 1
 
             if time.monotonic() >= next_summary:

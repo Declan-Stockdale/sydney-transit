@@ -36,8 +36,13 @@ load_dotenv(PROJECT_DIR / ".env")
 
 BASE_URL = "https://api.transport.nsw.gov.au"
 
-# Realtime endpoints, confirmed working on 2026-10-26. Alerts only exist under v2
-# (the v1 alerts paths return 401).
+# Realtime endpoints, confirmed working on 2026-10-26 (trains) and 2026-10-27 (buses,
+# ferries, light rail). Alerts only exist under v2 (the v1 alerts paths return 401).
+# Buses, ferries and light rail only have v1 trip updates and positions, except the
+# Inner West light rail, which is v2 only. Alerts for these modes are one feed per mode,
+# not per line. Manly Fast Ferry (/v1/.../ferries/MFF) is left out: its feed stopped
+# updating in June 2026.
+_LIGHT_RAIL = ["cbdandsoutheast", "parramatta", "newcastle"]
 REALTIME_PATHS = {
     "trip_updates": {
         "sydneytrains": "/v2/gtfs/realtime/sydneytrains",
@@ -45,19 +50,36 @@ REALTIME_PATHS = {
         # NSW TrainLink: the only realtime source for the Hunter line and regional
         # trains (and coaches, which analysis filters out). Only v1 exists.
         "nswtrains": "/v1/gtfs/realtime/nswtrains",
+        "buses": "/v1/gtfs/realtime/buses",
+        "sydneyferries": "/v1/gtfs/realtime/ferries/sydneyferries",
+        **{f"lightrail_{line}": f"/v1/gtfs/realtime/lightrail/{line}" for line in _LIGHT_RAIL},
+        "lightrail_innerwest": "/v2/gtfs/realtime/lightrail/innerwest",
     },
     "alerts": {
         "sydneytrains": "/v2/gtfs/alerts/sydneytrains",
         "metro": "/v2/gtfs/alerts/metro",
         "nswtrains": "/v2/gtfs/alerts/nswtrains",
+        "buses": "/v2/gtfs/alerts/buses",
+        "ferries": "/v2/gtfs/alerts/ferries",
+        "lightrail": "/v2/gtfs/alerts/lightrail",
     },
     "vehicle_positions": {
         "sydneytrains": "/v2/gtfs/vehiclepos/sydneytrains",
         "metro": "/v2/gtfs/vehiclepos/metro",
         "nswtrains": "/v1/gtfs/vehiclepos/nswtrains",
+        "buses": "/v1/gtfs/vehiclepos/buses",
+        "sydneyferries": "/v1/gtfs/vehiclepos/ferries/sydneyferries",
+        **{f"lightrail_{line}": f"/v1/gtfs/vehiclepos/lightrail/{line}" for line in _LIGHT_RAIL},
+        "lightrail_innerwest": "/v2/gtfs/vehiclepos/lightrail/innerwest",
     },
 }
-REALTIME_FEEDS = ["sydneytrains", "metro", "nswtrains"]
+# Every feed name, in polling order (not every feed exists for every kind)
+REALTIME_FEEDS = list(dict.fromkeys(f for paths in REALTIME_PATHS.values() for f in paths))
+# Trains are polled every collector cycle (--interval, default 30 s). The other modes every
+# 60 s, to stay inside the API's daily request limit (9 train endpoints every 30 s plus
+# 15 others every 60 s = 47,520 requests a day).
+POLL_EVERY_S = {"sydneytrains": 0, "metro": 0, "nswtrains": 0}
+DEFAULT_POLL_EVERY_S = 60
 
 # Metro must use v2: the v1 Metro timetable stopped updating in Sept 2024 (its
 # calendar ends 2024-12-26) and its trip_ids don't match the realtime feed.
@@ -70,9 +92,13 @@ STATIC_PATHS = {
     "buses": "/v1/gtfs/schedule/buses",
     # NSW TrainLink (intercity and regional). Only v1 exists.
     "nswtrains": "/v1/gtfs/schedule/nswtrains",
+    # Ferries and light rail: small (0.1 to 1.2 MB each), only v1 exists
+    "sydneyferries": "/v1/gtfs/schedule/ferries/sydneyferries",
+    **{f"lightrail_{line}": f"/v1/gtfs/schedule/lightrail/{line}" for line in _LIGHT_RAIL + ["innerwest"]},
 }
-# nswtrains is needed daily too: its realtime trip IDs only join to its own timetable
-DAILY_STATIC_FEEDS = ["sydneytrains", "metro", "nswtrains"]
+# Every feed with realtime collection is pulled daily, because realtime trip IDs only join
+# to the timetable of the same day. Buses are ~108 MB a day (kept only when changed).
+DAILY_STATIC_FEEDS = [f for f in STATIC_PATHS]
 
 
 def get_api_key() -> str:

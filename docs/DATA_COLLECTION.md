@@ -8,9 +8,8 @@ move to a cloud VM, writing to Google Cloud Storage instead of `data/`.
 
 | Data | Script | When | Where it lands |
 | --- | --- | --- | --- |
-| Realtime trip updates, alerts, vehicle positions (Sydney Trains, Metro, NSW TrainLink) | `collect_realtime.py` | Every 30 s, all the time | `data/raw/realtime/<kind>/<feed>/<date>/<HHMMSS>Z.pb.gz` |
-| Static GTFS timetable (Sydney Trains, Metro, NSW TrainLink) | `pull_static.py` | Daily, 3:30am | `data/raw/static/<feed>/<date>.zip`, newest also extracted to `data/static/<feed>/` |
-| Static GTFS bus timetable (all NSW buses) | `pull_static.py --feeds buses` | By hand, when refreshing access analysis | as above |
+| Realtime trip updates, alerts, vehicle positions (Sydney Trains, Metro, NSW TrainLink; since 27 Oct 2026 also buses, Sydney Ferries, light rail) | `collect_realtime.py` | Trains every 30 s, other modes every 60 s, all the time | `data/raw/realtime/<kind>/<feed>/<date>/<HHMMSS>Z.pb.gz` |
+| Static GTFS timetable (Sydney Trains, Metro, NSW TrainLink, buses, Sydney Ferries, 4 light rail lines) | `pull_static.py` | Daily, 3:30am | `data/raw/static/<feed>/<date>.zip`, newest also extracted to `data/static/<feed>/` |
 | Bundling finished days of realtime data | `compact_raw.py` | Daily, after the static pull | `data/raw/realtime/<kind>/<feed>/<date>.tar.xz` |
 | BOM weather station observations (29 stations) | `pull_weather.py` | Every 6 h (BOM keeps only ~72 h) | `data/raw/weather/bom_obs/<wmo>/<date>/<HHMMSS>Z.json.gz` |
 | Open-Meteo hourly weather at every rail station (~10 km grid) | `pull_weather.py` | Every 6 h; `--backfill` for history | `data/raw/weather/open_meteo/<recent or archive>/` |
@@ -21,8 +20,8 @@ move to a cloud VM, writing to Google Cloud Storage instead of `data/`.
 | SEIFA 2021, ABS population estimates 2021 to 2025, TZP24 population and jobs forecasts, travel zones, Census jobs by workplace (WPP), station entrances | `download_context.py` | Once; rerun on new releases | `data/raw/context/` |
 | OpenStreetMap walking network around all stations | `analysis/walk_access.py` (first run) | Once, cached | `data/raw/context/osm_walk.graphml` |
 
-`<kind>` is `trip_updates`, `alerts` or `vehicle_positions`. `<feed>` is `sydneytrains`
-or `metro`. Realtime dates and times are **UTC** (from each feed's header timestamp).
+`<kind>` is `trip_updates`, `alerts` or `vehicle_positions`. `<feed>` is one of the
+names in `tfnsw.REALTIME_PATHS` (e.g. `sydneytrains`, `buses`, `lightrail_innerwest`). Realtime dates and times are **UTC** (from each feed's header timestamp).
 Static timetable dates are **Sydney dates**, because that is the service date they apply to.
 
 All logs go to `data/logs/` (one file per script per day, kept 30 days).
@@ -64,7 +63,15 @@ Snapshots are also **deduplicated**: if a feed's header timestamp hasn't changed
 the last save, the snapshot is skipped. Alerts change about every 90 s, so roughly
 two thirds of alert polls are skipped.
 
-Rough storage (30 s polling): about 250 MB/day of gzip files during the day, shrinking
+Buses, ferries and light rail (added 27 Oct 2026): endpoints are in `tfnsw.REALTIME_PATHS`.
+They are v1 except Inner West light rail (v2 only); alerts are one v2 feed per mode
+(`/v2/gtfs/alerts/buses`, `/ferries`, `/lightrail`). Manly Fast Ferry is left out (feed stale
+since June 2026). The API rate-limits back-to-back calls (HTTP 429), so the collector pauses
+0.3 s between calls. Measured at 10am: bus trip updates are ~1.4 MB per gzip snapshot, about
+2 GB/day before compaction and very roughly 0.6 GB/day after; everything else added is under
+100 MB/day.
+
+Rough storage for trains alone (30 s polling): about 250 MB/day of gzip files during the day, shrinking
 to roughly 20 to 40 MB once compacted, plus about 15 MB/day of static timetable zips
 when TfNSW publishes a new version. Plan for 15 to 20 GB a year.
 
