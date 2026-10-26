@@ -34,9 +34,19 @@ the Sydney date three hours before the snapshot, because services run to about 3
 Metro fills `start_date` itself. Each service date joins to the newest static zip
 dated on or before it.
 
-**Known issue:** over half of Sydney Trains predictions carry a delay of exactly 0,
-probably meaning "no live estimate", so short delays may be understated. Check this
-against vehicle positions.
+**Update (same day): GPS-measured times replace predictions where possible.** About 66%
+of Sydney Trains readings were exactly 0, and 41% of trips read 0 at every stop. Those
+trains were live (98% appear in vehicle positions), so the zeros needed checking. The
+observed time at a stop is now the vehicle-position GPS fix closest to the station
+(within 300 m, within an hour of schedule): the last fix near the station for a
+departure, and the first fix at a trip's final stop for its arrival. A trip's first stop
+keeps the prediction, because trains sit at the origin platform under their new trip
+number long before leaving, which made GPS departures from Central read minutes late.
+GPS covers 82% of Sydney Trains and 47% of Metro train-stops, and the last prediction
+fills the rest (`delay_source` column). Result: where the prediction was exactly 0, GPS
+showed the train 2 or more minutes late under 1% of the time, so the zeros mostly were
+"on time" rather than hidden delays. Sydney Trains' vehicle-position `stop_id` is a track location
+(e.g. "Lidcombe.M16.1 Loc"), not a platform, so position is used rather than stop_id.
 
 ## 2026-10-26: Three layers of weather data
 
