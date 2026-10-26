@@ -59,7 +59,11 @@ REALTIME_PATHS = {
 STATIC_PATHS = {
     "sydneytrains": "/v1/gtfs/schedule/sydneytrains",
     "metro": "/v2/gtfs/schedule/metro",
+    # All NSW bus operators (timetable only; buses are used for access analysis,
+    # not reliability). Large, so it isn't part of the daily pull.
+    "buses": "/v1/gtfs/schedule/buses",
 }
+DAILY_STATIC_FEEDS = ["sydneytrains", "metro"]
 
 
 def get_api_key() -> str:

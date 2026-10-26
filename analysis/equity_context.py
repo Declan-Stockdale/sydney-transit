@@ -92,6 +92,15 @@ def main() -> None:
     needy = (out["irsd_decile"] <= LOW_DECILE) | (out["no_car_pct"] >= NO_CAR_FLAG)
     poor_rail = (out["pct_within_1500m"] < 50) | (out["avg_walkable_am_peak_tph"] < 4)
     out["transport_disadvantaged"] = needy & poor_rail & (out["residents"] >= 2000)
+
+    # With buses (access_index.py, jobs_access.py): poor = most residents at PTAL 0 to 1b
+    ptal_path, jobs_path = MARTS_DIR / "sa2_ptal.csv", MARTS_DIR / "sa2_jobs_access.csv"
+    if ptal_path.exists():
+        ptal = pd.read_csv(ptal_path, dtype={"SA2_CODE21": str}).drop(columns=["SA2_NAME21", "residents"])
+        out = out.merge(ptal, on="SA2_CODE21", how="left")
+        out["transport_disadvantaged_with_bus"] = needy & (out["pct_poor_all"] >= 50) & (out["residents"] >= 2000)
+    if jobs_path.exists():
+        out = out.merge(pd.read_csv(jobs_path, dtype={"SA2_CODE21": str}), on="SA2_CODE21", how="left")
     out.to_csv(MARTS_DIR / "sa2_equity_context.csv", index=False)
 
     td = out[out["transport_disadvantaged"]].sort_values(f"erp_{latest}", ascending=False)
@@ -107,6 +116,11 @@ def main() -> None:
     print(f[["SA2_NAME21", "SA3_NAME21", f"erp_{latest}", "tzp_pop_2041", "growth_to_2041", "pct_within_1500m"]].head(12).to_string(index=False))
     print(f"Total projected growth to 2041 in such SA2s: {f['growth_to_2041'].clip(lower=0).sum():,.0f}; "
           f"all Greater Sydney SA2s: {out['growth_to_2041'].clip(lower=0).sum():,.0f}")
+    if "transport_disadvantaged_with_bus" in out:
+        tb = out[out["transport_disadvantaged_with_bus"]].sort_values(f"erp_{latest}", ascending=False)
+        print(f"\nWith buses counted: {len(tb)} transport-disadvantaged SA2s, {tb[f'erp_{latest}'].sum():,.0f} people")
+        print(tb[["SA2_NAME21", "SA3_NAME21", f"erp_{latest}", "irsd_decile", "no_car_pct", "pct_poor_rail",
+                  "pct_poor_all", "jobs_rail", "jobs_all"]].head(20).to_string(index=False))
 
 
 if __name__ == "__main__":

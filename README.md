@@ -12,7 +12,7 @@ It combines the realtime train feed, the timetable, Opal patronage, the Census, 
 | Demand vs supply | Where do many people rely on thin or unreliable service? | First findings |
 | Reliability and disruption | How late are trains, where, and what (including weather) makes it worse? | Collecting data; pipeline built |
 
-Scope: Sydney Trains and Sydney Metro, plus the NSW TrainLink intercity lines that serve Greater Sydney. Buses, light rail and ferries are out of scope for now.
+Scope: Sydney Trains and Sydney Metro, plus the NSW TrainLink intercity lines that serve Greater Sydney. The bus timetable is included for access analysis (rail only vs rail + bus, using TfL's PTAL method), but reliability is rail only. Light rail and ferries are out of scope for now.
 
 ## Findings so far
 
@@ -133,7 +133,7 @@ The walking-distance step needs the OpenStreetMap Australia extract (about 1 GB)
 - [ ] BigQuery warehouse and dbt models (staging, intermediate, marts) with tests
 - [ ] Reliability report: on-time rate by line and peak, passenger minutes lost, rain and heat against delays
 - [ ] Disruption causes: classify alert text with NLP and link causes to delays
-- [ ] Access to jobs by rail within 45 minutes
+- [x] Access to jobs and services by rail + bus (PTAL, cumulative, gravity, time-of-day, transit gap)
 - [ ] Dashboards in Power BI and Streamlit
 
 ## Data sources and licences

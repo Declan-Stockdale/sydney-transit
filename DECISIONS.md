@@ -2,6 +2,43 @@
 
 A running log of design decisions and the reasons for them. Newest first.
 
+## 2026-10-26: Standard access methods and their settings
+
+| Method | Origin | Settings used |
+| --- | --- | --- |
+| Cumulative opportunities | Wachs & Kumagai 1973; UK DfT journey time statistics | Jobs, hospitals, tertiary campuses within 45 min; supermarkets within 20 min; weekday 8am |
+| Gravity access | Hansen 1959 | Negative exponential decay, half-life 20 min, 60 min horizon; index with Sydney average = 100 |
+| Temporal coverage | Time-of-day accessibility (Owen & Levinson, Access Across America) | Jobs within 45 min at weekday 7am, 9pm and Sunday 10am, each averaged over departures at :00, :10 and :20 |
+| Transit gap index | Currie 2010 (Melbourne) | Need = mean z of inverse IRSD, no-car %, 65+ %, 15 to 24 %; supply = z of log PTAL; reported for high-need suburbs (need > +0.5 sd) |
+| Excess wait time | Transport for London | Platforms with median scheduled gap of 10 min or less; gaps over 30 min dropped; Trains and Metro only (realtime) |
+| Social exclusion lens | UK Social Exclusion Unit 2003; Lucas 2012 | Spearman correlation of access with 2021 Census unemployment; reported strictly as correlation |
+
+Destinations come from OpenStreetMap (amenity=hospital, university, college; shop=supermarket).
+Origins are given from memory and should be checked before publication. The transit gap needs
+the high-need filter, because without it semi-rural fringe areas with average need dominate the
+ranking through low supply alone.
+
+## 2026-10-26: Scope change, buses added to access analysis (timetable only)
+
+**Decision:** Add the TfNSW bus timetable (`/v1/gtfs/schedule/buses`) to the access,
+equity and jobs analyses. Each is shown as rail only vs rail + bus. Reliability,
+realtime collection and delay work stay Sydney Trains and Metro only. Light rail and
+ferries remain out of scope.
+
+**Why:** Rail-only access made bus-served areas (Northern Beaches, eastern suburbs)
+look unserved, which overstated the equity gaps. With buses, residents with poor access
+(PTAL 0 to 1b) fall from 92% to 32%. The transport-disadvantaged list shrinks from 57
+suburbs (about 906,000 people) to 17 (about 257,000), concentrated in Campbelltown,
+Mount Druitt, Bankstown and Wyong.
+
+**Method:** Access uses Transport for London's PTAL method: walk limits 640 m (bus) and
+960 m (rail), half-headway wait, reliability allowances of 2 min (bus) and 0.75 min
+(rail), AM peak 7 to 9am. Walk distance is straight line x 1.28 (the measured median
+detour). Jobs access is a connection-scan search over the full timetable (compiled with
+numba): 45 minutes from 8am, 800 m access walk, 300 m walking transfers plus 1 minute.
+The bus zip is about 108 MB, so it isn't part of the daily static pull; refresh it with
+`python pull_static.py --feeds buses`.
+
 ## 2026-10-26: Context data, and what couldn't be had
 
 **Added:** SEIFA 2021 (IRSD), Census households with no car (G34), ABS population

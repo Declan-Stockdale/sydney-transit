@@ -21,8 +21,9 @@ For each feed it:
        in notebooks and explore_feeds.py.
 
 Usage:
-    python pull_static.py                  # both feeds
+    python pull_static.py                  # Sydney Trains + Metro (the daily scheduled run)
     python pull_static.py --feeds metro
+    python pull_static.py --feeds buses    # all NSW buses, large; run by hand when refreshing access analysis
 """
 
 import argparse
@@ -35,7 +36,7 @@ from zoneinfo import ZoneInfo
 
 import requests
 
-from tfnsw import DATA_DIR, STATIC_PATHS, get_api_key, setup_logging, tfnsw_get
+from tfnsw import DAILY_STATIC_FEEDS, DATA_DIR, STATIC_PATHS, get_api_key, setup_logging, tfnsw_get
 
 RAW_STATIC_DIR = DATA_DIR / "raw" / "static"
 EXTRACTED_DIR = DATA_DIR / "static"
@@ -53,7 +54,7 @@ def last_saved_hash(manifest) -> str | None:
 
 
 def pull_feed(session, api_key: str, feed: str) -> None:
-    raw = tfnsw_get(session, STATIC_PATHS[feed], api_key, accept="application/zip", timeout=300)
+    raw = tfnsw_get(session, STATIC_PATHS[feed], api_key, accept="application/zip", timeout=900)
     digest = hashlib.sha256(raw).hexdigest()
     feed_dir = RAW_STATIC_DIR / feed
     manifest = feed_dir / "manifest.csv"
@@ -93,7 +94,7 @@ def pull_feed(session, api_key: str, feed: str) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Download and version the static GTFS timetables.")
-    parser.add_argument("--feeds", nargs="+", choices=list(STATIC_PATHS), default=list(STATIC_PATHS))
+    parser.add_argument("--feeds", nargs="+", choices=list(STATIC_PATHS), default=DAILY_STATIC_FEEDS)
     args = parser.parse_args()
 
     api_key = get_api_key()
