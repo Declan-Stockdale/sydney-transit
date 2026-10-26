@@ -9,9 +9,11 @@ Greater Sydney by rail + bus (timetable only; light rail and ferries excluded).
    longer it takes to reach: sum of jobs x exp(-beta x minutes), with beta set
    so a job 20 minutes away counts half. No hard cut-off.
 3. Temporal coverage (time-of-day accessibility, e.g. Owen and Levinson's
-   Access Across America): the same jobs measure at weekday 7am, weekday 9pm
-   and Sunday 10am (each averaged over departures at :00, :10 and :20), to
-   show who loses access outside commuter hours.
+   Access Across America): the same jobs measure for every hour from 5am to
+   11pm, weekday and Sunday (each hour averaged over departures at :00 and
+   :30), to show who loses access outside commuter hours. Written to
+   data/marts/sa2_hourly_access.csv. Note that timetabled bus journeys are
+   slower in peak traffic, so some suburbs reach more jobs at night.
 4. Transit gap index (Currie, 2010, Melbourne): transport need minus supply per
    suburb. Need = average z-score of disadvantage (inverse IRSD), households
    without a car, residents 65+, and residents 15 to 24. Supply = z-score of the
@@ -24,8 +26,9 @@ Greater Sydney by rail + bus (timetable only; light rail and ferries excluded).
 
 (Method 5, excess wait time, is in excess_wait.py: it needs realtime data.)
 
-Travel times: earliest arrival from each suburb's resident-weighted centre to
-any stop in each other suburb (jobs_access.py), walking up to 800 m to start.
+Travel times: earliest arrival from up to four resident-weighted points in each
+suburb to any stop in each other suburb (jobs_access.py), walking up to 800 m
+to start; results are averaged across the points by residents.
 
 Output: data/marts/sa2_access_methods.csv
 
@@ -41,7 +44,7 @@ import geopandas as gpd
 import numpy as np
 import pandas as pd
 
-from analysis.jobs_access import load_inputs, travel_times
+from analysis.jobs_access import by_sa2, load_inputs, travel_times
 from analysis.service_equity import CENSUS_DIR, CRS_METRES, MARTS_DIR
 
 WEEKDAY, SUNDAY = date(2026, 10, 27), date(2026, 11, 1)
@@ -79,27 +82,37 @@ def main() -> None:
     pj = gpd.sjoin(pg, shapes[["SA2_CODE21", "geometry"]], predicate="within")
     poi_count = pj.groupby(["category", "SA2_CODE21"]).size().unstack(fill_value=0).reindex(columns=d_codes, fill_value=0)
 
-    out = pd.DataFrame({"SA2_CODE21": origins["SA2_CODE21"]}).set_index("SA2_CODE21")
+    out = pd.DataFrame(index=pd.Index(sorted(origins["SA2_CODE21"].unique()), name="SA2_CODE21"))
 
-    # Weekday 8am, 60-minute horizon: cumulative + gravity
-    mat, o_codes, _ = travel_times(ALL_FEEDS, WEEKDAY, origins, shapes, depart=8 * 3600, budget=60 * 60)
-    out["jobs_30"] = ((mat <= 30) * jobs_vec).sum(axis=1)
-    out["jobs_45"] = ((mat <= 45) * jobs_vec).sum(axis=1)
-    out["jobs_60"] = ((mat <= 60) * jobs_vec).sum(axis=1)
+    # Weekday 8am, 60-minute horizon: cumulative + gravity (averaged over each SA2's origin points)
+    mat, origins, _ = travel_times(ALL_FEEDS, WEEKDAY, origins, shapes, depart=8 * 3600, budget=60 * 60)
+    out["jobs_30"] = by_sa2(((mat <= 30) * jobs_vec).sum(axis=1), origins)
+    out["jobs_45"] = by_sa2(((mat <= 45) * jobs_vec).sum(axis=1), origins)
+    out["jobs_60"] = by_sa2(((mat <= 60) * jobs_vec).sum(axis=1), origins)
     for cat in ("hospital", "education", "supermarket"):
-        out[f"{cat}_{CUTOFFS[cat]}"] = ((mat <= CUTOFFS[cat]) * poi_count.loc[cat].to_numpy()).sum(axis=1)
+        out[f"{cat}_{CUTOFFS[cat]}"] = by_sa2(((mat <= CUTOFFS[cat]) * poi_count.loc[cat].to_numpy()).sum(axis=1), origins)
     beta = np.log(2) / HALF_LIFE_MIN
     decay = np.where(np.isfinite(mat), np.exp(-beta * np.where(np.isfinite(mat), mat, 0)), 0)
-    out["gravity_jobs"] = (decay * jobs_vec).sum(axis=1)
+    out["gravity_jobs"] = by_sa2((decay * jobs_vec).sum(axis=1), origins)
 
-    # Temporal coverage: jobs within 45 minutes at three times
-    # averaged over departures at :00, :10 and :20, so one lucky or unlucky connection doesn't decide it
-    for label, d, hour in (("wk7am", WEEKDAY, 7), ("wk9pm", WEEKDAY, 21), ("sun10am", SUNDAY, 10)):
-        runs = []
-        for offset in (0, 10, 20):
-            m, _, _ = travel_times(ALL_FEEDS, d, origins, shapes, depart=hour * 3600 + offset * 60, budget=45 * 60)
-            runs.append(((m <= 45) * jobs_vec).sum(axis=1))
-        out[f"jobs45_{label}"] = np.mean(runs, axis=0)
+    # Temporal coverage, hour by hour: jobs within 45 minutes leaving at :00 and :30
+    # of every hour 5am to 11pm, weekday and Sunday (averaged over the two departures)
+    hourly = []
+    for day_label, d in (("weekday", WEEKDAY), ("sunday", SUNDAY)):
+        for hour in range(5, 24):
+            runs = []
+            for offset in (0, 30):
+                m, _, _ = travel_times(ALL_FEEDS, d, origins, shapes, depart=hour * 3600 + offset * 60, budget=45 * 60)
+                runs.append(((m <= 45) * jobs_vec).sum(axis=1))
+            s = by_sa2(np.mean(runs, axis=0), origins)
+            hourly.append(pd.DataFrame({"SA2_CODE21": s.index, "day": day_label, "hour": hour, "jobs45": s.to_numpy()}))
+        print(f"  hourly {day_label} done")
+    hourly = pd.concat(hourly)
+    hourly.to_csv(MARTS_DIR / "sa2_hourly_access.csv", index=False)
+    piv = hourly.pivot_table(index="SA2_CODE21", columns=["day", "hour"], values="jobs45")
+    out["jobs45_wk7am"] = piv[("weekday", 7)]
+    out["jobs45_wk9pm"] = piv[("weekday", 21)]
+    out["jobs45_sun10am"] = piv[("sunday", 10)]
     out = out.reset_index()
 
     # Residents per SA2 and need inputs

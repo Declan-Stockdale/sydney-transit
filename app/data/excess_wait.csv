@@ -1,0 +1,234 @@
+feed,stop_id,station,lines,trains,median_gap_min,swt_min,awt_min,ewt_min,mode
+metro,2000460,Barangaroo,M1,61,4.0,2.193,2.436,0.244,Metro
+metro,2000461,Barangaroo,M1,57,4.042,2.367,2.436,0.069,Metro
+metro,2000462,Martin Place,M1,57,4.042,2.367,2.438,0.071,Metro
+metro,2000463,Martin Place,M1,61,4.0,2.193,2.427,0.235,Metro
+metro,2000464,Gadigal,M1,61,4.0,2.193,2.454,0.261,Metro
+metro,2000465,Gadigal,M1,57,4.042,2.367,2.433,0.066,Metro
+metro,2000466,Central,M1,57,4.042,2.367,2.447,0.08,Metro
+metro,2000467,Central,M1,61,4.0,2.193,2.457,0.264,Metro
+metro,2017077,Waterloo,M1,57,4.042,2.367,2.447,0.08,Metro
+metro,2017078,Waterloo,M1,61,4.0,2.195,2.457,0.262,Metro
+metro,204471,Sydenham,M1,122,4.0,1.976,2.086,0.11,Metro
+metro,2060114,Victoria Cross,M1,57,4.042,2.367,2.432,0.065,Metro
+metro,2060115,Victoria Cross,M1,61,4.0,2.193,2.423,0.23,Metro
+metro,2065163,Crows Nest,M1,61,4.0,2.193,2.427,0.234,Metro
+metro,2065164,Crows Nest,M1,57,4.042,2.367,2.418,0.051,Metro
+metro,2067142,Chatswood,M1,61,4.0,2.193,2.423,0.231,Metro
+metro,2067143,Chatswood,M1,57,4.042,2.367,2.428,0.061,Metro
+metro,2113341,Macquarie Park,M1,61,4.0,2.193,2.387,0.194,Metro
+metro,2113342,Macquarie Park,M1,57,4.042,2.367,2.426,0.059,Metro
+metro,2113351,Macquarie University,M1,61,4.0,2.193,2.387,0.194,Metro
+metro,2113352,Macquarie University,M1,57,4.042,2.367,2.43,0.063,Metro
+metro,2113361,North Ryde,M1,61,4.0,2.193,2.408,0.215,Metro
+metro,2113362,North Ryde,M1,57,4.042,2.367,2.424,0.058,Metro
+metro,2121225,Epping,M1,61,4.0,2.193,2.412,0.219,Metro
+metro,2121226,Epping,M1,57,4.042,2.368,2.428,0.061,Metro
+metro,2126159,Cherrybrook,M1,61,4.0,2.193,2.393,0.2,Metro
+metro,2126160,Cherrybrook,M1,57,4.042,2.369,2.443,0.074,Metro
+metro,2153402,Bella Vista,M1,61,4.0,2.193,2.372,0.18,Metro
+metro,2153403,Bella Vista,M1,57,4.042,2.373,2.439,0.066,Metro
+metro,2153404,Norwest,M1,61,4.0,2.193,2.368,0.175,Metro
+metro,2153405,Norwest,M1,57,4.042,2.372,2.432,0.061,Metro
+metro,2154262,Castle Hill,M1,61,4.0,2.193,2.403,0.21,Metro
+metro,2154263,Castle Hill,M1,57,4.042,2.37,2.442,0.072,Metro
+metro,2154264,Hills Showground,M1,61,4.0,2.193,2.38,0.187,Metro
+metro,2154265,Hills Showground,M1,57,4.042,2.371,2.443,0.073,Metro
+metro,2155265,Kellyville,M1,61,4.0,2.193,2.408,0.215,Metro
+metro,2155266,Kellyville,M1,57,4.042,2.376,2.445,0.07,Metro
+metro,2155267,Rouse Hill,M1,61,4.0,2.193,2.373,0.18,Metro
+metro,2155268,Rouse Hill,M1,57,4.042,2.38,2.45,0.07,Metro
+metro,2155269,Tallawong,M1,98,2.367,2.113,2.141,0.028,Metro
+metro,2155270,Tallawong,M1,26,4.242,3.574,3.365,-0.209,Metro
+sydneytrains,2000336,Central,CCN T1 T9,107,1.983,1.801,1.971,0.17,Trains
+sydneytrains,2000337,Central,T2 T3 T8,108,1.983,2.171,1.992,-0.179,Trains
+sydneytrains,2000338,Central,T1 T9,130,1.983,2.723,2.69,-0.033,Trains
+sydneytrains,2000339,Central,T2 T3,57,3.0,2.946,2.975,0.029,Trains
+sydneytrains,2000340,Central,T2 T3 T8,44,3.517,4.644,5.12,0.476,Trains
+sydneytrains,2000341,Central,T2 T8,65,3.0,3.32,3.32,0.0,Trains
+sydneytrains,2000343,Central,T8,36,7.0,3.95,4.099,0.149,Trains
+sydneytrains,2000344,Central,SCO T4,58,4.0,2.779,2.858,0.079,Trains
+sydneytrains,2000345,Central,SCO T4,54,3.5,3.044,3.042,-0.002,Trains
+sydneytrains,2000351,Circular Quay,T2 T3,57,3.0,2.891,2.859,-0.032,Trains
+sydneytrains,2000352,Circular Quay,T8,52,3.5,2.891,2.911,0.02,Trains
+sydneytrains,2000361,Martin Place,SCO T4,55,3.0,3.026,3.039,0.013,Trains
+sydneytrains,2000362,Martin Place,SCO T4,57,4.0,3.253,3.249,-0.003,Trains
+sydneytrains,2000371,Museum,T2 T3,57,3.75,2.902,2.956,0.054,Trains
+sydneytrains,2000372,Museum,T8,54,3.5,3.019,3.035,0.015,Trains
+sydneytrains,2000381,St James,T2 T3,56,3.5,2.91,2.85,-0.06,Trains
+sydneytrains,2000382,St James,T8,53,3.5,3.037,3.028,-0.01,Trains
+sydneytrains,2000391,Town Hall,T2 T3,55,3.0,2.905,2.889,-0.015,Trains
+sydneytrains,2000392,Town Hall,T1 T9,60,3.0,2.416,2.59,0.174,Trains
+sydneytrains,2000393,Town Hall,CCN T1 T9,52,4.0,2.804,3.202,0.398,Trains
+sydneytrains,2000394,Town Hall,SCO T4,55,3.0,3.026,3.044,0.018,Trains
+sydneytrains,2000395,Town Hall,SCO T4,58,4.0,2.966,3.004,0.038,Trains
+sydneytrains,2000396,Town Hall,T8,53,3.15,2.97,3.001,0.032,Trains
+sydneytrains,2000403,Wynyard,T1 T9,61,3.0,2.43,2.622,0.193,Trains
+sydneytrains,2000404,Wynyard,CCN T1 T9,52,4.0,2.804,3.278,0.474,Trains
+sydneytrains,2000405,Wynyard,T2 T3,56,3.0,2.896,2.923,0.027,Trains
+sydneytrains,2000406,Wynyard,T8,52,3.3,2.889,2.892,0.003,Trains
+sydneytrains,201171,Kings Cross,SCO T4,55,3.0,2.96,2.983,0.023,Trains
+sydneytrains,201172,Kings Cross,SCO T4,57,4.0,3.249,3.3,0.051,Trains
+sydneytrains,2015111,Green Square,T8,32,8.0,4.304,4.379,0.075,Trains
+sydneytrains,2015112,Green Square,T8,36,7.0,3.95,3.95,-0.0,Trains
+sydneytrains,2015122,Macdonaldtown,T2 T3,23,8.7,7.674,6.581,-1.093,Trains
+sydneytrains,2015133,Redfern,CCN T1 T9,53,5.0,2.803,3.196,0.393,Trains
+sydneytrains,2015134,Redfern,T1 T9,66,4.0,3.478,3.554,0.076,Trains
+sydneytrains,2015135,Redfern,T2 T3,44,6.0,3.476,3.794,0.318,Trains
+sydneytrains,2015136,Redfern,T2 T3,52,3.7,3.332,3.349,0.017,Trains
+sydneytrains,2015141,Redfern,SCO T4,58,4.0,2.777,2.802,0.025,Trains
+sydneytrains,2015142,Redfern,SCO T4,53,4.0,3.072,3.08,0.008,Trains
+sydneytrains,2020101,International Airport,T8,33,8.5,4.331,4.387,0.056,Trains
+sydneytrains,2020102,International Airport,T8,35,7.5,3.981,4.03,0.049,Trains
+sydneytrains,2020111,Mascot,T8,33,8.5,4.331,4.383,0.052,Trains
+sydneytrains,2020112,Mascot,T8,35,7.5,3.963,3.988,0.025,Trains
+sydneytrains,202091,Domestic Airport,T8,33,8.5,4.331,4.356,0.024,Trains
+sydneytrains,202092,Domestic Airport,T8,35,7.5,3.981,4.053,0.072,Trains
+sydneytrains,202291,Bondi Junction,SCO T4,57,5.0,3.948,3.97,0.023,Trains
+sydneytrains,202292,Bondi Junction,SCO T4,55,4.983,3.136,3.143,0.008,Trains
+sydneytrains,202761,Edgecliff,SCO T4,55,3.1,2.965,3.051,0.086,Trains
+sydneytrains,202762,Edgecliff,SCO T4,57,4.0,3.249,3.318,0.068,Trains
+sydneytrains,204261,Newtown,T2 T3,42,6.1,3.391,3.666,0.276,Trains
+sydneytrains,204262,Newtown,T2 T3,50,3.8,3.283,3.284,0.0,Trains
+sydneytrains,204474,Sydenham,T8,27,9.017,5.603,5.889,0.287,Trains
+sydneytrains,204475,Sydenham,T4,26,10.0,5.024,5.093,0.069,Trains
+sydneytrains,204476,Sydenham,SCO T4,27,10.0,5.077,5.104,0.026,Trains
+sydneytrains,204483,Tempe,T4,23,10.0,6.269,6.251,-0.018,Trains
+sydneytrains,204484,Tempe,SCO T4,21,10.0,7.668,6.546,-1.122,Trains
+sydneytrains,204833,Stanmore,T2 T3,27,8.5,7.563,6.488,-1.075,Trains
+sydneytrains,204982,Lewisham,T2 T3,30,5.8,7.259,6.282,-0.977,Trains
+sydneytrains,204992,Petersham,T2 T3,27,8.1,7.524,6.461,-1.063,Trains
+sydneytrains,2060101,North Sydney,T1 T9,54,4.0,3.125,3.279,0.154,Trains
+sydneytrains,2060104,North Sydney,CCN T1 T9,48,4.0,3.429,3.784,0.355,Trains
+sydneytrains,2060111,Waverton,T1 T9,54,4.0,3.087,3.198,0.111,Trains
+sydneytrains,2060112,Waverton,CCN T1 T9,48,4.0,3.429,3.91,0.481,Trains
+sydneytrains,206141,Milsons Point,T1 T9,62,3.0,2.431,2.626,0.194,Trains
+sydneytrains,206142,Milsons Point,CCN T1 T9,50,4.0,2.798,3.103,0.306,Trains
+sydneytrains,206451,Artarmon,T1 T9,53,4.0,3.485,3.828,0.343,Trains
+sydneytrains,206452,Artarmon,CCN T1 T9,47,4.0,3.535,3.89,0.355,Trains
+sydneytrains,2065152,St Leonards,T1 T9,55,4.0,3.085,3.071,-0.015,Trains
+sydneytrains,2065153,St Leonards,CCN T1 T9,47,4.0,3.471,3.9,0.429,Trains
+sydneytrains,2065161,Wollstonecraft,T1 T9,55,4.0,3.085,3.136,0.051,Trains
+sydneytrains,2065162,Wollstonecraft,CCN T1 T9,47,4.0,3.452,3.951,0.499,Trains
+sydneytrains,2067141,Chatswood,T1 T9,56,4.0,3.26,3.249,-0.01,Trains
+sydneytrains,2067144,Chatswood,CCN T1 T9,47,4.0,3.434,3.807,0.373,Trains
+sydneytrains,2069131,Roseville,T1 T9,56,4.0,3.271,3.499,0.228,Trains
+sydneytrains,2069132,Roseville,T1 T9,34,6.0,4.5,4.791,0.291,Trains
+sydneytrains,2070141,Lindfield,T1 T9,55,4.0,3.23,3.283,0.053,Trains
+sydneytrains,2070143,Lindfield,T1 T9,34,6.0,4.5,4.837,0.337,Trains
+sydneytrains,207191,Killara,T1 T9,54,4.0,3.496,3.536,0.04,Trains
+sydneytrains,207192,Killara,T1 T9,32,6.0,5.071,5.281,0.21,Trains
+sydneytrains,207261,Gordon,T1,38,6.0,5.559,5.398,-0.161,Trains
+sydneytrains,207262,Gordon,T9,31,8.0,4.841,5.323,0.482,Trains
+sydneytrains,207263,Gordon,CCN T1,29,6.0,7.205,6.134,-1.071,Trains
+sydneytrains,2073161,Pymble,T1,38,6.0,6.343,4.646,-1.697,Trains
+sydneytrains,2073162,Pymble,T1,23,10.0,7.79,5.622,-2.169,Trains
+sydneytrains,2074181,Turramurra,T1,38,6.0,6.343,4.662,-1.681,Trains
+sydneytrains,2074182,Turramurra,T1,22,10.0,7.911,5.67,-2.241,Trains
+sydneytrains,2074191,Warrawee,T1,39,6.0,6.275,5.176,-1.1,Trains
+sydneytrains,2074192,Warrawee,T1,22,10.0,7.911,5.709,-2.202,Trains
+sydneytrains,2076241,Wahroonga,T1,39,6.0,6.275,5.178,-1.097,Trains
+sydneytrains,2076242,Wahroonga,T1,22,10.0,7.911,5.699,-2.213,Trains
+sydneytrains,2077301,Hornsby,T1,40,6.0,5.486,4.623,-0.863,Trains
+sydneytrains,2077302,Hornsby,CCN T1,28,6.0,6.317,6.512,0.195,Trains
+sydneytrains,2077303,Hornsby,CCN NRC NRW T9,29,8.7,5.731,5.708,-0.022,Trains
+sydneytrains,2077311,Waitara,T1,39,6.0,6.275,4.578,-1.697,Trains
+sydneytrains,2077312,Waitara,T1,22,10.0,7.911,5.697,-2.215,Trains
+sydneytrains,2114182,Meadowbank,T9,27,9.2,6.489,6.541,0.051,Trains
+sydneytrains,2114193,West Ryde,T9,26,9.2,6.564,6.625,0.061,Trains
+sydneytrains,2121223,Epping,CCN T9,27,8.0,8.927,8.474,-0.453,Trains
+sydneytrains,2127102,Olympic Park,T7,52,2.117,3.312,3.005,-0.307,Trains
+sydneytrains,213053,Summer Hill,T2 T3,29,5.4,7.381,6.334,-1.047,Trains
+sydneytrains,2131123,Ashfield,T2 T3,42,5.1,3.585,3.66,0.075,Trains
+sydneytrains,2131125,Ashfield,T2 T3,49,4.0,3.319,3.44,0.122,Trains
+sydneytrains,213495,Burwood,T2 T3,42,3.9,4.018,3.969,-0.05,Trains
+sydneytrains,213496,Burwood,T2 T3,50,3.8,3.487,3.64,0.154,Trains
+sydneytrains,2135233,Strathfield,BMT CCN NRC T9,36,6.9,4.564,4.659,0.095,Trains
+sydneytrains,2135234,Strathfield,CCN T1,37,5.0,4.717,4.826,0.109,Trains
+sydneytrains,2135236,Strathfield,T1 T9,61,4.0,3.067,3.197,0.13,Trains
+sydneytrains,2135237,Strathfield,T2 T3,43,3.9,4.009,3.909,-0.1,Trains
+sydneytrains,2135238,Strathfield,T2 T3,49,3.9,3.509,3.673,0.164,Trains
+sydneytrains,213891,Rhodes,T9,25,8.9,5.903,5.881,-0.021,Trains
+sydneytrains,213892,Rhodes,T9,26,9.2,7.278,6.377,-0.9,Trains
+sydneytrains,214063,Flemington,T2,33,7.5,5.237,4.987,-0.25,Trains
+sydneytrains,214064,Flemington,T2,36,4.8,4.785,4.801,0.016,Trains
+sydneytrains,214074,Homebush,T2 T3,25,8.2,6.224,6.547,0.323,Trains
+sydneytrains,214077,Homebush,T2 T3,27,8.1,5.745,5.666,-0.079,Trains
+sydneytrains,2141301,Berala,T3 T6,26,7.5,5.658,5.706,0.047,Trains
+sydneytrains,2141313,Lidcombe,T2 T3,42,3.4,4.213,4.048,-0.165,Trains
+sydneytrains,2141314,Lidcombe,T2 T3,46,4.2,3.74,3.57,-0.17,Trains
+sydneytrains,2141315,Lidcombe,T6,34,7.983,3.867,4.069,0.202,Trains
+sydneytrains,2141316,Lidcombe,T7,52,4.883,2.5,2.671,0.17,Trains
+sydneytrains,2142315,Clyde,T2,33,9.7,5.183,5.287,0.104,Trains
+sydneytrains,2142324,Granville,T2,36,5.7,4.939,4.793,-0.145,Trains
+sydneytrains,214391,Regents Park,T3 T6,26,7.8,5.664,5.705,0.041,Trains
+sydneytrains,2144243,Auburn,T2,33,7.5,5.209,4.889,-0.32,Trains
+sydneytrains,2144244,Auburn,T2,34,5.3,4.886,4.779,-0.107,Trains
+sydneytrains,2145644,Pendle Hill,T1 T5,28,9.0,5.749,5.797,0.048,Trains
+sydneytrains,2145654,Wentworthville,T1 T5,28,9.0,5.749,5.8,0.051,Trains
+sydneytrains,2145664,Westmead,T1 T5,28,9.0,5.749,5.825,0.076,Trains
+sydneytrains,2146114,Toongabbie,T1 T5,27,9.0,5.795,5.855,0.061,Trains
+sydneytrains,2147424,Seven Hills,T1 T5,27,9.0,5.761,5.826,0.065,Trains
+sydneytrains,2148531,Blacktown,CCN T1 T5,30,7.0,5.856,5.943,0.087,Trains
+sydneytrains,2150403,Harris Park,T2 T5,28,8.0,5.477,5.506,0.028,Trains
+sydneytrains,2150411,Parramatta,BMT CCN T1,45,4.5,4.405,4.199,-0.206,Trains
+sydneytrains,2150412,Parramatta,BMT T1,59,3.0,3.788,3.444,-0.344,Trains
+sydneytrains,2150414,Parramatta,T2,32,7.983,4.617,4.898,0.281,Trains
+sydneytrains,2160261,Merrylands,T2 T5,27,8.3,6.192,6.373,0.181,Trains
+sydneytrains,2160262,Merrylands,T2 T5,31,8.0,5.288,5.373,0.085,Trains
+sydneytrains,2161251,Guildford,T2 T5,27,9.3,6.447,6.508,0.061,Trains
+sydneytrains,2161252,Guildford,T2 T5,31,8.0,5.236,5.329,0.093,Trains
+sydneytrains,2161261,Yennora,T2 T5,27,9.6,6.474,6.483,0.009,Trains
+sydneytrains,2161262,Yennora,T2 T5,30,7.5,5.219,5.288,0.069,Trains
+sydneytrains,2165201,Fairfield,T2 T5,28,9.6,6.416,6.344,-0.073,Trains
+sydneytrains,2165202,Fairfield,T2 T5,29,8.0,5.238,5.205,-0.032,Trains
+sydneytrains,2166271,Cabramatta,T2 T3 T5,35,9.6,5.889,5.489,-0.4,Trains
+sydneytrains,2166272,Cabramatta,T2 T3 T5,40,4.8,4.159,4.136,-0.023,Trains
+sydneytrains,2166281,Canley Vale,T2 T5,27,9.7,6.793,6.689,-0.105,Trains
+sydneytrains,2166282,Canley Vale,T2 T5,29,8.3,5.462,5.407,-0.055,Trains
+sydneytrains,216762,Glenfield,T2 T5,27,9.5,5.757,5.672,-0.085,Trains
+sydneytrains,216763,Glenfield,T2 T5,29,7.5,5.441,5.39,-0.051,Trains
+sydneytrains,216765,Glenfield,SHL T8,25,10.0,6.124,6.228,0.104,Trains
+sydneytrains,2170811,Casula,T2 T5,27,9.6,5.939,5.869,-0.071,Trains
+sydneytrains,2170812,Casula,T2 T5,29,7.95,5.53,5.473,-0.057,Trains
+sydneytrains,2170821,Liverpool,T2 T5,26,9.5,5.826,5.74,-0.086,Trains
+sydneytrains,2170824,Liverpool,T2 T5,28,7.9,5.54,5.466,-0.075,Trains
+sydneytrains,2170831,Warwick Farm,T2 T3 T5,34,7.5,4.583,4.303,-0.28,Trains
+sydneytrains,2170832,Warwick Farm,T2 T3 T5,40,4.8,4.153,4.076,-0.077,Trains
+sydneytrains,217392,Holsworthy,T8,25,10.0,6.089,6.304,0.215,Trains
+sydneytrains,217427,Edmondson Park,T2 T5,27,8.3,5.64,5.707,0.067,Trains
+sydneytrains,217428,Edmondson Park,T2 T5,29,7.6,5.477,5.461,-0.016,Trains
+sydneytrains,2200501,Bankstown,T6,34,8.983,4.187,4.258,0.071,Trains
+sydneytrains,2205111,Wolli Creek,T8,32,8.0,4.325,4.351,0.026,Trains
+sydneytrains,2205112,Wolli Creek,T8,35,7.5,3.984,4.013,0.03,Trains
+sydneytrains,2205113,Wolli Creek,SCO T4,60,3.5,2.544,2.558,0.013,Trains
+sydneytrains,2205114,Wolli Creek,SCO T4,56,4.4,2.893,2.906,0.013,Trains
+sydneytrains,220591,Arncliffe,T4,21,10.0,5.0,5.011,0.011,Trains
+sydneytrains,220592,Arncliffe,T4,18,10.0,5.0,5.042,0.042,Trains
+sydneytrains,2212164,Revesby,T8,24,9.0,6.122,6.087,-0.035,Trains
+sydneytrains,2216161,Banksia,T4,21,10.0,5.0,5.002,0.002,Trains
+sydneytrains,2216162,Banksia,T4,18,10.0,5.0,5.046,0.046,Trains
+sydneytrains,2216172,Rockdale,T4,22,10.0,5.455,5.442,-0.013,Trains
+sydneytrains,2216173,Rockdale,T4,17,10.0,5.0,5.026,0.026,Trains
+sydneytrains,2216175,Rockdale,SCO T4,9,9.7,5.439,5.601,0.161,Trains
+sydneytrains,2217191,Kogarah,T4,22,10.0,5.455,5.459,0.004,Trains
+sydneytrains,2217192,Kogarah,T4,17,10.0,5.0,5.029,0.029,Trains
+sydneytrains,2217194,Kogarah,SCO T4,9,9.6,5.452,5.563,0.111,Trains
+sydneytrains,221891,Carlton,T4,22,10.0,5.455,5.467,0.013,Trains
+sydneytrains,221892,Carlton,T4,17,10.0,5.0,5.021,0.021,Trains
+sydneytrains,2220351,Allawah,T4,22,10.0,5.455,5.514,0.059,Trains
+sydneytrains,2220352,Allawah,T4,17,10.0,5.0,5.036,0.036,Trains
+sydneytrains,2220361,Hurstville,T4,21,10.0,5.515,5.72,0.205,Trains
+sydneytrains,2220362,Hurstville,T4,18,7.6,5.215,5.477,0.262,Trains
+sydneytrains,2220363,Hurstville,SCO T4,39,6.5,3.938,3.882,-0.057,Trains
+sydneytrains,2220364,Hurstville,SCO T4,38,7.0,4.181,4.258,0.078,Trains
+sydneytrains,2222131,Penshurst,SCO T4,22,9.8,7.263,7.199,-0.064,Trains
+sydneytrains,2223291,Mortdale,SCO T4,21,8.6,7.261,7.029,-0.232,Trains
+sydneytrains,2232291,Sutherland,SCO T4,32,6.0,5.674,5.668,-0.006,Trains
+sydneytrains,2232293,Sutherland,SCO T4,27,10.0,5.5,5.598,0.098,Trains
+sydneytrains,2233291,Waterfall,SCO T4,19,9.492,7.232,8.296,1.065,Trains
+sydneytrains,2560711,Macarthur,T8,33,7.483,4.371,4.371,0.0,Trains
+sydneytrains,2564142,Macquarie Fields,T8,24,10.0,6.3,6.309,0.009,Trains
+sydneytrains,2750513,Penrith,BMT T1,23,8.2,7.597,6.988,-0.609,Trains
+sydneytrains,2753661,East Richmond,T1,18,8.5,8.749,8.599,-0.15,Trains
+sydneytrains,2756451,Windsor,T1,18,5.9,10.085,9.547,-0.538,Trains

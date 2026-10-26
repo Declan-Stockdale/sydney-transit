@@ -19,8 +19,13 @@ Supply
     Scheduled departures from each station between 06:00 and 10:00 on the
     chosen service date (both directions), from station_service.py's logic.
 
+The same is done for the PM peak (15:00 to 19:00): pm_peak_entries_est,
+pm_departures, pm_entries_per_departure. In the evening, the busiest boarding
+stations are the CBD and job centres rather than the suburbs.
+
 Output: data/marts/station_demand_supply.csv, one row per station, with
-    am_peak_entries_est, am_departures, entries_per_departure.
+    am_peak_entries_est, am_departures, entries_per_departure (AM) and the PM
+    equivalents.
 
 Usage:
     python -m analysis.demand_supply --date 2026-10-27
@@ -38,10 +43,15 @@ from tfnsw import DATA_DIR
 PATRONAGE_DIR = DATA_DIR / "raw" / "patronage"
 MARTS_DIR = DATA_DIR / "marts"
 AM_START, AM_END = 6, 10  # hours, matching the typical-day file's 06:00 to 10:00 band
+PM_START, PM_END = 15, 19  # the typical-day file's 15:00 to 19:00 band
+# Patronage files name a few stations differently from the timetable
+ALIASES = {"Domestic": "Domestic Airport", "International": "International Airport",
+           "Bomaderry": "Bomaderry (Nowra)"}
 
 
 def clean_station(names: pd.Series) -> pd.Series:
-    return names.str.replace(r"\s+Station$", "", regex=True).str.strip()
+    s = names.str.replace(r"\s+Station$", "", regex=True).str.strip()
+    return s.replace(ALIASES)
 
 
 def monthly_entries(months: int = 12) -> pd.DataFrame:
@@ -65,23 +75,29 @@ def monthly_entries(months: int = 12) -> pd.DataFrame:
     return out
 
 
-def am_peak_share() -> pd.Series:
-    """Share of each station's entries in 06:00-10:00, from the 2023 typical day."""
+def peak_share(column: str = "Entries 06:00 to 10:00") -> pd.Series:
+    """Share of each station's entries in a time band, from the 2023 typical day."""
     td = pd.read_excel(PATRONAGE_DIR / "station_entry_exit_typical_day_2016_2023.xlsx", sheet_name="train_stn_entry_exits")
     td = td[td["YEAR"].astype(str) == "2023"]
-    am = pd.to_numeric(td["Entries 06:00 to 10:00"], errors="coerce")
+    band = pd.to_numeric(td[column], errors="coerce")
     day = pd.to_numeric(td["Entries 24 hours"], errors="coerce")
-    share = (am / day).where(day > 0)
+    share = (band / day).where(day > 0)
     return pd.Series(share.to_numpy(), index=clean_station(td["STATION"])).dropna()
 
 
-def am_departures(service_date: date) -> pd.DataFrame:
+def am_peak_share() -> pd.Series:
+    return peak_share("Entries 06:00 to 10:00")
+
+
+def departures(service_date: date) -> pd.DataFrame:
+    """Scheduled departures per station in the AM (6-10am) and PM (3-7pm) peaks."""
     deps = pd.concat([feed_departures(f, service_date) for f in ("sydneytrains", "metro")])
     deps["station"] = clean_station(deps["stop_name"])
     hours = deps["dep_s"] / 3600
-    am = deps[(hours >= AM_START) & (hours < AM_END)]
-    return am.groupby("station").agg(
-        am_departures=("trip_id", "size"),
+    deps["am"] = ((hours >= AM_START) & (hours < AM_END)).astype(int)
+    deps["pm"] = ((hours >= PM_START) & (hours < PM_END)).astype(int)
+    return deps.groupby("station").agg(
+        am_departures=("am", "sum"), pm_departures=("pm", "sum"),
         lines=("route_short_name", lambda s: " ".join(sorted(set(s)))),
     ).reset_index()
 
@@ -94,13 +110,19 @@ def main() -> None:
 
     demand = monthly_entries()
     share = am_peak_share()
+    pm_share = peak_share("Entries 15:00 to 19:00")
     demand["am_peak_share"] = demand["station"].map(share)
+    demand["pm_peak_share"] = demand["station"].map(pm_share)
     demand["share_source"] = np.where(demand["am_peak_share"].isna(), "network median", "2023 typical day")
     demand["am_peak_share"] = demand["am_peak_share"].fillna(share.median())
+    demand["pm_peak_share"] = demand["pm_peak_share"].fillna(pm_share.median())
     demand["am_peak_entries_est"] = (demand["avg_daily_entries"] * demand["am_peak_share"]).round(0)
+    demand["pm_peak_entries_est"] = (demand["avg_daily_entries"] * demand["pm_peak_share"]).round(0)
 
-    out = demand.merge(am_departures(service_date), on="station", how="inner")
-    out["entries_per_departure"] = (out["am_peak_entries_est"] / out["am_departures"]).round(1)
+    out = demand.merge(departures(service_date), on="station", how="inner")
+    out = out[out["am_departures"] + out["pm_departures"] > 0]
+    out["entries_per_departure"] = (out["am_peak_entries_est"] / out["am_departures"].replace(0, np.nan)).round(1)
+    out["pm_entries_per_departure"] = (out["pm_peak_entries_est"] / out["pm_departures"].replace(0, np.nan)).round(1)
     out["service_date"] = service_date.isoformat()
     out["demand_period"] = demand.attrs["period"]
     out = out.sort_values("entries_per_departure", ascending=False)

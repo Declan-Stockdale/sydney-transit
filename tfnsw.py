@@ -42,16 +42,22 @@ REALTIME_PATHS = {
     "trip_updates": {
         "sydneytrains": "/v2/gtfs/realtime/sydneytrains",
         "metro": "/v2/gtfs/realtime/metro",
+        # NSW TrainLink: the only realtime source for the Hunter line and regional
+        # trains (and coaches, which analysis filters out). Only v1 exists.
+        "nswtrains": "/v1/gtfs/realtime/nswtrains",
     },
     "alerts": {
         "sydneytrains": "/v2/gtfs/alerts/sydneytrains",
         "metro": "/v2/gtfs/alerts/metro",
+        "nswtrains": "/v2/gtfs/alerts/nswtrains",
     },
     "vehicle_positions": {
         "sydneytrains": "/v2/gtfs/vehiclepos/sydneytrains",
         "metro": "/v2/gtfs/vehiclepos/metro",
+        "nswtrains": "/v1/gtfs/vehiclepos/nswtrains",
     },
 }
+REALTIME_FEEDS = ["sydneytrains", "metro", "nswtrains"]
 
 # Metro must use v2: the v1 Metro timetable stopped updating in Sept 2024 (its
 # calendar ends 2024-12-26) and its trip_ids don't match the realtime feed.
@@ -62,8 +68,11 @@ STATIC_PATHS = {
     # All NSW bus operators (timetable only; buses are used for access analysis,
     # not reliability). Large, so it isn't part of the daily pull.
     "buses": "/v1/gtfs/schedule/buses",
+    # NSW TrainLink (intercity and regional). Only v1 exists.
+    "nswtrains": "/v1/gtfs/schedule/nswtrains",
 }
-DAILY_STATIC_FEEDS = ["sydneytrains", "metro"]
+# nswtrains is needed daily too: its realtime trip IDs only join to its own timetable
+DAILY_STATIC_FEEDS = ["sydneytrains", "metro", "nswtrains"]
 
 
 def get_api_key() -> str:

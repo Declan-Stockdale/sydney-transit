@@ -43,14 +43,14 @@ import numpy as np
 import pandas as pd
 
 from analysis.service_equity import CRS_METRES, MARTS_DIR
-from analysis.station_service import active_service_ids, gtfs_seconds, read, next_tuesday
+from analysis.station_service import active_service_ids, gtfs_seconds, next_tuesday, rail_routes, read
 
 DETOUR = 1.28
 WALK_M_PER_MIN = 80
 MAX_WALK = {"bus": 640, "rail": 960}
 RELIABILITY = {"bus": 2.0, "rail": 0.75}
 AM = (7 * 3600, 9 * 3600)
-BBOX = (149.9, -34.9, 152.0, -32.7)
+BBOX = (149.9, -34.9, 152.2, -31.9)  # Greater Sydney plus Newcastle and the Hunter
 INTERCITY = {"BMT", "CCN", "SCO", "SHL"}
 BANDS = [(0, "0"), (2.5, "1a"), (5, "1b"), (10, "2"), (15, "3"), (20, "4"), (25, "5"), (40, "6a"), (np.inf, "6b")]
 
@@ -67,7 +67,7 @@ def stop_frequency(service_date: date) -> pd.DataFrame:
         mode = "bus" if feed == "buses" else "rail"
         routes = read(feed, "routes", usecols=["route_id", "route_short_name", "agency_id"])
         if feed == "sydneytrains":
-            routes = routes[(routes["agency_id"] == "SydneyTrains") | routes["route_short_name"].isin(INTERCITY)]
+            routes = rail_routes(routes, feed)
         trips = read(feed, "trips", usecols=["route_id", "service_id", "trip_id", "direction_id"])
         trips = trips[trips["service_id"].isin(active_service_ids(feed, service_date))].merge(routes, on="route_id")
         st = pd.read_csv(
@@ -109,10 +109,23 @@ def main() -> None:
     freq.to_parquet(MARTS_DIR / "stop_frequency.parquet", index=False)
     print(f"{freq['key'].nunique():,} stops, {freq['route'].nunique():,} route-directions in the AM peak")
 
+    mb = pd.read_parquet(MARTS_DIR / "mesh_block_access.parquet")
+    out = ptal_for(mb, freq)
+    out.to_parquet(MARTS_DIR / "mesh_block_ptal.parquet", index=False)
+    sa2 = sa2_summary(out)
+    sa2.to_csv(MARTS_DIR / "sa2_ptal.csv", index=False)
+
+    w = out["residents"]
+    for label, col in (("rail only", "ai_rail"), ("rail + bus", "ai_all")):
+        dist = out.groupby(ptal_band(out[col]))["residents"].sum() / w.sum() * 100
+        print(f"{label:>10}: poor access (PTAL 0-1b) {100 * w[out[col] <= 5].sum() / w.sum():.1f}% | "
+              + "  ".join(f"{b}:{dist.get(b, 0):.0f}%" for _, b in BANDS))
+
+
+def ptal_for(mb: pd.DataFrame, freq: pd.DataFrame) -> pd.DataFrame:
+    """PTAL index (rail only, bus, all) and minutes to board for each mesh block (needs x, y in metres)."""
     stops = freq.drop_duplicates("key")[["key", "mode", "stop_lon", "stop_lat"]]
     stops_g = gpd.GeoDataFrame(stops, geometry=gpd.points_from_xy(stops["stop_lon"], stops["stop_lat"]), crs="EPSG:4326").to_crs(CRS_METRES)
-
-    mb = pd.read_parquet(MARTS_DIR / "mesh_block_access.parquet")
     mb_g = gpd.GeoDataFrame(mb[["MB_CODE21", "residents"]], geometry=gpd.points_from_xy(mb["x"], mb["y"]), crs=CRS_METRES)
 
     pairs = []
@@ -142,8 +155,11 @@ def main() -> None:
     out["ptal_all"] = ptal_band(out["ai_all"])
     out = out.merge(first.rename(columns={"rail": "board_min_rail", "bus": "board_min_bus"}), on="MB_CODE21", how="left")
     out["board_min_all"] = out[["board_min_rail", "board_min_bus"]].min(axis=1)
-    out.to_parquet(MARTS_DIR / "mesh_block_ptal.parquet", index=False)
+    return out
 
+
+def sa2_summary(out: pd.DataFrame) -> pd.DataFrame:
+    """Resident-weighted PTAL results per SA2."""
     def agg(g: pd.DataFrame) -> pd.Series:
         w = g["residents"]
         poor = lambda col: 100 * w[g[col] <= 5].sum() / w.sum()
@@ -160,13 +176,7 @@ def main() -> None:
     sa2 = out.groupby(["SA2_CODE21", "SA2_NAME21"]).apply(agg, include_groups=False).round(2).reset_index()
     sa2["ptal_rail"] = ptal_band(sa2["ai_rail"])
     sa2["ptal_all"] = ptal_band(sa2["ai_all"])
-    sa2.to_csv(MARTS_DIR / "sa2_ptal.csv", index=False)
-
-    w = out["residents"]
-    for label, col in (("rail only", "ai_rail"), ("rail + bus", "ai_all")):
-        dist = out.groupby(ptal_band(out[col]))["residents"].sum() / w.sum() * 100
-        print(f"{label:>10}: poor access (PTAL 0-1b) {100 * w[out[col] <= 5].sum() / w.sum():.1f}% | "
-              + "  ".join(f"{b}:{dist.get(b, 0):.0f}%" for _, b in BANDS))
+    return sa2
 
 
 if __name__ == "__main__":
