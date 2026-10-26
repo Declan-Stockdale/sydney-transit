@@ -1,0 +1,36 @@
+mode,line,daily_trips
+Trains,BMT,18707.0
+Trains,CCN,35861.0
+Trains,HUN,2368.0
+Trains,SCO,21533.0
+Trains,SHL,1517.0
+Trains,T1,219660.0
+Trains,T2,157555.0
+Trains,T3,33292.0
+Trains,T4,176623.0
+Trains,T5,20976.0
+Trains,T6,9414.0
+Trains,T7,6631.0
+Trains,T8,150873.0
+Trains,T9,109429.0
+Metro,M1,201499.0
+Light rail,L1,25493.0
+Light rail,L2,44135.0
+Light rail,L3,45946.0
+Light rail,L4,12303.0
+Light rail,NLR,2798.0
+Ferry,F1,12959.0
+Ferry,F10,97.0
+Ferry,F2,4232.0
+Ferry,F3,6667.0
+Ferry,F4,7583.0
+Ferry,F5,1493.0
+Ferry,F6,1980.0
+Ferry,F7,758.0
+Ferry,F8,1442.0
+Ferry,F9,5032.0
+TrainLink,BMT,18707.0
+TrainLink,CCN,35861.0
+TrainLink,HUN,2368.0
+TrainLink,SCO,21533.0
+TrainLink,SHL,1517.0

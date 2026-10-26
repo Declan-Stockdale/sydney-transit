@@ -11,3 +11,6 @@ __pycache__/
 # Collected data and logs (large, and replayable from the source).
 # Root only: app/data/ holds the small dashboard extracts and IS committed.
 /data/
+
+# Replay map data: rebuilt by analysis/replay.py, tens of MB a day with buses
+/app/static/replay/

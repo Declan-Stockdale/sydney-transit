@@ -107,6 +107,15 @@ GLOSSARY = {
     "On time": "Less than 5 minutes late (Sydney Trains' own definition for suburban services).",
     "Passenger minutes lost": "Daily entries at a station x average minutes late of trains there (early counts as 0). Weights "
                               "delay by how many people it affects.",
+    "Running lateness": "How late a vehicle was while out on its route, checked every minute, averaged over every vehicle running "
+                        "on the line in that hour. Trains and Metro: the latest delay measured from GPS at a station. Buses, "
+                        "ferries and light rail: the delay the operator's realtime feed was reporting for the next stop (its own "
+                        "estimate). Early running counts as 0 in the commuter figures.",
+    "Running 5+ min late": "Share of the minutes vehicles on the line spent running 5 or more minutes behind the timetable.",
+    "Passenger hours lost per day": "Average daily Opal trips on the line (last 12 months) x the line's average running lateness "
+                                    "(early = 0), assuming passengers are spread across the day in proportion to the service "
+                                    "running. A rough size of the problem, not a measured total. Not available for buses: TfNSW "
+                                    "only publishes bus trips by contract region, not by route.",
     "Excess wait time": "Transport for London's measure for turn-up-and-go services: how much longer the average passenger waits "
                         "than the timetable implies, because trains bunch or leave gaps.",
 }
@@ -532,31 +541,163 @@ def reliability():
     source("Transport for London's excess wait time: the extra average wait caused by uneven gaps between trains. Platforms with a train at least every 10 minutes.")
 
 
-REPLAY_JSON, REPLAY_TEMPLATE = DATA / "replay.json", Path(__file__).parent / "replay_map.html"
+REPLAY_DIR, REPLAY_TEMPLATE = Path(__file__).parent / "static" / "replay", Path(__file__).parent / "replay_map.html"
 
 
 @st.cache_data
-def replay_html(versions: tuple) -> str:
-    """The animated map with its data inlined. Cached per file modification times, so a
-    rebuilt replay.json shows up without restarting the app."""
+def replay_html(version: float) -> str:
+    """The animated map with the rail network inlined. Vehicle data isn't inlined: the page fetches
+    app/static/replay/<mode>.json itself, so a rebuilt replay shows up on reload."""
     seg = D["segments"][["mode", "a_lon", "a_lat", "b_lon", "b_lat"]].to_json(orient="records")
-    template = REPLAY_TEMPLATE.read_text(encoding="utf-8")
-    return template.replace("__REPLAY__", REPLAY_JSON.read_text()).replace("__SEGMENTS__", seg)
+    return REPLAY_TEMPLATE.read_text(encoding="utf-8").replace("__SEGMENTS__", seg)
 
 
 def replay():
-    st.title("Train replay")
-    html = replay_html((REPLAY_JSON.stat().st_mtime, REPLAY_TEMPLATE.stat().st_mtime)) if REPLAY_JSON.exists() else None
-    if html is None:
-        st.info("No replay data yet. Run `python -m analysis.replay` to build app/data/replay.json.")
+    st.title("Live replay")
+    if not any(REPLAY_DIR.glob("*.json")):
+        st.info("No replay data yet. Run `python -m analysis.replay` to build app/static/replay/.")
         return
-    preview("Every train's GPS position from the realtime feed, replayed. Only covers the hours collected so far; "
-            "gaps are times the collector wasn't running.")
-    st.markdown("Press **Play**, or drag the slider. Each dot is a train, coloured by how late it was running "
-                "at that moment (its latest measured delay at a station). Hover a dot for its line.")
-    components.html(html, height=610)
-    source("GPS fixes arrive about every 30 seconds; the replay keeps one per train per minute and moves the dot in a "
-           "straight line between fixes, so it can cut corners on curved track. A train is hidden across gaps of 5+ minutes.")
+    preview("Every train, bus, ferry and light rail vehicle's GPS position from the realtime feeds, replayed for the "
+            "latest 24 hours collected. Buses, ferries and light rail were added on 27 Oct 2026; gaps are times the "
+            "collector wasn't running.")
+    st.markdown("Press **Play**, or drag the slider. Click the buttons along the top to show or hide each kind of "
+                "transport. Each dot is a vehicle, coloured by how late it was running at that moment. Hover a dot for "
+                "its line or route.")
+    components.html(replay_html(REPLAY_TEMPLATE.stat().st_mtime), height=650)
+    source("Trains and Metro: latest delay measured at a station from train GPS. Buses, ferries and light rail: the delay "
+           "the operator's feed was reporting for the next stop (its own estimate). GPS fixes arrive every 30 to 60 seconds; "
+           "the replay keeps one per vehicle per minute and moves the dot in a straight line between fixes, so it can cut "
+           "corners. A vehicle is hidden across gaps of 5+ minutes. Buses are a large download (tens of MB for a full day).")
+
+
+LINE_HOUR, LINE_TRIPS = DATA / "line_hour.csv", DATA / "line_trips.csv"
+MODE_COLOURS = {"Trains": BLUE, "Metro": METRO, "TrainLink": "#e0a526", "Light rail": RED, "Ferry": "#3a9a5b", "Bus": "#7a5bb5"}
+WORK_DAYS = 230  # working days a year, for "time lost a year" if you commute at the same hour
+
+
+@st.cache_data
+def load_line_hour(version: float) -> tuple[pd.DataFrame, pd.DataFrame]:
+    lh = pd.read_csv(LINE_HOUR, dtype={"line": str})
+    lh["label"] = np.where(lh["mode"] == "Bus", "Bus " + lh["line"], lh["line"])
+    trips = (pd.read_csv(LINE_TRIPS, dtype={"line": str}) if LINE_TRIPS.exists()
+             else pd.DataFrame(columns=["mode", "line", "daily_trips"]))
+    return lh, trips
+
+
+def weighted(df: pd.DataFrame, by: list[str]) -> pd.DataFrame:
+    """Combine rows (days, or hours) weighting each by the minutes of service it covers."""
+    cols = ["avg_late", "avg_late_pos", "pct_late5"]
+    w = df.assign(**{c: df[c] * df["vehicle_minutes"] for c in cols})
+    g = w.groupby(by, as_index=False)[["vehicle_minutes", *cols]].sum()
+    for c in cols:
+        g[c] = g[c] / g["vehicle_minutes"]
+    return g
+
+
+def line_delays():
+    st.title("Line delays by hour")
+    if not LINE_HOUR.exists():
+        st.info("No data yet. Run `python -m analysis.replay` then `python -m analysis.line_delays`.")
+        return
+    lh, trips = load_line_hour(LINE_HOUR.stat().st_mtime)
+    days = sorted(lh["date"].unique(), reverse=True)
+    preview(f"{len(days)} day(s) of realtime data ({days[-1]} to {days[0]}); buses, ferries and light rail from 27 Oct 2026. "
+            "Hour-by-hour patterns need a few weeks, including wet days, to be dependable.")
+    st.markdown("<p class='lead'>When is each line late, and what does that cost the people who ride it?</p>",
+                unsafe_allow_html=True)
+    explain("Running lateness", "Running 5+ min late", "Passenger hours lost per day")
+
+    present = [m for m in MODE_COLOURS if m in set(lh["mode"])]
+    a, b, c = st.columns([2.2, 1, 1.2])
+    modes = a.pills("Transport", present, selection_mode="multi", default=present) or present
+    day = b.selectbox("Day", ["All days (average)"] + days)
+    measure = c.radio("Colour by", ["Minutes late", "% running 5+ min late"], horizontal=True)
+    if measure == "Minutes late":
+        col, title = "avg_late", "Minutes late"
+        scale = alt.Scale(scheme="redyellowblue", reverse=True, domain=[-2, 8], clamp=True)
+    else:
+        col, title = "pct_late5", "% 5+ min late"
+        scale = alt.Scale(scheme="orangered", domain=[0, 40], clamp=True)
+
+    d = lh[lh["mode"].isin(modes)]
+    one_day = d if day.startswith("All") else d[d["date"] == day]
+    by_hour = weighted(one_day, ["mode", "label", "hour"])
+    totals = weighted(one_day, ["mode", "label"])
+    totals = totals[totals["vehicle_minutes"] >= 60]  # at least an hour of service seen
+    totals = totals.merge(trips.rename(columns={"line": "label"})[["mode", "label", "daily_trips"]], on=["mode", "label"], how="left")
+    totals["pax_hours"] = totals["daily_trips"] * totals["avg_late_pos"] / 60
+    tips = [alt.Tooltip("avg_late:Q", format=".1f", title="Minutes late"),
+            alt.Tooltip("pct_late5:Q", format=".0f", title="% 5+ min late"),
+            alt.Tooltip("vehicle_minutes:Q", title="Minutes of service seen")]
+
+    st.subheader("Every line, hour by hour")
+    order = st.radio("Show the 30 lines with", ["the most delay", "the most service", "the most passenger hours lost"],
+                     horizontal=True)
+    key = {"the most delay": "avg_late_pos", "the most service": "vehicle_minutes",
+           "the most passenger hours lost": "pax_hours"}[order]
+    top = totals.dropna(subset=[key]).nlargest(30, key)
+    if top.empty:
+        st.caption("No lines with Opal trip counts in the transport selected (bus routes don't have them).")
+    else:
+        hm = by_hour[by_hour["label"].isin(top["label"])]
+        st.altair_chart(alt.Chart(hm).mark_rect().encode(
+            x=alt.X("hour:O", title="Hour (Sydney time)", axis=alt.Axis(labelAngle=0)),
+            y=alt.Y("label:N", sort=top["label"].tolist(), title=None, axis=alt.Axis(labelOverlap=False)),
+            color=alt.Color(f"{col}:Q", scale=scale, title=title),
+            tooltip=[alt.Tooltip("label:N", title="Line"), "mode", "hour", *tips]).properties(height=max(200, 20 * len(top))),
+            width="stretch")
+
+    st.subheader("One line, day by day")
+    lines = totals.sort_values("vehicle_minutes", ascending=False)["label"].tolist()
+    if not lines:
+        st.info("Not enough service seen for the transport selected.")
+        return
+    line = st.selectbox("Line or route", lines)
+    ld = d[d["label"] == line]
+    st.altair_chart(alt.Chart(ld).mark_rect().encode(
+        x=alt.X("hour:O", title="Hour (Sydney time)", axis=alt.Axis(labelAngle=0)),
+        y=alt.Y("date:O", title=None, sort="descending"),
+        color=alt.Color(f"{col}:Q", scale=scale, title=title),
+        tooltip=["date", "hour", *tips]).properties(height=max(120, 34 * ld["date"].nunique())),
+        width="stretch")
+
+    st.subheader(f"What it means if you ride {line}")
+    prof = weighted(ld, ["hour"])
+    hours = prof["hour"].tolist()
+    hour = st.select_slider("You usually travel at", hours, value=8 if 8 in hours else hours[0], format_func=lambda h: f"{h}:00")
+    row = prof[prof["hour"] == hour].iloc[0]
+    k = st.columns(4)
+    k[0].metric("Typical delay", f"{row['avg_late_pos']:.1f} min", help="Average running lateness at that hour, early counted as 0.")
+    odds = f" (1 in {100 / row['pct_late5']:.0f})" if row["pct_late5"] >= 1 else ""
+    k[1].metric("Running 5+ min late", f"{row['pct_late5']:.0f}%{odds}")
+    k[2].metric("Time lost a year", f"{row['avg_late_pos'] * WORK_DAYS / 60:.1f} hours",
+                help=f"Typical delay x {WORK_DAYS} working days, one trip a day at this hour.")
+    t = totals[totals["label"] == line]
+    pax = t["pax_hours"].iloc[0] if len(t) else np.nan
+    k[3].metric("Passenger hours lost a day", "n/a" if pd.isna(pax) else f"{pax:,.0f}", help=define("Passenger hours lost per day"))
+    st.altair_chart(alt.Chart(prof).mark_bar(color=MODE_COLOURS.get(ld["mode"].iloc[0], BLUE), cornerRadiusEnd=2).encode(
+        x=alt.X("hour:O", title="Hour (Sydney time)", axis=alt.Axis(labelAngle=0)),
+        y=alt.Y("avg_late_pos:Q", title="Typical delay (min, early = 0)"),
+        opacity=alt.condition(alt.datum.hour == hour, alt.value(1), alt.value(0.45)),
+        tooltip=["hour", alt.Tooltip("avg_late_pos:Q", format=".1f", title="Typical delay"),
+                 alt.Tooltip("pct_late5:Q", format=".0f", title="% 5+ min late")]).properties(height=220), width="stretch")
+
+    st.subheader("Where delays cost passengers the most")
+    pax = totals.dropna(subset=["pax_hours"]).nlargest(15, "pax_hours")
+    if pax.empty:
+        st.caption("No lines with Opal trip counts in the transport selected (bus routes don't have them).")
+    else:
+        st.altair_chart(alt.Chart(pax).mark_bar(cornerRadiusEnd=3).encode(
+            x=alt.X("pax_hours:Q", title="Passenger hours lost per day (estimate)"),
+            y=alt.Y("label:N", sort="-x", title=None),
+            color=alt.Color("mode:N", scale=alt.Scale(domain=list(MODE_COLOURS), range=list(MODE_COLOURS.values())), title=None),
+            tooltip=[alt.Tooltip("label:N", title="Line"), "mode", alt.Tooltip("daily_trips:Q", format=",.0f", title="Daily trips"),
+                     alt.Tooltip("avg_late_pos:Q", format=".2f", title="Typical delay (min)"),
+                     alt.Tooltip("pax_hours:Q", format=",.0f", title="Passenger hours lost")]).properties(height=28 * len(pax) + 40),
+            width="stretch")
+    source("Running lateness from the realtime feeds (analysis/replay.py, analysis/line_delays.py); daily trips from TfNSW Opal "
+           "trips by line, last 12 months. Compare lines within a mode: bus, ferry and light rail delays are the operators' own "
+           "estimates, train and Metro delays are measured from GPS.")
 
 
 def hunter():
@@ -632,7 +773,8 @@ pg = st.navigation([
     st.Page(demand, title="Demand vs supply", icon="👥"),
     st.Page(trains_vs_metro, title="Trains vs Metro", icon="🚇"),
     st.Page(reliability, title="Reliability (preview)", icon="⏱️"),
-    st.Page(replay, title="Train replay", icon="▶️"),
+    st.Page(line_delays, title="Line delays by hour", icon="🕒"),
+    st.Page(replay, title="Live replay", icon="▶️"),
     st.Page(hunter, title="Newcastle & Hunter", icon="🚂"),
     st.Page(glossary, title="Glossary", icon="📖"),
     st.Page(about, title="About", icon="ℹ️"),

@@ -14,6 +14,8 @@ Saved to data/raw/patronage/:
         No longer updated, but the only source with peak vs off-peak by station.
     trips_train_monthly.csv / trips_metro_monthly.csv
         Estimated trips per month by line and card type.
+    trips_ferry_monthly.csv / trips_lightrail_monthly.csv
+        The same for ferries (by route) and light rail (by line).
     peak_train_loads_sep2019.xlsx
         Load estimates (passengers per train vs seats) on peak services, the
         last survey before COVID. Old, but shows where crowding was.
@@ -39,6 +41,11 @@ FILES = {
         f"{BASE}/a1ebe80d-442e-43cc-9ea9-e075bba96eb5/resource/7d49ca0b-1fb6-4524-81b0-68c8775b4d82/download/train.csv",
     "trips_metro_monthly.csv":
         f"{BASE}/a1ebe80d-442e-43cc-9ea9-e075bba96eb5/resource/0ae59bfc-e14d-4d5b-bb27-156a67b9759a/download/metro.csv",
+    # Ferry by route and light rail by line (monthly, by card type). Buses are only published by contract region.
+    "trips_ferry_monthly.csv":
+        f"{BASE}/519c73ae-f562-4415-9db8-f7eb5bc43cda/resource/9f572b2b-4180-4355-9223-247ed9087c7a/download/ferry.csv",
+    "trips_lightrail_monthly.csv":
+        f"{BASE}/6641ea76-4818-4e38-864f-4e3cb6bb98ee/resource/2bb651a0-eb15-4729-8dd5-9891b3708e6d/download/lightrail.csv",
     "peak_train_loads_sep2019.xlsx":
         f"{BASE}/69b0f082-84cb-41a0-8b53-bfd81b763d01/resource/3b18f6b2-89aa-41ce-b0a3-a4349447871d/download/peak-trains-load-report-02-06-sep-2019-final.xlsx",
 }
