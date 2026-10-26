@@ -10,3 +10,4 @@ tzdata
 geopandas
 matplotlib
 osmium
+pytest

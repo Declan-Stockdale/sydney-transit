@@ -63,6 +63,7 @@ const R = __REPLAY__;
 const SEG = __SEGMENTS__;
 const MAX_GAP = 300;  // only draw a train between GPS fixes under 5 minutes apart (matches analysis/replay.py)
 const OOS = "Out of service";
+const MAX_KMH = 160;  // matches analysis/replay.py
 
 // Unpack each trip into typed arrays for quick lookup: t (s since start), lon, lat, late (min)
 const trips = R.trips.map(tr => {
@@ -91,7 +92,9 @@ function positionsAt(s, modes, showOos) {
     if (lo === n - 1) { out.push({tr, lon: tr.lon[lo], lat: tr.lat[lo], late: tr.late[lo]}); continue; }
     const gap = t[lo + 1] - t[lo];
     if (gap > MAX_GAP) continue;
-    const f = (s - t[lo]) / gap;
+    // Don't glide across a move no train could make (leftover GPS error): hold, then snap to the next fix
+    const km = Math.hypot((tr.lon[lo + 1] - tr.lon[lo]) * 92.5, (tr.lat[lo + 1] - tr.lat[lo]) * 110.6);
+    const f = km > 1 && km / gap * 3600 > MAX_KMH ? 0 : (s - t[lo]) / gap;
     out.push({tr, lon: tr.lon[lo] + f * (tr.lon[lo + 1] - tr.lon[lo]),
               lat: tr.lat[lo] + f * (tr.lat[lo + 1] - tr.lat[lo]), late: tr.late[lo]});
   }
