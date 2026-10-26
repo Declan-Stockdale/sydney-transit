@@ -1,0 +1,12 @@
+gtfs-realtime-bindings
+protobuf
+requests
+pandas
+pyarrow
+openpyxl
+python-dotenv
+truststore
+tzdata
+geopandas
+matplotlib
+osmium

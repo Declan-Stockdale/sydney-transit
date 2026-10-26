@@ -1,0 +1,11 @@
+# Secrets: the TfNSW API key lives here. Never commit it.
+.env
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Collected data and logs (large, and replayable from the source)
+data/
