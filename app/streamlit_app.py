@@ -51,12 +51,74 @@ def load():
         "heatmap": pd.read_csv(DATA / "heatmap.csv"),
         "ewt": pd.read_csv(DATA / "excess_wait.csv"),
         "pois": pd.read_csv(DATA / "pois.csv"),
+        "hourly": pd.read_csv(DATA / "hourly.csv", dtype={"SA2_CODE21": str}),
+        "hunter_geo": json.loads((DATA / "hunter_sa2.geojson").read_text()),
+        "hunter_stations": pd.read_csv(DATA / "hunter_stations.csv"),
         "meta": json.loads((DATA / "meta.json").read_text()),
     }
 
 
 D = load()
 META = D["meta"]
+
+# Plain-English definitions: shown as tooltips, in "What these measures mean" boxes, and on the Glossary page.
+GLOSSARY = {
+    "Suburb (SA2)": "ABS Statistical Area Level 2, roughly a suburb (3,000 to 25,000 people). Greater Sydney has about 370. "
+                    "Names with a dash cover several suburbs (e.g. Erskineville - Alexandria).",
+    "PTAL / access level": "Public Transport Accessibility Level, Transport for London's standard score for how easy it is to get on "
+                           "public transport from home. For each route you can walk to: access time = walk (up to 640 m for bus, 960 m "
+                           "for rail) + half the average gap between services + a reliability allowance (2 min bus, 0.75 min rail). "
+                           "Each route scores 30 / access time; your best route counts in full and others count half. Weekday 7 to 9am.",
+    "PTAL index": "The number behind the PTAL bands. 0 = no service in walking range; around 5 = a couple of routes every 15 to 20 "
+                  "minutes; 25+ = several frequent routes; 40+ = city centre.",
+    "Poor access": "PTAL band 0, 1a or 1b (index 5 or below): no service in walking range, or only infrequent routes.",
+    "Residents with poor access (%)": "Share of a suburb's residents (2021 Census mesh blocks) whose home has poor access.",
+    "Minutes to board": "From the front door to getting on the quickest service in the morning peak: walking time + half the gap "
+                        "between services + reliability allowance. Blank or 60 = nothing within walking range.",
+    "Jobs within 45 minutes": "How many jobs (2021 Census place of work) you can reach by public transport within 45 minutes of "
+                              "leaving home at 8am on a weekday, including walking up to 800 m to the first stop, waiting and changes. "
+                              "Calculated from up to four points per suburb, weighted by residents.",
+    "Transport-disadvantaged suburb": "A suburb where people are more likely to depend on public transport (SEIFA IRSD decile 1 to 3, "
+                                      "or at least 15% of households without a car) AND most residents have poor access (rail + bus "
+                                      "version). At least 2,000 residents.",
+    "IRSD decile": "ABS SEIFA Index of Relative Socio-economic Disadvantage, ranked into tenths nationally: 1 = most "
+                   "disadvantaged 10% of areas in Australia, 10 = least disadvantaged.",
+    "No car %": "Share of a suburb's households with no motor vehicle (2021 Census).",
+    "Within a 1.5 km walk of a station": "Share of residents whose walk to a train or Metro station entrance, along real footpaths "
+                                         "(OpenStreetMap), is 1.5 km or less.",
+    "Hospitals / campuses / supermarkets in reach": "Number of hospitals or university/TAFE campuses within 45 minutes, or supermarkets "
+                                                    "within 20 minutes, by public transport from 8am (OpenStreetMap locations).",
+    "Gravity index": "Every job counts, but less the longer it takes to reach (a job 20 minutes away counts half, 40 minutes a quarter). "
+                     "Scaled so the Sydney resident average = 100. Hansen (1959).",
+    "Jobs kept at 9pm / Sunday": "Jobs reachable in 45 minutes at that time, as a % of the same suburb at 7am on a weekday. Can exceed "
+                                 "100% because timetabled buses are slower in peak traffic.",
+    "Transit gap": "Need minus supply, in standard deviations (Currie 2010). Need = average of disadvantage, households without a car, "
+                   "residents aged 65+ and 15 to 24. Supply = PTAL. Positive = more need than service. Shown for high-need suburbs only.",
+    "Daily entries": "Average Opal tap-ons at a station per day over the last 12 months (weekends included).",
+    "AM / PM boardings per train": "Estimated tap-ons in the morning peak (6 to 10am) or evening peak (3 to 7pm), divided by the "
+                                   "scheduled departures from that station in the same period (both directions). The peak share of "
+                                   "each station's entries comes from TfNSW's 2023 typical-day data.",
+    "Entries per walk-up resident": "Daily entries divided by the residents whose nearest station it is within 1.5 km. High = draws "
+                                    "people from far away (buses, parking, a destination); low = locals don't use it much.",
+    "Trains per hour (AM peak)": "Scheduled departures from a station between 6:30 and 10am, both directions, per hour.",
+    "Minutes late": "Measured from train GPS positions: departure time at each station minus the timetable. Negative = early. "
+                    "The feed's last prediction is used where no GPS fix matched.",
+    "On time": "Less than 5 minutes late (Sydney Trains' own definition for suburban services).",
+    "Passenger minutes lost": "Daily entries at a station x average minutes late of trains there (early counts as 0). Weights "
+                              "delay by how many people it affects.",
+    "Excess wait time": "Transport for London's measure for turn-up-and-go services: how much longer the average passenger waits "
+                        "than the timetable implies, because trains bunch or leave gaps.",
+}
+
+
+def define(term: str) -> str:
+    return GLOSSARY[term]
+
+
+def explain(*terms: str):
+    with st.expander("What these measures mean"):
+        for t in terms:
+            st.markdown(f"**{t}.** {GLOSSARY[t]}")
 
 
 def hex_rgb(h: str, a: int = 200) -> list[int]:
@@ -83,8 +145,8 @@ def colour_geo(values: pd.Series, palette=SEQ, bins=None, reverse=False, none_co
 
 
 def choropleth(values: pd.Series, tooltip_html: str, palette=SEQ, bins=None, reverse=False, highlight=None, height=560,
-               zero_is_none=True):
-    gj = json.loads(json.dumps(D["geo"]))  # copy
+               zero_is_none=True, geo=None, view=None):
+    gj = json.loads(json.dumps(geo or D["geo"]))  # copy
     cols, legend = colour_geo(values, palette, bins, reverse, zero_is_none=zero_is_none)
     for f, c, v in zip(gj["features"], cols, values):
         f["properties"]["fill"] = c
@@ -94,9 +156,9 @@ def choropleth(values: pd.Series, tooltip_html: str, palette=SEQ, bins=None, rev
     layer = pdk.Layer("GeoJsonLayer", gj, pickable=True, stroked=True, filled=True, get_fill_color="properties.fill",
                       get_line_color="properties.line", get_line_width="properties.lw", line_width_min_pixels=0.5,
                       auto_highlight=True, highlight_color=[255, 200, 0, 120])
-    deck = pdk.Deck(layers=[layer], initial_view_state=VIEW, map_provider="carto", map_style="light",
+    deck = pdk.Deck(layers=[layer], initial_view_state=view or VIEW, map_provider="carto", map_style="light",
                     tooltip={"html": tooltip_html, "style": {"backgroundColor": "#0b0b0b", "color": "white", "fontSize": "12px"}})
-    st.pydeck_chart(deck, height=height, use_container_width=True)
+    st.pydeck_chart(deck, height=height, width="stretch")
     return legend
 
 
@@ -130,12 +192,14 @@ def overview():
 
     c = st.columns(4)
     c[0].metric("Residents with poor access", f"{META['poor_all_pct']:.0f}%", f"{META['poor_all_pct'] - META['poor_rail_pct']:.0f} pts vs rail only", delta_color="inverse",
-                help="PTAL band 0 to 1b (Transport for London method), weekday 7 to 9am")
+                help=define("Poor access") + " " + define("PTAL / access level"))
     c[1].metric("Jobs within 45 min (average resident)", f"{META['jobs45_all'] / 1000:,.0f}k", f"+{(META['jobs45_all'] - META['jobs45_rail']) / 1000:,.0f}k vs rail only",
-                help="Leaving home at 8am on a weekday; walking up to 800 m to a stop")
+                help=define("Jobs within 45 minutes"))
     c[2].metric("Transport-disadvantaged suburbs", f"{META['td_bus_suburbs']}", f"{META['td_bus_suburbs'] - META['td_rail_suburbs']} vs rail only", delta_color="inverse",
-                help="IRSD decile 1 to 3 or 15%+ households without a car, and most residents with poor access")
-    c[3].metric("Within a 1.5 km walk of a station", f"{META['walk_1500_pct']:.0f}%", help="Along OpenStreetMap footpaths to the station entrance")
+                help=define("Transport-disadvantaged suburb"))
+    c[3].metric("Within a 1.5 km walk of a station", f"{META['walk_1500_pct']:.0f}%", help=define("Within a 1.5 km walk of a station"))
+    explain("PTAL / access level", "Poor access", "Jobs within 45 minutes", "Transport-disadvantaged suburb", "IRSD decile",
+            "No car %", "Minutes to board", "Suburb (SA2)")
 
     left, right = st.columns([1.35, 1])
     with left:
@@ -153,7 +217,7 @@ def overview():
         st.subheader("The 17 transport-disadvantaged suburbs")
         t = sa2[td].sort_values("erp_2025", ascending=False)[
             ["SA2_NAME21", "SA3_NAME21", "erp_2025", "irsd_decile", "no_car_pct", "pct_poor_all", "board_min_all"]]
-        st.dataframe(t, hide_index=True, use_container_width=True, height=500, column_config={
+        st.dataframe(t, hide_index=True, width="stretch", height=500, column_config={
             "SA2_NAME21": "Suburb", "SA3_NAME21": "District",
             "erp_2025": st.column_config.NumberColumn("Residents (2025)", format="%,d"),
             "irsd_decile": st.column_config.NumberColumn("IRSD decile", format="%d"),
@@ -165,7 +229,7 @@ def overview():
     st.subheader("So what")
     st.markdown("""
 1. **More frequent buses in the transport-disadvantaged suburbs.** Most are within reach of a bus already; frequency is the gap.
-2. **New station entrances where the walk is much longer than it looks** (Erskineville, Valley Heights, Bella Vista, Birrong: walks 1.6 to 1.8 times the straight line).
+2. **New station entrances where the walk is much longer than it looks** (Valley Heights, Cheltenham, Birrong, Bella Vista, Turrella: walks 1.6 to 1.8 times the straight line).
 3. **Rapid bus in the north-west and south-west growth areas before rail arrives.** Almost half of growth to 2041 is heading to suburbs without good rail access.
 4. **Plan the Bankstown transition around the riders who left.** Most of the 5.8 million yearly entries at the closed stations didn't move to another station.
 5. **Treat evening and weekend service as an equity issue.** Disadvantaged suburbs lose the most access outside commuter hours.
@@ -185,9 +249,9 @@ def access_map():
     st.title("Access to public transport")
     st.markdown("<p class='lead'>Flip between rail only and rail + bus to see how much buses change the picture.</p>", unsafe_allow_html=True)
     a, b, c = st.columns([1.4, 1, 1])
-    metric = a.selectbox("Measure", list(METRICS))
-    with_bus = b.toggle("Include buses", value=True)
-    outline = c.toggle("Outline transport-disadvantaged suburbs", value=True)
+    metric = a.selectbox("Measure", list(METRICS), help="Hover the map for values. Definitions are below the map.")
+    with_bus = b.toggle("Include buses", value=True, help="Off = trains and Metro only. Light rail and ferries are never included.")
+    outline = c.toggle("Outline transport-disadvantaged suburbs", value=True, help=define("Transport-disadvantaged suburb"))
     rail_col, all_col, fmt, desc, reverse = METRICS[metric]
     sa2 = D["sa2"]
     col = all_col if with_bus else rail_col
@@ -203,6 +267,8 @@ def access_map():
                             reverse=reverse, highlight=hl, height=600, zero_is_none=not reverse)
         legend_bar(legend, fmt=fmt.replace("%", ""))
         source(f"{desc}. Weekday AM peak, timetable for {META['timetable_date']}. Light rail and ferries not included.")
+        explain("PTAL / access level", "PTAL index", "Jobs within 45 minutes", "Residents with poor access (%)", "Minutes to board",
+                "Transport-disadvantaged suburb", "Hospitals / campuses / supermarkets in reach", "Jobs kept at 9pm / Sunday")
     with right:
         st.subheader("Look up a suburb")
         names = sa2.sort_values("SA2_NAME21")["SA2_NAME21"].tolist()
@@ -215,14 +281,14 @@ def access_map():
             "Rail + bus": [r["jobs_all"], r["ai_all"], r["pct_poor_all"], r["board_min_all"] if r["board_min_all"] < 60 else None],
         })
         st.caption("Blank minutes to board = no service within walking distance.")
-        st.dataframe(comp, hide_index=True, use_container_width=True,
+        st.dataframe(comp, hide_index=True, width="stretch",
                      column_config={"Rail only": st.column_config.NumberColumn(format="%,.1f"),
                                     "Rail + bus": st.column_config.NumberColumn(format="%,.1f")})
         k1, k2 = st.columns(2)
-        k1.metric("Hospitals in 45 min", f"{r['hospital_45']:.0f}")
-        k2.metric("Supermarkets in 20 min", f"{r['supermarket_20']:.0f}")
-        k1.metric("Jobs kept at 9pm", f"{r['keep_9pm_pct']:.0f}%" if pd.notna(r["keep_9pm_pct"]) else "n/a")
-        k2.metric("Jobs kept on Sunday", f"{r['keep_sun_pct']:.0f}%" if pd.notna(r["keep_sun_pct"]) else "n/a")
+        k1.metric("Hospitals in 45 min", f"{r['hospital_45']:.0f}", help=define("Hospitals / campuses / supermarkets in reach"))
+        k2.metric("Supermarkets in 20 min", f"{r['supermarket_20']:.0f}", help=define("Hospitals / campuses / supermarkets in reach"))
+        k1.metric("Jobs kept at 9pm", f"{r['keep_9pm_pct']:.0f}%" if pd.notna(r["keep_9pm_pct"]) else "n/a", help=define("Jobs kept at 9pm / Sunday"))
+        k2.metric("Jobs kept on Sunday", f"{r['keep_sun_pct']:.0f}%" if pd.notna(r["keep_sun_pct"]) else "n/a", help=define("Jobs kept at 9pm / Sunday"))
         if pd.notna(r["growth_to_2041"]):
             st.caption(f"Projected growth to 2041: {r['growth_to_2041']:+,.0f} residents (TfNSW TZP24)")
 
@@ -243,6 +309,7 @@ def methods():
         none = 100 * w[(sa2[col].fillna(0) == 0)].sum() / w.sum()
         st.caption(f"{none:.1f}% of residents have none within reach. Method: Wachs & Kumagai (1973), the basis of the UK DfT journey time statistics. "
                    "Destinations: 2021 Census jobs and OpenStreetMap.")
+        explain("Jobs within 45 minutes", "Hospitals / campuses / supermarkets in reach")
     with t2:
         bins = np.array([0, 25, 50, 75, 100, 150, 250, 2000])
         pal = ["#9b3434", "#e4938a", "#f6dcd6", "#d9e6f5", "#86b6ef", "#2a78d6", "#0d366b"]
@@ -253,16 +320,40 @@ def methods():
         avg = g.groupby("group", observed=True).apply(lambda x: np.average(x["gravity_index"].fillna(0), weights=x["residents"]), include_groups=False)
         st.caption("Sydney average = 100. Every job counts, weighted down by travel time (a job 20 minutes away counts half). "
                    + " · ".join(f"{k}: {v:.0f}" for k, v in avg.items()) + ". Method: Hansen (1959).")
+        explain("Gravity index", "IRSD decile")
     with t3:
-        when = st.radio("Compare weekday 7am with", ["Weekday 9pm", "Sunday 10am"], horizontal=True)
-        col = "keep_9pm_pct" if when == "Weekday 9pm" else "keep_sun_pct"
-        bins = np.array([0, 25, 50, 75, 90, 110, 1000])
-        pal = ["#9b3434", "#e4938a", "#f6dcd6", "#d9e6f5", "#86b6ef", "#2a78d6"]
-        legend = choropleth(sa2[col], f"<b>{{SA2_NAME21}}</b><br/>Jobs access kept: {{value_fmt}}%", palette=pal, bins=bins,
-                            zero_is_none=False)
-        legend_bar(legend, fmt="{:,.0f}%")
-        st.caption("Jobs within 45 minutes, as a share of weekday 7am, averaged over three departure times. "
-                   "Method: time-of-day accessibility (e.g. Owen & Levinson, Access Across America).")
+        hr = D["hourly"]
+        res = sa2.set_index("SA2_CODE21")["residents"]
+        hr = hr.assign(w=hr["SA2_CODE21"].map(res).fillna(0))
+        avg = hr.groupby(["day", "hour"]).apply(lambda x: np.average(x["jobs45"], weights=x["w"]), include_groups=False).rename("jobs45").reset_index()
+        avg["series"] = avg["day"].map({"weekday": "Sydney average, weekday", "sunday": "Sydney average, Sunday"})
+        names = sa2.sort_values("SA2_NAME21")["SA2_NAME21"].tolist()
+        picks = st.multiselect("Compare suburbs", names, default=["Lethbridge Park - Tregear", "Parramatta - South"]
+                               if "Parramatta - South" in names else names[:1], max_selections=4)
+        sub = hr.merge(sa2[["SA2_CODE21", "SA2_NAME21"]], on="SA2_CODE21")
+        sub = sub[sub["SA2_NAME21"].isin(picks)].assign(series=lambda x: x["SA2_NAME21"] + ", " + x["day"])
+        lines = pd.concat([avg[["hour", "jobs45", "series", "day"]], sub[["hour", "jobs45", "series", "day"]]])
+        lines["jobs_k"] = lines["jobs45"] / 1000
+        chart = alt.Chart(lines).mark_line(point=True, strokeWidth=2).encode(
+            x=alt.X("hour:O", title="Leaving home at (hour of day)", axis=alt.Axis(labelAngle=0)),
+            y=alt.Y("jobs_k:Q", title="Jobs reachable within 45 minutes (thousands)"),
+            color=alt.Color("series:N", title=None, legend=alt.Legend(orient="bottom", columns=2)),
+            strokeDash=alt.StrokeDash("day:N", scale=alt.Scale(domain=["weekday", "sunday"], range=[[1, 0], [5, 3]]), legend=None),
+            tooltip=["series", "hour", alt.Tooltip("jobs45:Q", format=",.0f", title="Jobs")],
+        ).properties(height=380)
+        st.altair_chart(chart, width="stretch")
+        c1, c2 = st.columns([1, 2])
+        day = c1.radio("Map: day", ["weekday", "sunday"], horizontal=True)
+        hour = c2.slider("Map: hour", 5, 23, 21)
+        snap = hr[(hr["day"] == day) & (hr["hour"] == hour)].set_index("SA2_CODE21")["jobs45"]
+        peak = hr[(hr["day"] == "weekday") & (hr["hour"] == 8)].set_index("SA2_CODE21")["jobs45"]
+        v = sa2["SA2_CODE21"].map(snap)
+        bins = np.unique(np.nanquantile(peak[peak > 0], np.linspace(0, 1, 8)))  # same colours at every hour
+        legend = choropleth(v, f"<b>{{SA2_NAME21}}</b><br/>Jobs within 45 min at {hour}:00 ({day}): {{value_fmt}}", bins=bins)
+        legend_bar(legend)
+        st.caption("Each hour is averaged over departures at :00 and :30. Colours use the same scale at every hour (weekday 8am "
+                   "quantiles), so the map fades as service thins. Method: time-of-day accessibility (e.g. Owen & Levinson, Access Across America).")
+        explain("Jobs within 45 minutes", "Jobs kept at 9pm / Sunday")
     with t4:
         hi = sa2["need_z"] > 0.5
         v = sa2["transit_gap"].where(hi)
@@ -273,9 +364,10 @@ def methods():
                             palette=pal, bins=bins + 5)
         legend_bar([(c, a - 5, b - 5) for c, a, b in legend], fmt="{:+.1f}", none_label="Not high-need")
         top = sa2[hi & (sa2["residents"] >= 2000)].nlargest(10, "transit_gap")[["SA2_NAME21", "SA3_NAME21", "need_z", "supply_z", "transit_gap"]]
-        st.dataframe(top.round(2), hide_index=True, use_container_width=True,
+        st.dataframe(top.round(2), hide_index=True, width="stretch",
                      column_config={"SA2_NAME21": "Suburb", "SA3_NAME21": "District", "need_z": "Need (z)", "supply_z": "Supply (z)", "transit_gap": "Gap"})
         st.caption("High-need suburbs only (need above +0.5 sd). Need = disadvantage, no-car households, ages 65+ and 15 to 24; supply = PTAL. Method: Currie (2010).")
+        explain("Transit gap", "PTAL index")
     with t5:
         s = sa2[(sa2["residents"] >= 1000) & sa2["unemployment_rate"].notna() & (sa2["gravity_index"] > 0)].copy()
         s["group"] = pd.cut(s["irsd_decile"], [0, 3, 7, 10], labels=["Most disadvantaged (1-3)", "Middle (4-7)", "Least disadvantaged (8-10)"]).astype(str)
@@ -288,9 +380,12 @@ def methods():
                                                          range=[RED, GREY, BLUE]), title="IRSD"),
             tooltip=["SA2_NAME21", alt.Tooltip("gravity_index:Q", format=".0f"), alt.Tooltip("unemployment_rate:Q", format=".1f"), "group"],
         ).properties(height=480).interactive()
-        st.altair_chart(chart, use_container_width=True)
+        st.altair_chart(chart, width="stretch")
         st.info(f"Spearman ρ = {rho:+.2f}. Better access goes with slightly higher unemployment. This is a correlation, not a cause: "
                 "both reflect where lower-income households can find housing. Lens: UK Social Exclusion Unit (2003), Lucas (2012).")
+        explain("Gravity index", "IRSD decile")
+        st.caption("Unemployment rate = unemployed people as a % of the labour force, 2021 Census. Spearman ρ compares rankings: "
+                   "+1 = perfectly matched order, 0 = no relationship.")
 
 
 def demand():
@@ -298,11 +393,17 @@ def demand():
     stn = D["stations"]
     t1, t2, t3 = st.tabs(["Busy stations, thin service", "Ten years of ridership", "Bankstown line closure"])
     with t1:
+        peak = st.radio("Peak", ["AM peak (6 to 10am)", "PM peak (3 to 7pm)"], horizontal=True,
+                        help=define("AM / PM boardings per train"))
+        pm = peak.startswith("PM")
+        epd_col, dep_col = ("pm_entries_per_departure", "pm_departures") if pm else ("entries_per_departure", "am_departures")
+        st.caption("In the morning the busiest boarding stations are suburban hubs; in the evening they are the CBD and job centres, "
+                   "as people head home. Greater Sydney stations only; Newcastle and the Hunter have their own page.")
         left, right = st.columns([1.6, 1])
         with left:
             s = stn.dropna(subset=["avg_daily_entries"]).copy()
             s["radius"] = np.sqrt(s["avg_daily_entries"]) * 18
-            s["epd"] = s["entries_per_departure"].fillna(0)
+            s["epd"] = s[epd_col].fillna(0)
             mx = s["epd"].quantile(0.97)
             lo, hi = np.array(hex_rgb("#cfe0f4")[:3]), np.array(hex_rgb("#b3261e")[:3])
             s["color"] = s["epd"].apply(lambda x: [*(lo + (hi - lo) * min(x / mx, 1)).astype(int).tolist(), 210])
@@ -313,17 +414,20 @@ def demand():
                              pickable=True, stroked=True, get_line_color=[255, 255, 255], line_width_min_pixels=0.5)
             st.pydeck_chart(pdk.Deck(layers=[lines, dots], initial_view_state=VIEW, map_provider="carto", map_style="light",
                                      tooltip={"html": "<b>{station}</b> ({lines})<br/>Entries per day: {avg_daily_entries}<br/>"
-                                                      "AM boardings per train: {entries_per_departure}<br/>AM trains/hour: {am_peak_tph}"}),
-                            height=560, use_container_width=True)
-            source("Circle size = daily entries; colour = morning-peak boardings per scheduled train (red = most crowded per train).")
+                                                      "AM boardings per train: {entries_per_departure}<br/>PM boardings per train: "
+                                                      "{pm_entries_per_departure}<br/>AM trains/hour: {am_peak_tph}"}),
+                            height=560, width="stretch")
+            source(f"Circle size = daily entries; colour = {'evening' if pm else 'morning'}-peak boardings per scheduled train (red = most per train).")
         with right:
-            top = stn[stn["share_source"] == "2023 typical day"].nlargest(15, "entries_per_departure")
-            chart = alt.Chart(top).mark_bar(color=BLUE, cornerRadiusEnd=3).encode(
-                x=alt.X("entries_per_departure:Q", title="AM boardings per scheduled train"),
+            top = stn[stn["share_source"] == "2023 typical day"].nlargest(15, epd_col)
+            chart = alt.Chart(top).mark_bar(color=RED if pm else BLUE, cornerRadiusEnd=3).encode(
+                x=alt.X(f"{epd_col}:Q", title=f"{'PM' if pm else 'AM'} peak boardings per scheduled train"),
                 y=alt.Y("station:N", sort="-x", title=None),
-                tooltip=["station", "lines", alt.Tooltip("entries_per_departure:Q", format=".0f"), "am_peak_tph"],
+                tooltip=["station", "lines", alt.Tooltip(f"{epd_col}:Q", format=".0f", title="Boardings per train"),
+                         alt.Tooltip(f"{dep_col}:Q", title="Departures in the peak")],
             ).properties(height=520)
-            st.altair_chart(chart, use_container_width=True)
+            st.altair_chart(chart, width="stretch")
+        explain("AM / PM boardings per train", "Daily entries", "Trains per hour (AM peak)")
     with t2:
         tl = D["timeline"].melt("month", var_name="series", value_name="entries")
         tl["series"] = tl["series"].map({"network": "All stations", "sydenham_bankstown_closed": "9 Sydenham-Bankstown stations",
@@ -339,7 +443,7 @@ def demand():
             tooltip=[alt.Tooltip("month:T", format="%b %Y"), "series", alt.Tooltip("entries_m:Q", format=".2f")])
         rules = alt.Chart(events).mark_rule(strokeDash=[4, 4], color="#6b6a66").encode(x="month:T")
         text = alt.Chart(events).mark_text(align="left", dx=4, dy=-140, fontSize=11, color="#6b6a66").encode(x="month:T", text="label")
-        st.altair_chart((line + rules + text).properties(height=420), use_container_width=True)
+        st.altair_chart((line + rules + text).properties(height=420), width="stretch")
         source("TfNSW station entries and exits (Opal), trains and Metro; light rail excluded.")
     with t3:
         bk = D["bankstown"].copy()
@@ -351,7 +455,7 @@ def demand():
             tooltip=["station", "group", alt.Tooltip("entries_before:Q", format=",.0f"), alt.Tooltip("entries_after:Q", format=",.0f"),
                      alt.Tooltip("pct_change:Q", format="+.0f")],
         ).properties(height=600)
-        st.altair_chart(chart, use_container_width=True)
+        st.altair_chart(chart, width="stretch")
         st.caption("The nine closed stations had 5.8 million entries a year. About 3.1 million reappeared above network trend at Sydenham; "
                    "about 4.7 million aren't seen at any station (replacement buses, other modes, or not travelling).")
 
@@ -369,8 +473,9 @@ def trains_vs_metro():
     text = base.mark_text(dy=-8).encode(text="label:N")
     st.altair_chart((bars + text).properties(width=190, height=170).facet(
         facet=alt.Facet("measure:N", title=None, header=alt.Header(labelFontSize=12, labelLimit=260)), columns=3
-    ).resolve_scale(y="independent"), use_container_width=False)
+    ).resolve_scale(y="independent"), width="content")
     source("Median station, Sydney basin, shared interchanges excluded. Reliability measures are a one-day preview.")
+    explain("Trains per hour (AM peak)", "Daily entries", "AM / PM boardings per train", "Entries per walk-up resident", "On time", "Minutes late")
     stn = D["stations"]
     s = stn[stn["mode"].isin(["Trains", "Metro"]) & stn["lat"].between(-34.2, -33.5)].copy()
     a, b = st.columns(2)
@@ -379,13 +484,13 @@ def trains_vs_metro():
         st.altair_chart(alt.Chart(s).mark_tick(thickness=2, size=26, opacity=0.6).encode(
             x=alt.X("am_peak_tph:Q", title="Trains per hour at the station (both directions)"),
             y=alt.Y("mode:N", title=None), color=alt.Color("mode:N", scale=alt.Scale(domain=["Trains", "Metro"], range=[BLUE, METRO]), legend=None),
-            tooltip=["station", "lines", "am_peak_tph"]).properties(height=200), use_container_width=True)
+            tooltip=["station", "lines", "am_peak_tph"]).properties(height=200), width="stretch")
     with b:
         st.subheader("Entries per walk-up resident")
         st.altair_chart(alt.Chart(s.dropna(subset=["entries_per_resident"])).mark_tick(thickness=2, size=26, opacity=0.6).encode(
             x=alt.X("entries_per_resident:Q", scale=alt.Scale(type="log"), title="Daily entries per resident within 1.5 km (log)"),
             y=alt.Y("mode:N", title=None), color=alt.Color("mode:N", scale=alt.Scale(domain=["Trains", "Metro"], range=[BLUE, METRO]), legend=None),
-            tooltip=["station", alt.Tooltip("entries_per_resident:Q", format=".2f")]).properties(height=200), use_container_width=True)
+            tooltip=["station", alt.Tooltip("entries_per_resident:Q", format=".2f")]).properties(height=200), width="stretch")
     st.subheader("Who rides each line")
     lines = D["lines"].dropna(subset=["am_peak_tph"])
     st.altair_chart(alt.Chart(lines).mark_circle(opacity=0.8, color=BLUE).encode(
@@ -394,7 +499,7 @@ def trains_vs_metro():
         size=alt.Size("annual_trips:Q", legend=None, scale=alt.Scale(range=[60, 900])),
         tooltip=["Line", alt.Tooltip("annual_trips:Q", format=",.0f"), "concession_senior_pct", "am_peak_tph"])
         + alt.Chart(lines).mark_text(dx=12, align="left").encode(x="am_peak_tph:Q", y="concession_senior_pct:Q", text="code:N"),
-        use_container_width=True)
+        width="stretch")
 
 
 def reliability():
@@ -402,27 +507,75 @@ def reliability():
     preview(f"Built from {META['reliability_obs']:,} measured train arrivals, {META['reliability_window']}. "
             "Patterns need a few weeks of collection, including peaks and wet days.")
     st.markdown("Delays come from train GPS positions (every 30 seconds), with the feed's last prediction as fallback.")
+    explain("Minutes late", "On time", "Passenger minutes lost", "Excess wait time")
     hm = D["heatmap"]
     st.subheader("Average lateness by line and hour")
     st.altair_chart(alt.Chart(hm).mark_rect().encode(
         x=alt.X("hour:O", title="Hour (Sydney time)", axis=alt.Axis(labelAngle=0)), y=alt.Y("route_short_name:N", title=None),
         color=alt.Color("late_min:Q", scale=alt.Scale(scheme="redyellowblue", reverse=True, domain=[-2, 8]), title="Minutes late"),
         tooltip=["route_short_name", "hour", alt.Tooltip("late_min:Q", format=".1f"), "n"]).properties(height=420),
-        use_container_width=True)
+        width="stretch")
     st.subheader("Busiest stations: passenger minutes lost")
     stn = D["stations"].dropna(subset=["passenger_minutes_per_day"]).nlargest(15, "passenger_minutes_per_day")
     st.altair_chart(alt.Chart(stn).mark_bar(color=BLUE, cornerRadiusEnd=3).encode(
         x=alt.X("passenger_minutes_per_day:Q", title="Passenger minutes lost per day (entries x average minutes late)"),
         y=alt.Y("station:N", sort="-x", title=None),
         tooltip=["station", alt.Tooltip("avg_late_min:Q", format=".1f"), alt.Tooltip("on_time_pct:Q", format=".0f")]).properties(height=420),
-        use_container_width=True)
+        width="stretch")
     st.subheader("Excess wait time on frequent platforms")
     e = D["ewt"]
     by = e.groupby("mode").apply(lambda g: pd.Series({"Scheduled wait (min)": np.average(g["swt_min"], weights=g["trains"]),
                                                       "Actual wait (min)": np.average(g["awt_min"], weights=g["trains"])}),
                                  include_groups=False).round(2)
-    st.dataframe(by, use_container_width=True)
+    st.dataframe(by, width="stretch")
     source("Transport for London's excess wait time: the extra average wait caused by uneven gaps between trains. Platforms with a train at least every 10 minutes.")
+
+
+def hunter():
+    st.title("Newcastle and the Hunter")
+    h = META["hunter"]
+    st.markdown("<p class='lead'>Reported as its own region, separate from the Greater Sydney figures. Served by NSW TrainLink "
+                "(Central Coast & Newcastle and Hunter lines) and Newcastle buses. Light rail and ferries are not included.</p>",
+                unsafe_allow_html=True)
+    c = st.columns(4)
+    c[0].metric("Residents (2021)", f"{h['residents']:,}", help="ABS SA4s Newcastle and Lake Macquarie, and Hunter Valley exc Newcastle")
+    c[1].metric("Residents with poor access", f"{h['poor_all_pct']:.0f}%", f"{h['poor_all_pct'] - h['poor_rail_pct']:.0f} pts vs rail only",
+                delta_color="inverse", help=define("Poor access"))
+    c[2].metric("Within a 1.5 km walk of a station", f"{h['within_1500m_walk_pct']:.0f}%",
+                help="Straight-line distance x 1.28 (the median detour measured in Sydney); footpaths are not modelled here.")
+    c[3].metric("Stations / daily departures", f"{h['stations']} / {h['daily_departures']:,}")
+    props = pd.DataFrame([f["properties"] for f in D["hunter_geo"]["features"]])
+    a, b = st.columns([1.4, 1])
+    with a:
+        with_bus = st.toggle("Include buses", value=True, key="hunter_bus")
+        col = "pct_poor_all" if with_bus else "pct_poor_rail"
+        view = pdk.ViewState(latitude=-32.85, longitude=151.55, zoom=8.3)
+        legend = choropleth(props[col], "<b>{SA2_NAME21}</b><br/>Residents with poor access: {value_fmt}%<br/>Walk to station within "
+                            "1.5 km: {pct_within_1500m_walk}%", palette=["#fbe9e7", "#f4c3bd", "#e4938a", "#c85a5a", "#9b3434"],
+                            bins=np.array([0, 10, 25, 50, 75, 100.1]), zero_is_none=False, geo=D["hunter_geo"], view=view, height=520)
+        legend_bar(legend, fmt="{:,.0f}%")
+    with b:
+        stn = D["hunter_stations"].sort_values("daily_departures", ascending=False)
+        st.dataframe(stn[["station", "lines", "daily_departures", "am_peak_tph", "avg_daily_entries", "avg_late_min"]], hide_index=True,
+                     width="stretch", height=520, column_config={
+                         "station": "Station", "lines": "Lines",
+                         "daily_departures": st.column_config.NumberColumn("Departures / day", help="Both directions, Tue 27 Oct 2026"),
+                         "am_peak_tph": st.column_config.NumberColumn("AM trains / hour", format="%.1f", help=define("Trains per hour (AM peak)")),
+                         "avg_daily_entries": st.column_config.NumberColumn("Entries / day", format="%.0f", help=define("Daily entries")),
+                         "avg_late_min": st.column_config.NumberColumn("Avg min late (preview)", format="%.1f", help=define("Minutes late")),
+                     })
+    source("HUN = Hunter line, CCN = Central Coast & Newcastle line, NRC/NRW = regional XPT and Xplorer trains. "
+           "Hunter line delays come from NSW TrainLink's own realtime feed (collected from 26 Oct 2026).")
+    explain("Poor access", "PTAL / access level", "Trains per hour (AM peak)", "Daily entries", "Minutes late")
+
+
+def glossary():
+    st.title("Glossary")
+    st.markdown("<p class='lead'>Every measure in the dashboard, in plain English.</p>", unsafe_allow_html=True)
+    q = st.text_input("Search", placeholder="e.g. PTAL, gravity, boardings")
+    for term, text in GLOSSARY.items():
+        if not q or q.lower() in (term + text).lower():
+            st.markdown(f"**{term}**  \n{text}")
 
 
 def about():
@@ -451,6 +604,8 @@ pg = st.navigation([
     st.Page(demand, title="Demand vs supply", icon="👥"),
     st.Page(trains_vs_metro, title="Trains vs Metro", icon="🚇"),
     st.Page(reliability, title="Reliability (preview)", icon="⏱️"),
+    st.Page(hunter, title="Newcastle & Hunter", icon="🚂"),
+    st.Page(glossary, title="Glossary", icon="📖"),
     st.Page(about, title="About", icon="ℹ️"),
 ])
 pg.run()

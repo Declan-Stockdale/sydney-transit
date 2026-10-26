@@ -8,8 +8,9 @@ move to a cloud VM, writing to Google Cloud Storage instead of `data/`.
 
 | Data | Script | When | Where it lands |
 | --- | --- | --- | --- |
-| Realtime trip updates, alerts, vehicle positions (Sydney Trains + Metro) | `collect_realtime.py` | Every 30 s, all the time | `data/raw/realtime/<kind>/<feed>/<date>/<HHMMSS>Z.pb.gz` |
-| Static GTFS timetable (Sydney Trains + Metro) | `pull_static.py` | Daily, 3:30am | `data/raw/static/<feed>/<date>.zip`, newest also extracted to `data/static/<feed>/` |
+| Realtime trip updates, alerts, vehicle positions (Sydney Trains, Metro, NSW TrainLink) | `collect_realtime.py` | Every 30 s, all the time | `data/raw/realtime/<kind>/<feed>/<date>/<HHMMSS>Z.pb.gz` |
+| Static GTFS timetable (Sydney Trains, Metro, NSW TrainLink) | `pull_static.py` | Daily, 3:30am | `data/raw/static/<feed>/<date>.zip`, newest also extracted to `data/static/<feed>/` |
+| Static GTFS bus timetable (all NSW buses) | `pull_static.py --feeds buses` | By hand, when refreshing access analysis | as above |
 | Bundling finished days of realtime data | `compact_raw.py` | Daily, after the static pull | `data/raw/realtime/<kind>/<feed>/<date>.tar.xz` |
 | BOM weather station observations (29 stations) | `pull_weather.py` | Every 6 h (BOM keeps only ~72 h) | `data/raw/weather/bom_obs/<wmo>/<date>/<HHMMSS>Z.json.gz` |
 | Open-Meteo hourly weather at every rail station (~10 km grid) | `pull_weather.py` | Every 6 h; `--backfill` for history | `data/raw/weather/open_meteo/<recent or archive>/` |
@@ -35,7 +36,12 @@ All logs go to `data/logs/` (one file per script per day, kept 30 days).
 | Vehicle positions | `/v2/gtfs/vehiclepos/sydneytrains` | `/v2/gtfs/vehiclepos/metro` |
 | Static timetable | `/v1/gtfs/schedule/sydneytrains` | `/v2/gtfs/schedule/metro` |
 
-All on `https://api.transport.nsw.gov.au`. The v1 alerts paths return 401; use v2.
+| NSW TrainLink trip updates / vehicle positions / alerts | `/v1/gtfs/realtime/nswtrains`, `/v1/gtfs/vehiclepos/nswtrains`, `/v2/gtfs/alerts/nswtrains` | |
+| NSW TrainLink timetable | `/v1/gtfs/schedule/nswtrains` | |
+| Bus timetable | `/v1/gtfs/schedule/buses` | |
+
+All on `https://api.transport.nsw.gov.au`. The v1 alerts paths return 401 for Sydney Trains and Metro; use v2.
+NSW TrainLink has only v1 for trip updates, vehicle positions and the timetable, and only v2 for alerts.
 For Metro use the **v2** timetable: the v1 one still downloads but stopped updating in
 September 2024, and its trip_ids don't match the realtime feed. Sydney Trains has no v2
 timetable.

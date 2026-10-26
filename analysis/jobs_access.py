@@ -2,7 +2,8 @@
 Jobs reachable within 45 minutes, leaving home at 8am: rail only vs rail + bus.
 
 For every SA2 (suburb) in Greater Sydney:
-    - Start at the SA2's resident-weighted centre (from Census mesh blocks).
+    - Start from up to four resident-weighted points in the SA2 (one per
+      quadrant, weighted by residents), and average the results.
     - Walk to any stop within 800 m (walking distance = straight line x 1.28,
       at 80 m per minute).
     - Ride the timetable (Tuesday 27 Oct 2026), changing between services at
@@ -33,9 +34,9 @@ import numba
 import numpy as np
 import pandas as pd
 
-from analysis.access_index import BBOX, DETOUR, INTERCITY, WALK_M_PER_MIN
+from analysis.access_index import BBOX, DETOUR, WALK_M_PER_MIN
 from analysis.service_equity import CENSUS_DIR, CRS_METRES, GREATER_SYDNEY, MARTS_DIR
-from analysis.station_service import active_service_ids, gtfs_seconds, next_tuesday, read
+from analysis.station_service import active_service_ids, gtfs_seconds, next_tuesday, rail_routes, read
 from tfnsw import DATA_DIR
 
 DEPART = 8 * 3600
@@ -45,14 +46,14 @@ TRANSFER_M = 300
 CHANGE_S = 60
 
 
-def connections(service_date: date, feeds, depart: int = DEPART, budget: int = BUDGET) -> tuple[pd.DataFrame, pd.DataFrame]:
-    """Stop-to-stop hops departing within the time budget, plus stop coordinates."""
+def connections(service_date: date, feeds) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Every stop-to-stop hop on the service date (sorted by departure), plus stop coordinates."""
     hops, stops_all = [], []
     for feed in feeds:
         trips = read(feed, "trips", usecols=["route_id", "service_id", "trip_id"])
         routes = read(feed, "routes", usecols=["route_id", "route_short_name", "agency_id"])
         if feed == "sydneytrains":
-            routes = routes[(routes["agency_id"] == "SydneyTrains") | routes["route_short_name"].isin(INTERCITY)]
+            routes = rail_routes(routes, feed)
         trips = trips[trips["service_id"].isin(active_service_ids(feed, service_date))].merge(routes, on="route_id")
         st = pd.read_csv(f"data/static/{feed}/stop_times.txt", dtype=str, engine="pyarrow",
                          usecols=["trip_id", "stop_id", "stop_sequence", "arrival_time", "departure_time"])
@@ -64,7 +65,6 @@ def connections(service_date: date, feeds, depart: int = DEPART, budget: int = B
         nxt = st.groupby("trip_id").shift(-1)
         h = pd.DataFrame({"from": feed + ":" + st["stop_id"], "to": feed + ":" + nxt["stop_id"],
                           "dep": st["dep"], "arr": nxt["arr"], "trip": feed + ":" + st["trip_id"]}).dropna()
-        h = h[(h["dep"] >= depart) & (h["dep"] <= depart + budget)]
         hops.append(h)
         s = read(feed, "stops", usecols=["stop_id", "stop_lat", "stop_lon"])
         s["key"] = feed + ":" + s["stop_id"]
@@ -106,13 +106,16 @@ def scan(start_stops, start_times, c_from, c_to, c_dep, c_arr, c_trip, n_trips, 
     return best
 
 
-def travel_times(feeds, service_date, origins, sa2_shapes, depart: int = DEPART, budget: int = BUDGET):
-    """Minutes from each origin SA2 centre to each SA2 (first stop reached inside it).
+_NETWORKS: dict = {}
 
-    Returns (matrix, origin codes, destination codes); unreachable = inf. An
-    origin's own SA2 is 0 when it has a stop within the access walk.
-    """
-    hops, stops = connections(service_date, feeds, depart, budget)
+
+def network(feeds, service_date, sa2_shapes) -> dict:
+    """The day's timetable as scan-ready arrays, built once per (feeds, date) and reused
+    for every departure time (loading the bus stop_times is the slow part)."""
+    key = (tuple(feeds), service_date)
+    if key in _NETWORKS:
+        return _NETWORKS[key]
+    hops, stops = connections(service_date, feeds)
     idx = pd.Series(np.arange(len(stops)), index=stops["key"])
     hops = hops[hops["from"].isin(idx.index) & hops["to"].isin(idx.index)]
     g = gpd.GeoDataFrame(stops, geometry=gpd.points_from_xy(stops["stop_lon"], stops["stop_lat"]), crs="EPSG:4326").to_crs(CRS_METRES)
@@ -136,36 +139,77 @@ def travel_times(feeds, service_date, origins, sa2_shapes, depart: int = DEPART,
     sa2_codes = sa2_shapes["SA2_CODE21"].to_numpy()
     sa2_pos = pd.Series(np.arange(len(sa2_codes)), index=sa2_codes)
     stop_sa2_idx = stop_sa2.map(sa2_pos).fillna(-1).to_numpy(np.int64)
-    has = stop_sa2_idx >= 0
+    net = {
+        "g": g, "n_stops": len(stops), "sa2_codes": sa2_codes, "sa2_pos": sa2_pos, "stop_sa2_idx": stop_sa2_idx,
+        "c_from": c_from, "c_to": c_to, "c_dep": c_dep, "c_arr": c_arr, "c_trip": c_trip.astype(np.int64),
+        "n_trips": int(c_trip.max()) + 1, "fp_ptr": fp_ptr, "fp_to": fp["b"].to_numpy(np.int64), "fp_t": fp["t"].to_numpy(np.float64),
+    }
+    _NETWORKS[key] = net
+    return net
 
-    o_codes = origins["SA2_CODE21"].to_numpy()
-    mat = np.full((len(o_codes), len(sa2_codes)), np.inf)
-    near = gpd.sjoin(origins, g[["geometry"]], predicate="dwithin", distance=ACCESS_M / DETOUR)
-    for code, grp in near.groupby("SA2_CODE21"):
-        oi = np.flatnonzero(o_codes == code)[0]
+
+def travel_times(feeds, service_date, origins, sa2_shapes, depart: int = DEPART, budget: int = BUDGET):
+    """Minutes from each origin point to each SA2 (first stop reached inside it).
+
+    origins: one row per origin point (several per SA2, see load_inputs), with
+    SA2_CODE21 and weight. Returns (matrix, origins, destination codes);
+    unreachable = inf. An origin's own SA2 is 0 when it has a stop within the
+    access walk.
+    """
+    net = network(feeds, service_date, sa2_shapes)
+    lo, hi = np.searchsorted(net["c_dep"], [depart, depart + budget], side="left")
+    sl = slice(lo, hi + 1)
+    has = net["stop_sa2_idx"] >= 0
+    g = net["g"]
+    mat = np.full((len(origins), len(net["sa2_codes"])), np.inf)
+    near = gpd.sjoin(origins.reset_index(drop=True), g[["geometry"]], predicate="dwithin", distance=ACCESS_M / DETOUR)
+    for oi, grp in near.groupby(level=0):
         o = origins.geometry.iloc[oi]
         s_idx = grp["index_right"].to_numpy(np.int64)
         walk_s = g.geometry.iloc[s_idx].distance(o).to_numpy() * DETOUR / WALK_M_PER_MIN * 60
-        best = scan(s_idx, depart + walk_s, c_from, c_to, c_dep, c_arr, c_trip, c_trip.max() + 1,
-                    fp_ptr, fp["b"].to_numpy(np.int64), fp["t"].to_numpy(np.float64), len(stops))
-        mins = (best[has] - depart) / 60
-        row = np.full(len(sa2_codes), np.inf)
-        np.minimum.at(row, stop_sa2_idx[has], mins)
-        if code in sa2_pos:
-            row[sa2_pos[code]] = 0  # your own suburb
+        best = scan(s_idx, depart + walk_s, net["c_from"][sl], net["c_to"][sl], net["c_dep"][sl], net["c_arr"][sl],
+                    net["c_trip"][sl], net["n_trips"], net["fp_ptr"], net["fp_to"], net["fp_t"], net["n_stops"])
+        row = np.full(len(net["sa2_codes"]), np.inf)
+        np.minimum.at(row, net["stop_sa2_idx"][has], (best[has] - depart) / 60)
+        code = origins["SA2_CODE21"].iloc[oi]
+        if code in net["sa2_pos"]:
+            row[net["sa2_pos"][code]] = 0  # your own suburb
         mat[oi] = row
-    return mat, o_codes, sa2_codes
+    return mat, origins, net["sa2_codes"]
 
 
-def run(feeds, service_date, origins, sa2_jobs, sa2_shapes):
-    mat, o_codes, d_codes = travel_times(feeds, service_date, origins, sa2_shapes)
+def by_sa2(values: np.ndarray, origins: pd.DataFrame) -> pd.Series:
+    """Resident-weighted average of a per-origin-point value, per SA2."""
+    df = pd.DataFrame({"SA2_CODE21": origins["SA2_CODE21"].to_numpy(), "v": values * origins["weight"].to_numpy()})
+    return df.groupby("SA2_CODE21")["v"].sum()
+
+
+def run(feeds, service_date, origins, sa2_jobs, sa2_shapes, depart: int = DEPART, budget: int = BUDGET):
+    mat, origins, d_codes = travel_times(feeds, service_date, origins, sa2_shapes, depart, budget)
     jobs_vec = pd.Series(sa2_jobs).reindex(d_codes).fillna(0).to_numpy()
-    reached = mat <= BUDGET / 60
-    return pd.Series((reached * jobs_vec).sum(axis=1), index=o_codes).where(np.isfinite(mat).any(axis=1), 0)
+    per_point = np.where(np.isfinite(mat).any(axis=1), ((mat <= budget / 60) * jobs_vec).sum(axis=1), 0)
+    return by_sa2(per_point, origins)
+
+
+def origin_points(mb: pd.DataFrame) -> gpd.GeoDataFrame:
+    """Up to four resident-weighted origin points per SA2 (one per quadrant around the
+    SA2's centre), each weighted by its share of residents. A single centre point
+    misrepresents suburbs whose centre falls in a park or between stops (e.g.
+    Gosford - Springfield read as zero access although most residents can walk to a stop)."""
+    rows = []
+    for code, g in mb[mb["residents"] > 0].groupby("SA2_CODE21"):
+        mx, my = np.average(g["x"], weights=g["residents"]), np.average(g["y"], weights=g["residents"])
+        quad = (g["x"] >= mx).astype(int) * 2 + (g["y"] >= my).astype(int)
+        total = g["residents"].sum()
+        for _, q in g.groupby(quad):
+            w = q["residents"].sum()
+            rows.append((code, np.average(q["x"], weights=q["residents"]), np.average(q["y"], weights=q["residents"]), w / total))
+    o = pd.DataFrame(rows, columns=["SA2_CODE21", "x", "y", "weight"])
+    return gpd.GeoDataFrame(o, geometry=gpd.points_from_xy(o["x"], o["y"]), crs=CRS_METRES)
 
 
 def load_inputs():
-    """SA2 shapes, jobs per SA2 (2021 Census place of work) and resident-weighted SA2 centres."""
+    """SA2 shapes, jobs per SA2 (2021 Census place of work), mesh blocks, SA2 centres and origin points."""
     shp = f"zip://{CENSUS_DIR / 'SA2_2021_AUST_SHP_GDA2020.zip'}!SA2_2021_AUST_GDA2020.shp"
     shapes = gpd.read_file(shp, where=f"GCC_CODE21 = '{GREATER_SYDNEY}'").to_crs(CRS_METRES)
     with zipfile.ZipFile(DATA_DIR / "raw" / "context" / "2021_WPP_SA2_for_NSW_short-header.zip") as z:
@@ -176,8 +220,7 @@ def load_inputs():
     cen = mb.groupby("SA2_CODE21").apply(
         lambda g: pd.Series({"x": np.average(g["x"], weights=g["residents"]), "y": np.average(g["y"], weights=g["residents"])}),
         include_groups=False).reset_index()
-    origins = gpd.GeoDataFrame(cen[["SA2_CODE21"]], geometry=gpd.points_from_xy(cen["x"], cen["y"]), crs=CRS_METRES)
-    return shapes, jobs, mb, cen, origins
+    return shapes, jobs, mb, cen, origin_points(mb)
 
 
 def main() -> None:

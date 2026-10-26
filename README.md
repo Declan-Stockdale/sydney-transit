@@ -12,7 +12,7 @@ The focus is the rail network (Sydney Trains and Metro), with buses added wherev
 | Demand vs supply | Where do many people rely on thin or unreliable service? | First findings |
 | Reliability and disruption | How late are trains, where, and what (including weather) makes it worse? | Collecting data; pipeline built |
 
-Scope: Sydney Trains and Sydney Metro, plus the NSW TrainLink intercity lines that serve Greater Sydney. The bus timetable is included for access analysis (rail only vs rail + bus, using TfL's PTAL method), but reliability is rail only. Light rail and ferries are out of scope for now.
+Scope: Sydney Trains, Sydney Metro and NSW TrainLink rail (intercity and regional trains). The bus timetable is included for access analysis (rail only vs rail + bus, using TfL's PTAL method), but reliability is rail only. Greater Sydney is the main study area; **Newcastle and the Hunter** are reported as a separate region so they don't mix into the Sydney equity figures. Light rail, ferries and TrainLink road coaches are out of scope for now.
 
 ## Executive summary
 
@@ -32,13 +32,17 @@ Rail alone reaches far fewer people: only 34% live within a 1.5 km walk of a sta
 | --- | --- | --- |
 | Residents with poor access (PTAL 0 to 1b) | 92% | 32% |
 | Transport-disadvantaged suburbs (disadvantaged or car-poor, and poor access) | 57 suburbs, 906,000 people | 17 suburbs, 257,000 people |
-| Jobs reachable within 45 min from 8am, average resident | 141,000 | 440,000 |
+| Jobs reachable within 45 min from 8am, average resident | 122,000 | 419,000 |
 | Time from front door to boarding, Sydney average | 50 min | 17 min |
 
 - **The worst-served disadvantaged suburbs** are Lethbridge Park - Tregear, Rosemeadow, Minto, Bradbury, Claymore, Leumeah and Macquarie Fields (Campbelltown), Colyton, Condell Park, Greenacre South, Blacktown South and the Wyong lakes (Blue Haven, Budgewoi, Toukley, Lake Munmorah).
-- **Disadvantaged areas lose more outside commuter hours.** The average resident keeps 81% of their reachable jobs at 9pm and 75% on Sunday; the most disadvantaged suburbs keep 77% at 9pm, against 85% in the least disadvantaged.
+- **Disadvantaged areas lose more outside commuter hours.** Measured hour by hour, the average resident keeps 81% of their 7am job access at 9pm and 73% on Sunday morning; the most disadvantaged suburbs keep only 69% at 9pm, against 89% in the least disadvantaged.
 - **Growth is outrunning rail.** 47% of TfNSW's projected growth to 2041 falls in suburbs where fewer than half of residents are near a station. Box Hill and Marsden Park have already doubled since 2021.
-- **Walking distance matters.** Along real footpaths, the walk to a station is typically 28% longer than the straight line, and up to 1.8 times longer at stations such as Erskineville and Valley Heights.
+- **Walking distance matters.** Along real footpaths, the walk to a station is typically 28% longer than the straight line, and up to 1.8 times longer at stations such as Valley Heights and Bullaburra.
+
+**Newcastle and the Hunter (separate region)**
+
+- Of the region's 682,000 residents, **60% have poor access even with buses** (32% in Greater Sydney), and only about 17% live within an estimated 1.5 km walk of a station. Hamilton is the busiest station with 182 departures a day; most Hunter line stations get 4 to 6 trains an hour in the morning peak.
 
 **Demand (Opal)**
 
@@ -55,7 +59,7 @@ Delays are measured from train GPS positions. Early results show the method work
 Five evidence-based directions, cheapest first:
 
 1. **More frequent buses in the 17 transport-disadvantaged suburbs.** They're mostly within reach of a bus already; frequency, not coverage, is the gap. In the slowest of them (Leumeah, Minto, Gorokan, Rosemeadow) it takes 19 to 23 minutes from the front door to board any service, against a Sydney average of 17, and they lose more access in the evening.
-2. **New station entrances where the walk is much longer than it looks.** Erskineville, Valley Heights, Bella Vista, Birrong, Cheltenham and Turrella have walks 1.6 to 1.8 times the straight line. Entrances are cheap compared with new lines and widen catchments immediately.
+2. **New station entrances where the walk is much longer than it looks.** Valley Heights, Cheltenham, Birrong, Bella Vista, Turrella, Carramar and Casula have walks 1.6 to 1.8 times the straight line. Entrances are cheap compared with new lines and widen catchments immediately.
 3. **Rapid bus in the north-west and south-west growth areas before rail arrives.** Box Hill, Marsden Park, Austral and Leppington are growing fastest with no station in walking range.
 4. **Plan the Bankstown transition around the riders who left.** Most of the 5.8 million yearly entries didn't move to another station; good replacement and feeder buses until Metro opens will decide whether they come back.
 5. **Treat evening and weekend service as an equity issue.** Disadvantaged suburbs lose the most access outside commuter hours.
@@ -78,7 +82,7 @@ Opal, ABS Census, SEIFA, population, TZP24, OpenStreetMap  (one-off / monthly do
 
 | Data | Script | Frequency |
 | --- | --- | --- |
-| Realtime trip updates, alerts and vehicle positions (Trains + Metro) | `collect_realtime.py` | Every 30 s |
+| Realtime trip updates, alerts and vehicle positions (Trains, Metro, NSW TrainLink) | `collect_realtime.py` | Every 30 s |
 | Static GTFS timetable, one dated version per change | `pull_static.py` | Daily |
 | Compaction of each finished day into one `.tar.xz` (about 30x smaller than raw) | `compact_raw.py` | Daily |
 | BOM station observations and Open-Meteo hourly weather at every station | `pull_weather.py` | Every 6 h |
@@ -105,6 +109,7 @@ Opal, ABS Census, SEIFA, population, TZP24, OpenStreetMap  (one-off / monthly do
 | `passenger_minutes.py` | Delay weighted by how many people use each station |
 | `excess_wait.py` | Excess wait time on frequent platforms (TfL method) |
 | `opal_report.py`, `plot_equity.py`, `visuals.py` | Charts and maps in `outputs/figures/` |
+| `region_hunter.py` | Newcastle and the Hunter as a separate region: access, stations, demand |
 | `export_dashboard.py` | Small precomputed tables for the dashboard in `app/data/` |
 
 ## Design decisions worth knowing
@@ -164,6 +169,7 @@ python -m analysis.equity_context
 python -m analysis.pois
 python -m analysis.opportunity_access
 python -m analysis.excess_wait
+python -m analysis.region_hunter
 python -m analysis.visuals
 python -m analysis.export_dashboard
 ```

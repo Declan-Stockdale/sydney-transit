@@ -6,7 +6,11 @@ key and no heavy libraries. Files are kept small enough to commit (a few MB in
 total): suburb shapes are simplified to about 60 m.
 
     sa2.geojson        suburb shapes + every suburb-level metric
-    stations.csv       station-level supply, demand, catchment, delays
+    stations.csv       station-level supply, demand (AM and PM peak), catchment, delays;
+                       Greater Sydney stations only
+    hourly.csv         jobs within 45 min for each hour, weekday and Sunday, per suburb
+    hunter_sa2.geojson / hunter_stations.csv
+                       Newcastle and the Hunter, reported as a separate region
     segments.csv       track sections with AM peak trains per hour (network map)
     timeline.csv       monthly station entries 2016 to now
     bankstown.csv      closure before/after by station
@@ -23,6 +27,7 @@ Usage:
 
 import json
 
+import geopandas as gpd
 import numpy as np
 import pandas as pd
 
@@ -61,14 +66,42 @@ def main() -> None:
     # --- stations ----------------------------------------------------------
     st = pd.read_csv(MARTS_DIR / "station_service.csv")
     st["mode"] = np.where(st["networks"] == "metro", "Metro", np.where(st["networks"] == "sydneytrains", "Trains", "Both"))
-    ds = pd.read_csv(MARTS_DIR / "station_demand_supply.csv")[["station", "avg_daily_entries", "entries_per_departure", "share_source"]]
+    ds = pd.read_csv(MARTS_DIR / "station_demand_supply.csv")[
+        ["station", "avg_daily_entries", "am_peak_entries_est", "am_departures", "entries_per_departure",
+         "pm_peak_entries_est", "pm_departures", "pm_entries_per_departure", "share_source"]]
     cat = pd.read_csv(MARTS_DIR / "station_catchment.csv")[["station", "catchment_residents", "entries_per_resident"]]
     pm = pd.read_csv(MARTS_DIR / "station_passenger_minutes.csv")[["station", "avg_late_min", "on_time_pct", "passenger_minutes_per_day"]]
     jr = pd.read_csv(MARTS_DIR / "station_jobs_reach.csv").rename(columns={"Unnamed: 0": "station", "jobs_45min": "jobs_45_rail"})
     stations = (st[["station", "lat", "lon", "lines", "mode", "daily_departures", "am_peak_tph", "interpeak_tph", "pm_peak_tph"]]
                 .merge(ds, on="station", how="left").merge(cat, on="station", how="left")
                 .merge(pm, on="station", how="left").merge(jr, on="station", how="left"))
+    # Keep stations inside Greater Sydney only. Intercity stations beyond it (Newcastle,
+    # Southern Highlands, Bathurst) only show the Sydney-bound part of their service:
+    # e.g. Hunter line trains at Newcastle are outside this project's feeds.
+    shapes = sa2_shapes()
+    pts = gpd.GeoDataFrame(stations, geometry=gpd.points_from_xy(stations["lon"], stations["lat"]), crs="EPSG:4326").to_crs(shapes.crs)
+    inside = gpd.sjoin(pts, shapes[["SA2_CODE21", "geometry"]], predicate="within").index.unique()
+    stations = stations.loc[stations.index.isin(inside)]
     stations.round(3).to_csv(OUT / "stations.csv", index=False)
+
+    # --- Newcastle and the Hunter (separate region) --------------------------
+    from analysis.service_equity import CENSUS_DIR
+    rshp = gpd.read_file(f"zip://{CENSUS_DIR / 'SA2_2021_AUST_SHP_GDA2020.zip'}!SA2_2021_AUST_GDA2020.shp",
+                         where="SA4_CODE21 IN ('106', '111')")[["SA2_CODE21", "SA4_NAME21", "geometry"]]
+    rsa2 = pd.read_csv(MARTS_DIR / "region_hunter_sa2.csv", dtype={"SA2_CODE21": str})
+    rg = rshp.to_crs("EPSG:7856").merge(rsa2, on="SA2_CODE21")
+    rg["geometry"] = rg.geometry.simplify(80)
+    rg = rg.to_crs("EPSG:4326")
+    rnum = rg.select_dtypes("number").columns
+    rg[rnum] = rg[rnum].round(2)
+    rg.to_file(OUT / "hunter_sa2.geojson", driver="GeoJSON", COORDINATE_PRECISION=5)
+    rst = pd.read_csv(MARTS_DIR / "region_hunter_stations.csv")
+    rst = rst.merge(pm, on="station", how="left")
+    rst.round(3).to_csv(OUT / "hunter_stations.csv", index=False)
+
+    hourly = pd.read_csv(MARTS_DIR / "sa2_hourly_access.csv", dtype={"SA2_CODE21": str})
+    hourly["jobs45"] = hourly["jobs45"].round(0)
+    hourly.to_csv(OUT / "hourly.csv", index=False)
 
     # --- network segments (lon/lat) -----------------------------------------
     seg = segments(trip_stops())
@@ -118,6 +151,7 @@ def main() -> None:
         "timetable_date": "2026-10-27",
         "reliability_window": f"{d['sched_local'].min():%d %b %Y %H:%M} to {d['sched_local'].max():%H:%M}",
         "reliability_obs": int(len(d)),
+        "hunter": json.loads((MARTS_DIR / "region_hunter_summary.json").read_text()),
     }
     (OUT / "meta.json").write_text(json.dumps(meta, indent=2))
     sizes = {p.name: round(p.stat().st_size / 1e6, 2) for p in OUT.iterdir()}

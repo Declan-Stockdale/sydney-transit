@@ -12,12 +12,13 @@ Rules:
       all platforms count together.
     - Stations shared by Sydney Trains and Metro (e.g. Chatswood, Central) are
       merged by name, so an interchange counts its combined service.
-    - Included operators: Sydney Trains, Sydney Metro, and the NSW TrainLink
-      intercity lines that serve Greater Sydney (Blue Mountains, Central Coast &
-      Newcastle, South Coast, Southern Highlands). Without the intercity lines the
-      Blue Mountains and Central Coast would wrongly look unserved. Long-distance
-      regional trains (XPT, Xplorer) are excluded: they are booked-seat services
-      a few times a day, not commuter service.
+    - Included operators: Sydney Trains, Sydney Metro and all NSW TrainLink rail
+      services: intercity lines (Blue Mountains, Central Coast & Newcastle,
+      Hunter, South Coast, Southern Highlands) and regional trains (XPT,
+      Xplorer). The Sydney Trains timetable feed already carries every TrainLink
+      rail trip, so the separate NSW TrainLink timetable feed is not added on
+      top: it repeats a subset of the same trains under different trip IDs (it
+      would double count them), and adds only road coaches, which are out of scope.
     - GTFS times can pass 24:00 (after-midnight trips belong to the previous
       service date); they are kept as seconds since the start of the service day.
 
@@ -40,7 +41,9 @@ from tfnsw import DATA_DIR
 STATIC_DIR = DATA_DIR / "static"
 MARTS_DIR = DATA_DIR / "marts"
 
-INTERCITY_LINES = {"BMT", "CCN", "SCO", "SHL"}
+INTERCITY_LINES = {"BMT", "CCN", "SCO", "SHL", "HUN"}
+REGIONAL_LINES = {"NRC", "NRW", "STH", "WST"}  # NSW TrainLink XPT and Xplorer
+RAIL_AGENCIES = {"SydneyTrains", "NSWTrains"}
 BANDS = [  # name, start hour, end hour (end exclusive)
     ("early", 0, 6.5),
     ("am_peak", 6.5, 10),
@@ -82,12 +85,16 @@ def gtfs_seconds(times: pd.Series) -> pd.Series:
     return parts[0] * 3600 + parts[1] * 60 + parts[2]
 
 
+def rail_routes(routes: pd.DataFrame, feed: str) -> pd.DataFrame:
+    """Rail routes to analyse from a feed: in the Sydney Trains feed, Sydney Trains and NSW TrainLink."""
+    if feed == "sydneytrains" and "agency_id" in routes:
+        return routes[routes["agency_id"].isin(RAIL_AGENCIES)]
+    return routes
+
+
 def feed_departures(feed: str, service_date: date) -> pd.DataFrame:
     """One row per boardable scheduled departure on the date, with its station and line."""
-    routes = read(feed, "routes", usecols=["route_id", "agency_id", "route_short_name"])
-    if feed == "sydneytrains":
-        keep = (routes["agency_id"] == "SydneyTrains") | routes["route_short_name"].isin(INTERCITY_LINES)
-        routes = routes[keep]
+    routes = rail_routes(read(feed, "routes", usecols=["route_id", "agency_id", "route_short_name"]), feed)
 
     trips = read(feed, "trips", usecols=["route_id", "service_id", "trip_id"])
     trips = trips[trips["service_id"].isin(active_service_ids(feed, service_date))]

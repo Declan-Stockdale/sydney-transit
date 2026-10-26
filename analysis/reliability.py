@@ -45,7 +45,7 @@ RAW_RT = DATA_DIR / "raw" / "realtime" / "trip_updates"
 RAW_STATIC = DATA_DIR / "raw" / "static"
 MARTS_DIR = DATA_DIR / "marts"
 SYDNEY = ZoneInfo("Australia/Sydney")
-FEEDS = ["sydneytrains", "metro"]
+FEEDS = ["sydneytrains", "metro", "nswtrains"]
 TRIP_SR = gtfs_realtime_pb2.TripDescriptor.ScheduleRelationship
 TO_METRES = Transformer.from_crs("EPSG:4326", "EPSG:7856", always_xy=True)
 MAX_GPS_M = 300  # a GPS fix this close to the station counts as the train being there
@@ -54,6 +54,8 @@ MAX_GPS_M = 300  # a GPS fix this close to the station counts as the train being
 def iter_snapshots(feed: str, dates: list[str] | None):
     """Yield raw snapshot bytes in time order, from day folders and .tar.xz archives."""
     base = RAW_RT / feed
+    if not base.exists():
+        return
     for day in sorted(p for p in base.iterdir()):
         name = day.name.removesuffix(".tar.xz")
         if dates and name not in dates:
@@ -102,6 +104,9 @@ def last_seen(feed: str, dates) -> pd.DataFrame:
     if not frames:
         return pd.DataFrame()
     df = pd.concat(frames, ignore_index=True)
+    if feed == "nswtrains":
+        # Trains only (route IDs 4T.T.*); the feed also carries road coaches
+        df = df[df["route_id"].str.startswith("4T.T.")]
     last_ts = df["snapshot_ts"].max()
     df = df.sort_values("snapshot_ts").drop_duplicates(["start_date", "trip_id", "stop_id"], keep="last")
     df = df[(df["snapshot_ts"] < last_ts) | df["cancelled"]]  # still in the last snapshot = not served yet
@@ -246,6 +251,14 @@ def build(dates=None) -> pd.DataFrame:
         m["obs_time"] = m["sched_time"] + m["delay_s"]
         out.append(m)
     df = pd.concat(out, ignore_index=True)
+    # Some NSW TrainLink trains (Blue Mountains, South Coast, Southern Highlands) appear in both
+    # the Sydney Trains and NSW TrainLink feeds under different trip IDs. Keep the Sydney Trains
+    # copy: drop a TrainLink row when the same station has a Sydney Trains row scheduled at the same minute.
+    key = df["station"].astype(str) + "|" + (df["sched_time"] // 60).astype("Int64").astype(str)
+    syd = set(key[df["feed"] == "sydneytrains"])
+    dup = (df["feed"] == "nswtrains") & key.isin(syd)
+    df = df[~dup]
+    print(f"Dropped {int(dup.sum()):,} NSW TrainLink rows duplicated in the Sydney Trains feed")
     df["sched_local"] = pd.to_datetime(df["sched_time"], unit="s", utc=True).dt.tz_convert(SYDNEY)
     return df
 

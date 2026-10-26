@@ -31,7 +31,7 @@ from analysis.demand_supply import PATRONAGE_DIR
 from analysis.opal_report import BEFORE, CLOSED, all_monthly_entries
 from analysis.plot_equity import BAR, BLUES, FIG_DIR, GRID, INK, INK_2, NO_SERVICE, SURFACE
 from analysis.service_equity import CENSUS_DIR, CRS_METRES, GREATER_SYDNEY, MARTS_DIR
-from analysis.station_service import active_service_ids, gtfs_seconds, read
+from analysis.station_service import active_service_ids, gtfs_seconds, rail_routes, read
 from tfnsw import DATA_DIR
 
 SYDNEY = ZoneInfo("Australia/Sydney")
@@ -77,8 +77,7 @@ def trip_stops(service_date: date = SERVICE_DATE) -> pd.DataFrame:
     frames = []
     for feed in ("sydneytrains", "metro"):
         routes = read(feed, "routes", usecols=["route_id", "route_short_name", "agency_id"])
-        if feed == "sydneytrains":
-            routes = routes[(routes["agency_id"] == "SydneyTrains") | routes["route_short_name"].isin({"BMT", "CCN", "SCO", "SHL"})]
+        routes = rail_routes(routes, feed)
         trips = read(feed, "trips", usecols=["route_id", "service_id", "trip_id"])
         trips = trips[trips["service_id"].isin(active_service_ids(feed, service_date))].merge(routes, on="route_id")
         stt = read(feed, "stop_times", usecols=["trip_id", "stop_id", "stop_sequence", "arrival_time", "departure_time", "pickup_type"])

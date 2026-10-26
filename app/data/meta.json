@@ -1,15 +1,23 @@
 {
   "residents": 5230011,
-  "poor_rail_pct": 91.5,
+  "poor_rail_pct": 91.4,
   "poor_all_pct": 31.6,
-  "walk_1500_pct": 34.4,
-  "jobs45_rail": 141426,
-  "jobs45_all": 439707,
+  "walk_1500_pct": 34.5,
+  "jobs45_rail": 121816,
+  "jobs45_all": 418661,
   "td_rail_suburbs": 57,
   "td_rail_people": 906391,
   "td_bus_suburbs": 17,
   "td_bus_people": 256641,
   "timetable_date": "2026-10-27",
-  "reliability_window": "26 Oct 2026 08:43 to 18:02",
-  "reliability_obs": 9721
+  "reliability_window": "26 Oct 2026 08:43 to 19:33",
+  "reliability_obs": 14591,
+  "hunter": {
+    "residents": 682113,
+    "poor_rail_pct": 99.9,
+    "poor_all_pct": 60.1,
+    "within_1500m_walk_pct": 17.1,
+    "stations": 42,
+    "daily_departures": 2168
+  }
 }

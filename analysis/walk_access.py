@@ -14,8 +14,9 @@ Steps:
        box are kept. The public Overpass API refuses bulk downloads like this,
        so a local extract is used instead. The network is cached as
        data/raw/context/osm/walk_edges.parquet.
-    2. Sources = TfNSW station entrances (2020) plus the station point for
-       stations missing from that file (e.g. Metro stations opened since).
+    2. Sources = TfNSW station entrances (2020). Stations missing from that file
+       (e.g. Erskineville and Metro stations opened since) use every path node
+       within 150 m of the station centre instead.
     3. One multi-source shortest-path pass from all entrances, stopping at
        2.5 km, gives each network node its walk to the nearest entrance.
     4. Each mesh block takes the value of its nearest network node, plus the
@@ -87,8 +88,8 @@ def station_sources() -> gpd.GeoDataFrame:
     stations = pd.read_csv(MARTS_DIR / "station_service.csv")
     ent = pd.read_csv(CONTEXT_DIR / "station_entrances_2020.csv")
     ent = ent.rename(columns={"Train_Station": "station", "LAT": "lat", "LONG": "lon"})[["station", "lat", "lon"]]
-    missing = stations[~stations["station"].isin(ent["station"])][["station", "lat", "lon"]]
-    pts = pd.concat([ent[ent["station"].isin(stations["station"])], missing], ignore_index=True)
+    missing = stations[~stations["station"].isin(ent["station"])][["station", "lat", "lon"]].assign(entrance=False)
+    pts = pd.concat([ent[ent["station"].isin(stations["station"])].assign(entrance=True), missing], ignore_index=True)
     return gpd.GeoDataFrame(pts, geometry=gpd.points_from_xy(pts["lon"], pts["lat"]), crs="EPSG:4326").to_crs(CRS_METRES)
 
 
@@ -116,7 +117,15 @@ def main() -> None:
     nodes = gpd.GeoDataFrame(node_xy[["node"]], geometry=gpd.points_from_xy(node_xy["x"], node_xy["y"]), crs=CRS_METRES)
 
     # Multi-source search: a virtual source joined to every entrance's nearest node
-    src = nearest_node(station_sources(), nodes)
+    sources = station_sources()
+    src = nearest_node(sources, nodes)
+    # Stations missing from the 2020 entrances file (e.g. Erskineville, new Metro stations)
+    # only have a centre point, whose single nearest path node can sit on the wrong side of
+    # the tracks. Treat every path node within 150 m of the centre as a way in instead.
+    centre = sources[~sources["entrance"]]
+    near = gpd.sjoin(nodes, centre[["geometry"]].assign(geometry=centre.buffer(150)), predicate="within")
+    near["hop_m"] = near.geometry.distance(centre.geometry.loc[near["index_right"]].set_axis(near.index))
+    src = pd.concat([src, near[["node", "hop_m"]]])
     for node, hop in zip(src["node"], src["hop_m"]):
         g.add_edge("SRC", node, length=min(float(hop), g.get_edge_data("SRC", node, {"length": np.inf})["length"]))
     dist = nx.single_source_dijkstra_path_length(g, "SRC", cutoff=REACH_M, weight="length")

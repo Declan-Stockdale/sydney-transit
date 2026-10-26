@@ -2,6 +2,49 @@
 
 A running log of design decisions and the reasons for them. Newest first.
 
+## 2026-10-26: NSW TrainLink added; Newcastle and the Hunter as their own region
+
+**Timetable.** The Sydney Trains GTFS already carries every NSW TrainLink rail trip (agency
+`NSWTrains`: Blue Mountains, Central Coast & Newcastle, Hunter, South Coast, Southern Highlands,
+and the regional XPT/Xplorer). Analysis now keeps all of them (previously the Hunter line and regional
+trains were filtered out). The separate NSW TrainLink GTFS (`/v1/gtfs/schedule/nswtrains`) repeats a
+subset of the same trains under different trip IDs and adds road coaches, so it is **not** added to
+timetable counts (it would double count). It is still downloaded daily, because NSW TrainLink realtime
+trip IDs only join to it.
+
+**Realtime.** The Sydney Trains realtime feed has no Hunter line trips. NSW TrainLink's own feeds are
+now collected too (`/v1/gtfs/realtime/nswtrains`, `/v1/gtfs/vehiclepos/nswtrains`,
+`/v2/gtfs/alerts/nswtrains`). Coaches (route IDs not starting `4T.T.`) are dropped. Where a TrainLink
+train also appears in the Sydney Trains feed (same station, same scheduled minute), the Sydney Trains
+copy is kept. On the first day only 2 such duplicates appeared: the two realtime feeds mostly carry
+different trains.
+
+**Region.** Newcastle and the Hunter (ABS SA4s 111 and 106, 682,000 residents) are reported separately
+from Greater Sydney so they don't change the Sydney equity statistics: PTAL rail only vs rail + bus,
+share within an estimated 1.5 km walk of a station (straight line x 1.28; no footpath network built
+for this region), and station-level service, demand and delays.
+
+## 2026-10-26: Data audit fixes
+
+- **Airport stations had no demand.** The patronage files call them "Domestic" and "International"
+  (and "Bomaderry" rather than "Bomaderry (Nowra)"). An alias map in `demand_supply.clean_station`
+  fixes the join.
+- **Erskineville's long walk was an artefact.** It is missing from the 2020 station entrances file, so
+  its centre point snapped to a single path node on the wrong side of the tracks (walk ratio 1.9). Stations
+  without entrance records now use every path node within 150 m of the centre. Erskineville drops out of the
+  long-detour list; the list is now Valley Heights, Bullaburra, Cheltenham, Birrong, Bella Vista, Turrella.
+- **Suburb-centre artefact in jobs access.** One resident-weighted centre per suburb sometimes fell where no
+  stop was within 800 m (e.g. Gosford - Springfield read as zero jobs). Each suburb now uses up to four origin
+  points (one per quadrant, weighted by residents). Average jobs within 45 min: 122,000 rail only, 419,000 rail
+  + bus (previously 141,000 and 440,000).
+- **Stations outside Greater Sydney** (Newcastle, Southern Highlands, Bathurst) only carry their Sydney-bound
+  services in this data (e.g. Newcastle's Hunter line is NSW TrainLink, outside the feeds used), which made
+  Newcastle look thinly served and over-crowded. They are excluded from station-level dashboard views.
+- **Night access can exceed peak access** in some suburbs (e.g. Baulkham Hills - East). Timetabled bus
+  journeys are slower in peak traffic, so this is plausible, not an error. Time of day is now measured for
+  every hour 5am to 11pm, weekday and Sunday.
+- **PM peak** boardings per train are added (15:00 to 19:00), using the typical-day evening share.
+
 ## 2026-10-26: Standard access methods and their settings
 
 | Method | Origin | Settings used |

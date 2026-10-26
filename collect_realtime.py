@@ -1,13 +1,13 @@
 """
 Collect TfNSW realtime feeds (trip updates, alerts, vehicle positions) for
-Sydney Trains and Metro, and save each new snapshot untouched.
+Sydney Trains, Metro and NSW TrainLink, and save each new snapshot untouched.
 
 This replaces collect_snapshots.py. It is meant to run all the time: Windows Task
 Scheduler starts it at logon (see scheduling/register_tasks.ps1). In week 2 the
 same script moves to a cloud VM.
 
 What it does, every --interval seconds:
-    1. Requests each of the 6 endpoints in turn (3 feed types x 2 networks).
+    1. Requests each of the 9 endpoints in turn (3 feed types x 3 networks).
     2. Reads the feed's header timestamp. If it matches the last snapshot saved
        for that endpoint, the feed hasn't changed, so the snapshot is skipped.
     3. Otherwise saves the raw protobuf, gzip-compressed (about 5x smaller), to
@@ -42,7 +42,7 @@ import requests
 from google.protobuf.message import DecodeError
 from google.transit import gtfs_realtime_pb2
 
-from tfnsw import DATA_DIR, LOG_DIR, REALTIME_PATHS, get_api_key, setup_logging, tfnsw_get
+from tfnsw import DATA_DIR, LOG_DIR, REALTIME_FEEDS, REALTIME_PATHS, get_api_key, setup_logging, tfnsw_get
 
 RAW_DIR = DATA_DIR / "raw" / "realtime"
 INTERVALS_CSV = LOG_DIR / "feed_intervals.csv"
@@ -127,7 +127,7 @@ def main() -> None:
     parser.add_argument("--interval", type=float, default=30, help="Seconds between polls (default 30)")
     parser.add_argument("--minutes", type=float, default=None, help="Stop after this many minutes (default: run forever)")
     parser.add_argument("--kinds", nargs="+", choices=list(REALTIME_PATHS), default=list(REALTIME_PATHS))
-    parser.add_argument("--feeds", nargs="+", choices=["sydneytrains", "metro"], default=["sydneytrains", "metro"])
+    parser.add_argument("--feeds", nargs="+", choices=REALTIME_FEEDS, default=REALTIME_FEEDS)
     args = parser.parse_args()
 
     api_key = get_api_key()
