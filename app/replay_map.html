@@ -71,16 +71,16 @@
 <script>
 const SEG = __SEGMENTS__;
 const MAX_GAP = 300;  // only draw a vehicle between GPS fixes under 5 minutes apart (matches analysis/replay.py)
-const MAX_KMH = 160;  // matches analysis/replay.py
 const UNKNOWN = 9999;  // "minutes late x 10" value for no delay data (matches analysis/replay.py)
 // Drawn in this order, so buses sit underneath everything else
 const MODES = [
-  {mode: "Bus", file: "bus", label: "Buses", r: 3},
-  {mode: "Light rail", file: "light_rail", label: "Light rail", r: 4.5},
-  {mode: "Ferry", file: "ferry", label: "Ferries", r: 6},
-  {mode: "TrainLink", file: "trainlink", label: "NSW TrainLink", r: 5},
-  {mode: "Metro", file: "metro", label: "Metro", r: 5},
-  {mode: "Trains", file: "trains", label: "Sydney Trains", r: 5},
+// maxKmh / minJumpKm: top speed and shortest move treated as a glitch, matching SPEED_LIMITS in analysis/replay.py
+  {mode: "Bus", file: "bus", label: "Buses", r: 3, maxKmh: 110, minJumpKm: 0.5},
+  {mode: "Light rail", file: "light_rail", label: "Light rail", r: 4.5, maxKmh: 80, minJumpKm: 0.3},
+  {mode: "Ferry", file: "ferry", label: "Ferries", r: 6, maxKmh: 60, minJumpKm: 0.3},
+  {mode: "TrainLink", file: "trainlink", label: "NSW TrainLink", r: 5, maxKmh: 160, minJumpKm: 1},
+  {mode: "Metro", file: "metro", label: "Metro", r: 5, maxKmh: 160, minJumpKm: 1},
+  {mode: "Trains", file: "trains", label: "Sydney Trains", r: 5, maxKmh: 160, minJumpKm: 1},
 ];
 const state = Object.fromEntries(MODES.map(m => [m.mode, {on: true, trips: null, status: "idle", start: 0, end: 0}]));
 
@@ -150,7 +150,7 @@ function positionsAt(s, showOos) {
       if (gap > MAX_GAP) continue;
       // Don't glide across a move nothing could make (leftover GPS error): hold, then snap to the next fix
       const km = Math.hypot((tr.lon[lo + 1] - tr.lon[lo]) * 92.5, (tr.lat[lo + 1] - tr.lat[lo]) * 110.6);
-      const f = km > 1 && km / gap * 3600 > MAX_KMH ? 0 : (s - t[lo]) / gap;
+      const f = km > m.minJumpKm && km / gap * 3600 > m.maxKmh ? 0 : (s - t[lo]) / gap;
       out.push({tr, lon: tr.lon[lo] + f * (tr.lon[lo + 1] - tr.lon[lo]),
                 lat: tr.lat[lo] + f * (tr.lat[lo + 1] - tr.lat[lo]), late: tr.late[lo]});
     }

@@ -12,9 +12,11 @@ Built from the vehicle positions feeds already collected:
             the vehicle's next stop at that moment (the operator's own estimate, so less
             reliable than the GPS-checked train delays); unknown if the feed gave none
     - fixes with stale GPS clocks and fixes outside NSW are dropped
-    - bad GPS fixes are dropped (see clean_track and off_network): short bursts
-      where a vehicle "jumps" faster than anything here can go and then jumps back, and
-      Sydney Trains and Metro fixes more than 2 km from any of their lines
+    - bad GPS fixes are dropped (see clean_track, frozen_fixes and off_network): short
+      bursts where a vehicle "jumps" faster than its mode can go (SPEED_LIMITS) and then
+      jumps back; frozen positions that end in a catch-up jump (some bus trackers);
+      Sydney Trains and Metro fixes more than 2 km from any of their lines; and light
+      rail fixes more than 250 m from its track
     - gaps when collection paused (PC asleep or off) are kept as gaps: a vehicle is
       only drawn between fixes less than 5 minutes apart
 
@@ -54,38 +56,76 @@ SEGMENTS = PROJECT_DIR / "app" / "data" / "segments.csv"
 UNKNOWN_LATE = 9999
 MAX_DELAY_AGE_S = 600  # a bus/ferry/light rail delay older than 10 minutes is too stale to colour by
 
-# Bad GPS. No train here exceeds 160 km/h (the XPT's top speed; suburban trains ~130), so a move faster
-# than that is a glitch, often one fix landing on a parallel line before snapping back. Moves under 1 km
-# are never flagged, because GPS clocks jitter by a few seconds and would inflate speeds over short gaps.
-MAX_KMH = 160
-MIN_JUMP_M = 1000
-MAX_GLITCH_FIXES = 4  # a run of this many fixes (~2 min) or fewer between impossible jumps is a glitch
-MAX_OFF_NETWORK_M = 2000  # segments are straight station-to-station lines, so curved track can sit ~1 km off
+# Bad GPS. A move faster than the mode's top speed is a glitch: often one fix landing on a parallel line or
+# street before snapping back. Short moves are never flagged, because GPS clocks jitter by a few seconds and
+# would inflate speeds over short gaps. Measured 27 Oct 2026: buses' 99.9th percentile ~95 km/h (motorway
+# routes), light rail max ~61 km/h, ferries max ~50 km/h.
+#   mode: (top speed km/h, shortest move that can be flagged in m)
+SPEED_LIMITS = {
+    "Trains": (160, 1000),  # the XPT's top speed; suburban trains ~130
+    "Metro": (160, 1000),
+    "TrainLink": (160, 1000),
+    "Bus": (110, 500),  # 100 km/h motorway limit plus GPS slack
+    "Light rail": (80, 300),
+    "Ferry": (60, 300),
+}
+MAX_KMH, MIN_JUMP_M = SPEED_LIMITS["Trains"]
+MAX_GLITCH_FIXES = 4  # a run of this many fixes (~2 to 4 min) or fewer between impossible jumps is a glitch
+MAX_OFF_NETWORK_M = 2000  # rail segments are straight station-to-station lines, so curved track can sit ~1 km off
+MAX_OFF_TRACK_LR_M = 250  # light rail is checked against its real track shapes (shapes.txt), so much tighter
+LIGHT_RAIL_FEEDS = [f for f, m in OTHER.items() if m == "Light rail"]
 
 
-def impossible_moves(x, y, t) -> np.ndarray:
-    """True for each step between consecutive fixes (metres, seconds) that no train could make."""
+def impossible_moves(x, y, t, max_kmh=MAX_KMH, min_jump_m=MIN_JUMP_M) -> np.ndarray:
+    """True for each step between consecutive fixes (metres, seconds) that the vehicle couldn't make."""
     dist = np.hypot(np.diff(x), np.diff(y))
     kmh = dist / np.maximum(np.diff(t), 1) * 3.6
-    return (dist > MIN_JUMP_M) & (kmh > MAX_KMH)
+    return (dist > min_jump_m) & (kmh > max_kmh)
 
 
-def clean_track(x, y, t) -> np.ndarray:
-    """Keep-mask for one train's time-sorted fixes. Cuts the track at every impossible move and drops
-    the short runs between cuts (a glitch away and back). If every run is short, keeps the longest."""
+def frozen_fixes(x, y, t, max_kmh=MAX_KMH, min_jump_m=MIN_JUMP_M) -> np.ndarray:
+    """True for repeats of a frozen position that end in a catch-up jump. Some bus trackers stop updating
+    and resend the same coordinates for minutes, then jump to where the bus really is; the jump looks
+    impossible from the last repeat but not from the first. A bus really standing still (at a terminus)
+    keeps its repeats, because it moves off slowly afterwards."""
+    n = len(t)
+    frozen = np.zeros(n, dtype=bool)
+    same = (np.diff(x) == 0) & (np.diff(y) == 0)
+    i = 0
+    while i < n - 1:
+        if not same[i]:
+            i += 1
+            continue
+        j = i
+        while j < n - 1 and same[j]:
+            j += 1  # fixes i..j share one position
+        if j < n - 1 and impossible_moves(x[j:j + 2], y[j:j + 2], t[j:j + 2], max_kmh, min_jump_m)[0]:
+            frozen[i + 1:j + 1] = True
+        i = j
+    return frozen
+
+
+def clean_track(x, y, t, max_kmh=MAX_KMH, min_jump_m=MIN_JUMP_M) -> np.ndarray:
+    """Keep-mask for one vehicle's time-sorted fixes. Drops frozen repeats before a catch-up jump, then cuts
+    the track at every remaining impossible move and drops the short runs between cuts (a glitch away and
+    back). If every run is short, keeps the longest."""
     x, y, t = (np.asarray(a, dtype=float) for a in (x, y, t))
+    keep = np.ones(len(t), dtype=bool)
     if len(t) < 2:
-        return np.ones(len(t), dtype=bool)
-    run = np.concatenate([[0], np.cumsum(impossible_moves(x, y, t))])
+        return keep
+    keep &= ~frozen_fixes(x, y, t, max_kmh, min_jump_m)
+    idx = np.flatnonzero(keep)
+    run = np.concatenate([[0], np.cumsum(impossible_moves(x[idx], y[idx], t[idx], max_kmh, min_jump_m))])
     sizes = np.bincount(run)
     good = sizes > MAX_GLITCH_FIXES
     if not good.any():
         good = np.arange(len(sizes)) == sizes.argmax()
-    return good[run]
+    keep[idx] = good[run]
+    return keep
 
 
-def off_network(x, y, seg: pd.DataFrame, chunk=5000) -> np.ndarray:
-    """True for points more than MAX_OFF_NETWORK_M from every segment (ax, ay, bx, by, all in metres)."""
+def off_network(x, y, seg: pd.DataFrame, max_m=MAX_OFF_NETWORK_M, chunk=5000) -> np.ndarray:
+    """True for points more than max_m from every segment (ax, ay, bx, by, all in metres)."""
     ax, ay, bx, by = (seg[c].to_numpy(float)[None, :] for c in ("ax", "ay", "bx", "by"))
     vx, vy = bx - ax, by - ay
     len2 = np.maximum(vx**2 + vy**2, 1e-9)
@@ -93,12 +133,28 @@ def off_network(x, y, seg: pd.DataFrame, chunk=5000) -> np.ndarray:
     for i in range(0, len(x), chunk):
         px, py = np.asarray(x[i:i + chunk], float)[:, None], np.asarray(y[i:i + chunk], float)[:, None]
         f = np.clip(((px - ax) * vx + (py - ay) * vy) / len2, 0, 1)
-        out[i:i + chunk] = np.hypot(px - ax - f * vx, py - ay - f * vy).min(axis=1) > MAX_OFF_NETWORK_M
+        out[i:i + chunk] = np.hypot(px - ax - f * vx, py - ay - f * vy).min(axis=1) > max_m
     return out
 
 
+def light_rail_track() -> pd.DataFrame:
+    """Light rail track as short straight segments (metres), from the shapes in each line's timetable."""
+    frames = []
+    for feed in LIGHT_RAIL_FEEDS:
+        f = STATIC_DIR / feed / "shapes.txt"
+        if not f.exists():
+            continue
+        sh = pd.read_csv(f, dtype={"shape_id": str}, encoding="utf-8-sig").sort_values(["shape_id", "shape_pt_sequence"])
+        sh["x"], sh["y"] = TO_METRES.transform(sh["shape_pt_lon"].to_numpy(), sh["shape_pt_lat"].to_numpy())
+        nxt = sh.groupby("shape_id")[["x", "y"]].shift(-1)
+        frames.append(pd.DataFrame({"ax": sh["x"], "ay": sh["y"], "bx": nxt["x"], "by": nxt["y"]}).dropna())
+    seg = pd.concat(frames, ignore_index=True) if frames else pd.DataFrame(columns=["ax", "ay", "bx", "by"])
+    return seg.round(0).drop_duplicates()
+
+
 def drop_bad_gps(vp: pd.DataFrame) -> pd.DataFrame:
-    # Only Sydney Trains and Metro: segments.csv doesn't cover TrainLink's regional lines, buses or ferries
+    # Off the network: Sydney Trains and Metro against the station-to-station segments; light rail against its
+    # track shapes. Not TrainLink (segments don't cover regional lines), buses (no road network here) or ferries.
     rail = vp["mode"].isin(["Trains", "Metro"]).to_numpy()
     seg = pd.read_csv(SEGMENTS)
     seg = seg[seg["mode"].isin(["Trains", "Metro"])]
@@ -106,10 +162,16 @@ def drop_bad_gps(vp: pd.DataFrame) -> pd.DataFrame:
     seg["bx"], seg["by"] = TO_METRES.transform(seg["b_lon"].to_numpy(), seg["b_lat"].to_numpy())
     off = np.zeros(len(vp), dtype=bool)
     off[rail] = off_network(vp["x"].to_numpy()[rail], vp["y"].to_numpy()[rail], seg)
+    lr = (vp["mode"] == "Light rail").to_numpy()
+    track = light_rail_track()
+    if lr.any() and len(track):
+        off[lr] = off_network(vp["x"].to_numpy()[lr], vp["y"].to_numpy()[lr], track, MAX_OFF_TRACK_LR_M)
+    by_mode = vp[off].groupby("mode").size().to_dict()
     vp = vp[~off].sort_values(["key", "vp_ts"])
-    keep = np.concatenate([clean_track(g["x"], g["y"], g["vp_ts"]) for _, g in vp.groupby("key", sort=True)])
-    print(f"Bad GPS dropped: {off.sum():,} rail fixes off the network, {(~keep).sum():,} in impossible jumps "
-          f"(of {len(off):,})")
+    keep = np.concatenate([clean_track(g["x"], g["y"], g["vp_ts"], *SPEED_LIMITS[g["mode"].iloc[0]])
+                           for _, g in vp.groupby("key", sort=True)])
+    jumps = vp[~keep].groupby("mode").size().to_dict()
+    print(f"Bad GPS dropped (of {len(off):,} fixes): off the network/track {by_mode}, in jumps or frozen {jumps}")
     return vp[keep]
 
 
