@@ -116,6 +116,9 @@ GLOSSARY = {
                                     "(early = 0), assuming passengers are spread across the day in proportion to the service "
                                     "running. A rough size of the problem, not a measured total. Not available for buses: TfNSW "
                                     "only publishes bus trips by contract region, not by route.",
+    "New entrance gain": "Residents (2021 Census) whose walk to the station would drop from over 800 m to 800 m or less "
+                         "(about 10 minutes) if one extra entrance were added at the best spot within 200 m of the platforms. "
+                         "Walks follow real streets and paths (OpenStreetMap) to today's entrances (TfNSW, 2020).",
     "Excess wait time": "Transport for London's measure for turn-up-and-go services: how much longer the average passenger waits "
                         "than the timetable implies, because trains bunch or leave gaps.",
 }
@@ -700,6 +703,81 @@ def line_delays():
            "estimates, train and Metro delays are measured from GPS.")
 
 
+ENTRANCES = DATA / "entrance_options.csv"
+ESRI_STYLE = "/app/static/esri_light_style.json"  # muted Esri street map, no API key needed (Carto now needs one)
+
+
+def entrances():
+    st.title("Station entrance shortlist")
+    if not ENTRANCES.exists():
+        st.info("No results yet. Run `python -m analysis.entrance_options`.")
+        return
+    opts = pd.read_csv(ENTRANCES)
+    gain = pd.read_csv(DATA / "entrance_gain_points.csv")
+    ent = pd.read_csv(DATA / "station_entrances.csv")
+    st.markdown("<p class='lead'>New lines take decades. A new station entrance takes a year or two, and can put "
+                "thousands more people within a 10-minute walk of a train straight away. Where would one extra "
+                "entrance help the most people?</p>", unsafe_allow_html=True)
+    explain("New entrance gain", "Within a 1.5 km walk of a station")
+
+    top = opts.head(10)
+    k = st.columns(3)
+    k[0].metric("Stations tested", f"{len(opts)}")
+    k[1].metric("Top 10: residents brought within 800 m", f"{top['residents_new_800m'].sum():,.0f}")
+    k[2].metric("Best single station", f"{top.iloc[0]['station']}", f"+{top.iloc[0]['residents_new_800m']:,.0f} residents",
+                delta_color="off")
+
+    st.subheader("The shortlist")
+    n = st.slider("Stations shown", 5, 40, 15)
+    show = opts.head(n)
+    st.altair_chart(alt.Chart(show).mark_bar(color=BLUE, cornerRadiusEnd=3).encode(
+        x=alt.X("residents_new_800m:Q", title="Residents brought within an 800 m walk"),
+        y=alt.Y("station:N", sort="-x", title=None),
+        tooltip=["station", "lines", alt.Tooltip("entrances_now:Q", title="Entrances today"),
+                 alt.Tooltip("residents_within_800m_now:Q", format=",", title="Within 800 m today"),
+                 alt.Tooltip("residents_new_800m:Q", format=",", title="Brought within 800 m"),
+                 alt.Tooltip("pct_increase_800m:Q", title="% more than today"),
+                 alt.Tooltip("residents_new_1500m:Q", format=",", title="Brought within 1.5 km"),
+                 alt.Tooltip("walk_saved_m:Q", format=",.0f", title="Average walk saved (m)")]).properties(height=24 * n + 30),
+        width="stretch")
+    table = show[["station", "lines", "entrances_now", "residents_within_800m_now", "residents_new_800m", "pct_increase_800m",
+                  "residents_new_1500m", "walk_saved_m"]].rename(columns={
+        "station": "Station", "lines": "Lines", "entrances_now": "Entrances today", "residents_within_800m_now": "Within 800 m today",
+        "residents_new_800m": "Brought within 800 m", "pct_increase_800m": "% more", "residents_new_1500m": "Brought within 1.5 km",
+        "walk_saved_m": "Avg walk saved (m)"})
+    st.dataframe(table, hide_index=True, width="stretch")
+
+    st.subheader("Where the new entrance would go")
+    mapped = [s_ for s_ in opts["station"] if s_ in set(gain["station"])]
+    station = st.selectbox("Station", mapped)
+    row = opts[opts["station"] == station].iloc[0]
+    g = gain[gain["station"] == station].assign(radius=lambda d: 3 + np.sqrt(d["residents"]) * 0.6)
+    e = ent[ent["station"] == station]
+    new = pd.DataFrame({"lon": [row["entrance_lon"]], "lat": [row["entrance_lat"]], "label": ["Possible new entrance"]})
+    layers = [
+        pdk.Layer("ScatterplotLayer", g, get_position=["lon", "lat"], get_radius="radius", radius_units="'pixels'",
+                  get_fill_color=[42, 120, 214, 150], pickable=True),
+        pdk.Layer("ScatterplotLayer", e.assign(label="Entrance today"), get_position=["lon", "lat"], get_radius=7,
+                  radius_units="'pixels'", get_fill_color=[11, 11, 11, 230], get_line_color=[255, 255, 255], stroked=True,
+                  line_width_min_pixels=2, pickable=True),
+        pdk.Layer("ScatterplotLayer", new, get_position=["lon", "lat"], get_radius=10, radius_units="'pixels'",
+                  get_fill_color=[200, 90, 90, 240], get_line_color=[255, 255, 255], stroked=True, line_width_min_pixels=2,
+                  pickable=True),
+    ]
+    view = pdk.ViewState(latitude=row["entrance_lat"], longitude=row["entrance_lon"], zoom=14.3)
+    st.pydeck_chart(pdk.Deck(layers=layers, initial_view_state=view, map_provider="carto", map_style=ESRI_STYLE,
+                             tooltip={"html": "{label}<br>{residents} residents: walk {walk_now_m} m today, {walk_new_m} m with the new entrance",
+                                      "style": {"backgroundColor": "#0b0b0b", "color": "white", "fontSize": "12px"}}),
+                    height=520)
+    st.caption(f"Red: best spot found for a new entrance. Black: entrances today. Blue: homes (mesh blocks, sized by residents) "
+               f"that would come within an 800 m walk: {row['residents_new_800m']:,.0f} residents, "
+               f"{row['pct_increase_800m']:.0f}% more than the {row['residents_within_800m_now']:,.0f} within 800 m today.")
+    source("Method: analysis/entrance_options.py. Candidate spots are path nodes within 200 m of the platforms; the best is the one "
+           "that brings the most residents within 800 m. Not checked: whether a spot can physically reach the platforms (bridges, "
+           "lifts), land ownership or cost. Paths missing from OpenStreetMap, or entrances opened since 2020, can overstate a gain. "
+           "A shortlist for feasibility work, not a design.")
+
+
 def hunter():
     st.title("Newcastle and the Hunter")
     h = META["hunter"]
@@ -770,6 +848,7 @@ pg = st.navigation([
     st.Page(overview, title="Overview", icon="📊", default=True),
     st.Page(access_map, title="Access map", icon="🗺️"),
     st.Page(methods, title="Access methods", icon="🧭"),
+    st.Page(entrances, title="Station entrances", icon="🚪"),
     st.Page(demand, title="Demand vs supply", icon="👥"),
     st.Page(trains_vs_metro, title="Trains vs Metro", icon="🚇"),
     st.Page(reliability, title="Reliability (preview)", icon="⏱️"),
