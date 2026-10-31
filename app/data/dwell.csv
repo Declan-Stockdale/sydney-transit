@@ -1,0 +1,2576 @@
+mode,station,hour,stops,median_s,p90_s
+Metro,Barangaroo,7,22,25.0,38.0
+Metro,Barangaroo,8,76,37.0,50.0
+Metro,Barangaroo,9,106,37.0,50.0
+Metro,Barangaroo,10,83,37.0,61.0
+Metro,Barangaroo,11,81,37.0,61.0
+Metro,Barangaroo,12,56,37.0,61.0
+Metro,Barangaroo,13,45,37.0,56.0
+Metro,Barangaroo,14,66,37.0,55.0
+Metro,Barangaroo,15,80,37.0,61.0
+Metro,Barangaroo,16,74,37.0,62.0
+Metro,Barangaroo,17,78,37.0,62.0
+Metro,Barangaroo,18,85,37.0,61.0
+Metro,Barangaroo,19,59,37.0,52.0
+Metro,Barangaroo,20,41,37.0,61.0
+Metro,Barangaroo,21,26,37.0,55.0
+Metro,Bella Vista,7,19,36.0,50.0
+Metro,Bella Vista,8,78,37.0,50.0
+Metro,Bella Vista,9,91,37.0,50.0
+Metro,Bella Vista,10,88,37.0,61.0
+Metro,Bella Vista,11,68,37.0,53.0
+Metro,Bella Vista,12,61,36.0,49.0
+Metro,Bella Vista,13,39,37.0,49.0
+Metro,Bella Vista,14,58,37.0,61.0
+Metro,Bella Vista,15,84,37.0,61.0
+Metro,Bella Vista,16,85,37.0,50.0
+Metro,Bella Vista,17,75,37.0,62.0
+Metro,Bella Vista,18,73,37.0,62.0
+Metro,Bella Vista,19,47,37.0,54.0
+Metro,Bella Vista,20,39,36.0,48.0
+Metro,Bella Vista,21,25,37.0,61.0
+Metro,Belmore,9,22,36.0,50.0
+Metro,Belmore,10,21,37.0,49.0
+Metro,Belmore,11,13,25.0,37.0
+Metro,Campsie,9,24,36.0,51.0
+Metro,Campsie,10,19,25.0,50.0
+Metro,Campsie,11,14,37.0,49.0
+Metro,Canterbury,9,22,37.0,61.0
+Metro,Canterbury,10,22,30.0,60.0
+Metro,Canterbury,11,18,37.0,41.0
+Metro,Castle Hill,7,25,37.0,50.0
+Metro,Castle Hill,8,76,37.0,49.0
+Metro,Castle Hill,9,92,36.0,50.0
+Metro,Castle Hill,10,82,36.0,50.0
+Metro,Castle Hill,11,69,36.0,49.0
+Metro,Castle Hill,12,49,37.0,49.0
+Metro,Castle Hill,13,42,37.0,61.0
+Metro,Castle Hill,14,69,37.0,61.0
+Metro,Castle Hill,15,84,36.0,51.0
+Metro,Castle Hill,16,83,37.0,62.0
+Metro,Castle Hill,17,81,25.0,62.0
+Metro,Castle Hill,18,78,37.0,50.0
+Metro,Castle Hill,19,45,37.0,62.0
+Metro,Castle Hill,20,39,36.0,39.0
+Metro,Castle Hill,21,26,36.0,55.0
+Metro,Central,7,24,37.0,62.0
+Metro,Central,8,74,36.0,51.0
+Metro,Central,9,100,37.0,61.0
+Metro,Central,10,82,37.0,61.0
+Metro,Central,11,80,37.0,61.0
+Metro,Central,12,52,37.0,61.0
+Metro,Central,13,47,36.0,61.0
+Metro,Central,14,76,36.0,62.0
+Metro,Central,15,86,37.0,62.0
+Metro,Central,16,79,37.0,62.0
+Metro,Central,17,81,37.0,62.0
+Metro,Central,18,91,37.0,62.0
+Metro,Central,19,60,37.0,62.0
+Metro,Central,20,36,36.0,61.0
+Metro,Central,21,27,37.0,60.0
+Metro,Chatswood,7,26,36.0,49.0
+Metro,Chatswood,8,87,49.0,67.0
+Metro,Chatswood,9,108,38.0,62.0
+Metro,Chatswood,10,95,37.0,62.0
+Metro,Chatswood,11,91,37.0,62.0
+Metro,Chatswood,12,59,49.0,62.0
+Metro,Chatswood,13,40,37.0,61.0
+Metro,Chatswood,14,76,37.0,62.0
+Metro,Chatswood,15,90,37.0,62.0
+Metro,Chatswood,16,91,37.0,50.0
+Metro,Chatswood,17,83,37.0,62.0
+Metro,Chatswood,18,85,37.0,50.0
+Metro,Chatswood,19,58,37.0,49.0
+Metro,Chatswood,20,40,36.0,50.0
+Metro,Chatswood,21,24,36.0,49.0
+Metro,Cherrybrook,7,25,37.0,63.0
+Metro,Cherrybrook,8,69,25.0,40.0
+Metro,Cherrybrook,9,97,25.0,49.0
+Metro,Cherrybrook,10,90,25.0,49.0
+Metro,Cherrybrook,11,75,25.0,49.0
+Metro,Cherrybrook,12,53,25.0,38.0
+Metro,Cherrybrook,13,44,25.0,62.0
+Metro,Cherrybrook,14,66,25.0,61.0
+Metro,Cherrybrook,15,81,37.0,62.0
+Metro,Cherrybrook,16,88,37.0,62.0
+Metro,Cherrybrook,17,82,37.0,62.0
+Metro,Cherrybrook,18,77,37.0,62.0
+Metro,Cherrybrook,19,50,25.0,50.0
+Metro,Cherrybrook,20,39,37.0,42.0
+Metro,Cherrybrook,21,22,31.0,47.0
+Metro,Crows Nest,7,30,37.0,49.0
+Metro,Crows Nest,8,74,37.0,59.0
+Metro,Crows Nest,9,96,37.0,62.0
+Metro,Crows Nest,10,81,37.0,61.0
+Metro,Crows Nest,11,80,37.0,51.0
+Metro,Crows Nest,12,53,37.0,49.0
+Metro,Crows Nest,13,39,37.0,61.0
+Metro,Crows Nest,14,66,36.0,56.0
+Metro,Crows Nest,15,83,37.0,62.0
+Metro,Crows Nest,16,88,37.0,62.0
+Metro,Crows Nest,17,80,36.0,61.0
+Metro,Crows Nest,18,77,37.0,61.0
+Metro,Crows Nest,19,49,36.0,62.0
+Metro,Crows Nest,20,31,37.0,60.0
+Metro,Crows Nest,21,20,25.0,37.0
+Metro,Dulwich Hill,9,25,36.0,49.0
+Metro,Dulwich Hill,10,18,37.0,62.0
+Metro,Dulwich Hill,11,16,25.0,43.0
+Metro,Epping,7,19,37.0,52.0
+Metro,Epping,8,84,37.0,62.0
+Metro,Epping,9,108,37.0,62.0
+Metro,Epping,10,89,37.0,61.0
+Metro,Epping,11,82,37.0,61.0
+Metro,Epping,12,58,37.0,49.0
+Metro,Epping,13,41,36.0,49.0
+Metro,Epping,14,60,37.0,51.0
+Metro,Epping,15,87,37.0,63.0
+Metro,Epping,16,82,37.0,50.0
+Metro,Epping,17,77,37.0,61.0
+Metro,Epping,18,67,37.0,50.0
+Metro,Epping,19,55,37.0,62.0
+Metro,Epping,20,37,37.0,61.0
+Metro,Epping,21,25,36.0,56.0
+Metro,Gadigal,7,29,37.0,62.0
+Metro,Gadigal,8,75,25.0,49.0
+Metro,Gadigal,9,100,37.0,61.0
+Metro,Gadigal,10,88,37.0,62.0
+Metro,Gadigal,11,91,37.0,61.0
+Metro,Gadigal,12,62,37.0,61.0
+Metro,Gadigal,13,44,37.0,62.0
+Metro,Gadigal,14,65,38.0,62.0
+Metro,Gadigal,15,92,37.0,62.0
+Metro,Gadigal,16,84,37.0,62.0
+Metro,Gadigal,17,82,37.0,61.0
+Metro,Gadigal,18,96,37.0,62.0
+Metro,Gadigal,19,61,37.0,61.0
+Metro,Gadigal,20,40,36.0,49.0
+Metro,Gadigal,21,27,36.0,61.0
+Metro,Hills Showground,7,21,37.0,38.0
+Metro,Hills Showground,8,84,37.0,61.0
+Metro,Hills Showground,9,100,36.0,50.0
+Metro,Hills Showground,10,84,37.0,50.0
+Metro,Hills Showground,11,78,37.0,61.0
+Metro,Hills Showground,12,59,37.0,50.0
+Metro,Hills Showground,13,38,36.0,62.0
+Metro,Hills Showground,14,63,36.0,47.0
+Metro,Hills Showground,15,83,37.0,62.0
+Metro,Hills Showground,16,80,36.0,38.0
+Metro,Hills Showground,17,85,37.0,51.0
+Metro,Hills Showground,18,83,25.0,46.0
+Metro,Hills Showground,19,53,37.0,49.0
+Metro,Hills Showground,20,45,37.0,49.0
+Metro,Hills Showground,21,26,30.0,37.0
+Metro,Hurlstone Park,9,26,37.0,55.0
+Metro,Hurlstone Park,10,22,37.0,62.0
+Metro,Hurlstone Park,11,15,25.0,37.0
+Metro,Kellyville,7,20,37.0,62.0
+Metro,Kellyville,8,69,37.0,50.0
+Metro,Kellyville,9,91,25.0,61.0
+Metro,Kellyville,10,92,36.0,61.0
+Metro,Kellyville,11,76,36.0,49.0
+Metro,Kellyville,12,61,25.0,49.0
+Metro,Kellyville,13,42,37.0,60.0
+Metro,Kellyville,14,58,37.0,61.0
+Metro,Kellyville,15,85,36.0,50.0
+Metro,Kellyville,16,82,36.0,61.0
+Metro,Kellyville,17,77,37.0,62.0
+Metro,Kellyville,18,73,37.0,49.0
+Metro,Kellyville,19,45,37.0,62.0
+Metro,Kellyville,20,45,36.0,61.0
+Metro,Kellyville,21,22,37.0,61.0
+Metro,Lakemba,9,26,37.0,50.0
+Metro,Lakemba,10,13,25.0,59.0
+Metro,Lakemba,11,16,35.0,49.0
+Metro,Macquarie Park,7,27,37.0,49.0
+Metro,Macquarie Park,8,77,25.0,50.0
+Metro,Macquarie Park,9,94,25.0,46.0
+Metro,Macquarie Park,10,87,25.0,50.0
+Metro,Macquarie Park,11,78,37.0,61.0
+Metro,Macquarie Park,12,51,37.0,61.0
+Metro,Macquarie Park,13,44,36.0,62.0
+Metro,Macquarie Park,14,64,25.0,62.0
+Metro,Macquarie Park,15,76,36.0,62.0
+Metro,Macquarie Park,16,84,36.0,61.0
+Metro,Macquarie Park,17,82,25.0,50.0
+Metro,Macquarie Park,18,80,30.0,49.0
+Metro,Macquarie Park,19,58,25.0,37.0
+Metro,Macquarie Park,20,37,37.0,37.0
+Metro,Macquarie Park,21,26,36.0,55.0
+Metro,Macquarie University,7,21,26.0,61.0
+Metro,Macquarie University,8,70,25.0,39.0
+Metro,Macquarie University,9,86,25.0,38.0
+Metro,Macquarie University,10,84,25.0,50.0
+Metro,Macquarie University,11,72,37.0,49.0
+Metro,Macquarie University,12,51,37.0,50.0
+Metro,Macquarie University,13,43,37.0,59.0
+Metro,Macquarie University,14,71,25.0,61.0
+Metro,Macquarie University,15,78,31.0,61.0
+Metro,Macquarie University,16,95,37.0,61.0
+Metro,Macquarie University,17,79,25.0,49.0
+Metro,Macquarie University,18,80,37.0,49.0
+Metro,Macquarie University,19,57,25.0,61.0
+Metro,Macquarie University,20,38,25.0,37.0
+Metro,Macquarie University,21,25,36.0,44.0
+Metro,Marrickville,9,27,34.0,54.0
+Metro,Marrickville,10,18,37.0,62.0
+Metro,Marrickville,11,17,25.0,54.0
+Metro,Martin Place,7,32,49.0,74.0
+Metro,Martin Place,8,86,50.0,62.0
+Metro,Martin Place,9,114,49.0,62.0
+Metro,Martin Place,10,89,37.0,62.0
+Metro,Martin Place,11,90,37.0,62.0
+Metro,Martin Place,12,57,37.0,62.0
+Metro,Martin Place,13,48,38.0,62.0
+Metro,Martin Place,14,72,49.0,62.0
+Metro,Martin Place,15,87,37.0,62.0
+Metro,Martin Place,16,87,49.0,62.0
+Metro,Martin Place,17,84,37.0,62.0
+Metro,Martin Place,18,96,38.0,62.0
+Metro,Martin Place,19,61,49.0,62.0
+Metro,Martin Place,20,41,49.0,62.0
+Metro,Martin Place,21,26,49.0,61.0
+Metro,North Ryde,7,19,37.0,40.0
+Metro,North Ryde,8,69,37.0,49.0
+Metro,North Ryde,9,92,37.0,50.0
+Metro,North Ryde,10,71,36.0,50.0
+Metro,North Ryde,11,75,37.0,45.0
+Metro,North Ryde,12,46,37.0,49.0
+Metro,North Ryde,13,41,36.0,61.0
+Metro,North Ryde,14,70,25.0,61.0
+Metro,North Ryde,15,83,37.0,61.0
+Metro,North Ryde,16,88,37.0,50.0
+Metro,North Ryde,17,88,25.0,61.0
+Metro,North Ryde,18,80,37.0,61.0
+Metro,North Ryde,19,43,36.0,59.0
+Metro,North Ryde,20,32,30.0,37.0
+Metro,North Ryde,21,20,36.0,50.0
+Metro,Norwest,7,21,37.0,49.0
+Metro,Norwest,8,68,25.0,38.0
+Metro,Norwest,9,95,36.0,38.0
+Metro,Norwest,10,86,25.0,49.0
+Metro,Norwest,11,75,37.0,50.0
+Metro,Norwest,12,54,37.0,46.0
+Metro,Norwest,13,47,25.0,49.0
+Metro,Norwest,14,59,25.0,61.0
+Metro,Norwest,15,84,31.0,61.0
+Metro,Norwest,16,84,37.0,61.0
+Metro,Norwest,17,81,25.0,61.0
+Metro,Norwest,18,75,37.0,62.0
+Metro,Norwest,19,60,37.0,49.0
+Metro,Norwest,20,48,30.0,37.0
+Metro,Norwest,21,24,25.0,57.0
+Metro,Norwest,22,10,25.0,39.0
+Metro,Punchbowl,9,22,26.0,59.0
+Metro,Punchbowl,10,22,31.0,49.0
+Metro,Punchbowl,11,12,31.0,38.0
+Metro,Rouse Hill,7,15,37.0,45.0
+Metro,Rouse Hill,8,66,25.0,38.0
+Metro,Rouse Hill,9,94,25.0,38.0
+Metro,Rouse Hill,10,92,25.0,50.0
+Metro,Rouse Hill,11,69,36.0,49.0
+Metro,Rouse Hill,12,55,36.0,50.0
+Metro,Rouse Hill,13,48,36.0,49.0
+Metro,Rouse Hill,14,70,25.0,61.0
+Metro,Rouse Hill,15,80,25.0,50.0
+Metro,Rouse Hill,16,90,37.0,62.0
+Metro,Rouse Hill,17,86,37.0,50.0
+Metro,Rouse Hill,18,72,37.0,51.0
+Metro,Rouse Hill,19,59,36.0,49.0
+Metro,Rouse Hill,20,50,25.0,37.0
+Metro,Rouse Hill,21,26,36.0,49.0
+Metro,Sydenham,9,28,37.0,52.0
+Metro,Sydenham,10,22,25.0,57.0
+Metro,Sydenham,11,19,49.0,63.0
+Metro,Victoria Cross,7,24,37.0,50.0
+Metro,Victoria Cross,8,79,37.0,52.0
+Metro,Victoria Cross,9,110,37.0,50.0
+Metro,Victoria Cross,10,90,37.0,61.0
+Metro,Victoria Cross,11,85,37.0,61.0
+Metro,Victoria Cross,12,60,37.0,61.0
+Metro,Victoria Cross,13,48,37.0,62.0
+Metro,Victoria Cross,14,69,37.0,62.0
+Metro,Victoria Cross,15,88,37.0,62.0
+Metro,Victoria Cross,16,87,37.0,55.0
+Metro,Victoria Cross,17,82,37.0,62.0
+Metro,Victoria Cross,18,90,37.0,50.0
+Metro,Victoria Cross,19,56,36.0,62.0
+Metro,Victoria Cross,20,38,37.0,61.0
+Metro,Victoria Cross,21,28,36.0,49.0
+Metro,Waterloo,7,17,37.0,49.0
+Metro,Waterloo,8,50,37.0,61.0
+Metro,Waterloo,9,90,37.0,49.0
+Metro,Waterloo,10,66,25.0,37.0
+Metro,Waterloo,11,68,36.0,49.0
+Metro,Waterloo,12,46,37.0,50.0
+Metro,Waterloo,13,38,36.0,65.0
+Metro,Waterloo,14,57,25.0,61.0
+Metro,Waterloo,15,62,25.0,61.0
+Metro,Waterloo,16,68,37.0,53.0
+Metro,Waterloo,17,68,25.0,37.0
+Metro,Waterloo,18,77,37.0,50.0
+Metro,Waterloo,19,51,36.0,61.0
+Metro,Waterloo,20,21,25.0,49.0
+Metro,Waterloo,21,20,36.0,61.0
+Metro,Wiley Park,9,27,37.0,42.0
+Metro,Wiley Park,10,22,36.0,50.0
+Metro,Wiley Park,11,13,36.0,49.0
+Trains,Albion Park,17,12,113.0,260.0
+Trains,Albion Park,19,16,117.0,278.0
+Trains,Albion Park,20,12,104.0,161.0
+Trains,Artarmon,7,27,63.0,69.0
+Trains,Artarmon,8,82,63.0,72.0
+Trains,Artarmon,9,93,63.0,73.0
+Trains,Artarmon,10,68,62.0,70.0
+Trains,Artarmon,11,63,62.0,72.0
+Trains,Artarmon,12,63,63.0,73.0
+Trains,Artarmon,13,39,63.0,71.0
+Trains,Artarmon,14,47,64.0,70.0
+Trains,Artarmon,15,74,64.0,73.0
+Trains,Artarmon,16,110,62.0,69.0
+Trains,Artarmon,17,113,63.0,71.0
+Trains,Artarmon,18,90,61.0,66.0
+Trains,Artarmon,19,52,61.0,66.0
+Trains,Artarmon,20,63,60.0,66.0
+Trains,Artarmon,21,50,60.0,66.0
+Trains,Artarmon,22,15,61.0,68.0
+Trains,Ashfield,7,23,69.0,180.0
+Trains,Ashfield,8,75,73.0,147.0
+Trains,Ashfield,9,84,68.0,130.0
+Trains,Ashfield,10,80,67.0,95.0
+Trains,Ashfield,11,80,68.0,100.0
+Trains,Ashfield,12,79,66.0,101.0
+Trains,Ashfield,13,49,69.0,98.0
+Trains,Ashfield,14,60,68.0,101.0
+Trains,Ashfield,15,79,71.0,95.0
+Trains,Ashfield,16,83,68.0,94.0
+Trains,Ashfield,17,91,68.0,102.0
+Trains,Ashfield,18,90,65.0,92.0
+Trains,Ashfield,19,65,67.0,104.0
+Trains,Ashfield,20,78,65.0,95.0
+Trains,Ashfield,21,72,66.0,96.0
+Trains,Ashfield,22,35,68.0,86.0
+Trains,Asquith,8,23,102.0,129.0
+Trains,Asquith,9,16,98.0,115.0
+Trains,Asquith,10,16,100.0,110.0
+Trains,Asquith,11,16,102.0,112.0
+Trains,Asquith,12,16,102.0,109.0
+Trains,Asquith,13,10,102.0,113.0
+Trains,Asquith,14,13,103.0,122.0
+Trains,Asquith,15,36,100.0,118.0
+Trains,Asquith,16,32,106.0,146.0
+Trains,Asquith,17,29,108.0,195.0
+Trains,Asquith,18,31,104.0,149.0
+Trains,Asquith,19,23,102.0,135.0
+Trains,Asquith,20,15,96.0,110.0
+Trains,Asquith,21,14,98.0,103.0
+Trains,Auburn,7,20,82.0,152.0
+Trains,Auburn,8,47,85.0,164.0
+Trains,Auburn,9,63,73.0,94.0
+Trains,Auburn,10,51,73.0,95.0
+Trains,Auburn,11,48,80.0,99.0
+Trains,Auburn,12,47,82.0,99.0
+Trains,Auburn,13,29,78.0,103.0
+Trains,Auburn,14,53,82.0,100.0
+Trains,Auburn,15,64,88.0,116.0
+Trains,Auburn,16,58,86.0,109.0
+Trains,Auburn,17,66,81.0,106.0
+Trains,Auburn,18,77,82.0,112.0
+Trains,Auburn,19,53,75.0,110.0
+Trains,Auburn,20,62,70.0,93.0
+Trains,Auburn,21,39,77.0,101.0
+Trains,Auburn,22,31,75.0,101.0
+Trains,Bardwell Park,7,10,90.0,99.0
+Trains,Bardwell Park,8,23,94.0,101.0
+Trains,Bardwell Park,9,32,92.0,99.0
+Trains,Bardwell Park,10,32,93.0,104.0
+Trains,Bardwell Park,11,32,92.0,103.0
+Trains,Bardwell Park,12,32,94.0,107.0
+Trains,Bardwell Park,13,22,93.0,103.0
+Trains,Bardwell Park,14,23,95.0,99.0
+Trains,Bardwell Park,15,30,93.0,105.0
+Trains,Bardwell Park,16,32,96.0,108.0
+Trains,Bardwell Park,17,30,94.0,106.0
+Trains,Bardwell Park,18,30,92.0,100.0
+Trains,Bardwell Park,19,25,93.0,100.0
+Trains,Bardwell Park,20,31,92.0,97.0
+Trains,Bardwell Park,21,28,92.0,100.0
+Trains,Bardwell Park,22,19,95.0,99.0
+Trains,Beecroft,8,22,110.0,126.0
+Trains,Beecroft,9,32,111.0,125.0
+Trains,Beecroft,10,32,110.0,128.0
+Trains,Beecroft,11,32,114.0,132.0
+Trains,Beecroft,12,30,108.0,123.0
+Trains,Beecroft,13,20,110.0,128.0
+Trains,Beecroft,14,28,110.0,140.0
+Trains,Beecroft,15,32,113.0,128.0
+Trains,Beecroft,16,33,86.0,128.0
+Trains,Beecroft,17,29,110.0,116.0
+Trains,Beecroft,18,30,110.0,139.0
+Trains,Beecroft,19,24,112.0,132.0
+Trains,Beecroft,20,32,108.0,122.0
+Trains,Beecroft,21,31,113.0,129.0
+Trains,Beecroft,22,18,110.0,123.0
+Trains,Berala,7,12,110.0,122.0
+Trains,Berala,8,44,106.0,122.0
+Trains,Berala,9,48,112.0,143.0
+Trains,Berala,10,48,120.0,146.0
+Trains,Berala,11,48,117.0,153.0
+Trains,Berala,12,48,121.0,146.0
+Trains,Berala,13,32,132.0,150.0
+Trains,Berala,14,38,112.0,149.0
+Trains,Berala,15,48,114.0,133.0
+Trains,Berala,16,48,112.0,134.0
+Trains,Berala,17,52,109.0,132.0
+Trains,Berala,18,54,109.0,143.0
+Trains,Berala,19,36,124.0,148.0
+Trains,Berala,20,46,132.0,152.0
+Trains,Berala,21,43,113.0,147.0
+Trains,Berala,22,21,111.0,121.0
+Trains,Berowra,8,12,132.0,200.0
+Trains,Berowra,16,16,106.0,128.0
+Trains,Berowra,17,14,100.0,106.0
+Trains,Berowra,18,16,101.0,112.0
+Trains,Beverly Hills,8,22,123.0,152.0
+Trains,Beverly Hills,9,32,123.0,150.0
+Trains,Beverly Hills,10,32,122.0,154.0
+Trains,Beverly Hills,11,32,122.0,148.0
+Trains,Beverly Hills,12,32,127.0,156.0
+Trains,Beverly Hills,13,21,126.0,153.0
+Trains,Beverly Hills,14,23,118.0,139.0
+Trains,Beverly Hills,15,31,117.0,145.0
+Trains,Beverly Hills,16,31,117.0,139.0
+Trains,Beverly Hills,17,28,128.0,150.0
+Trains,Beverly Hills,18,30,120.0,145.0
+Trains,Beverly Hills,19,22,130.0,152.0
+Trains,Beverly Hills,20,32,129.0,146.0
+Trains,Beverly Hills,21,32,128.0,145.0
+Trains,Beverly Hills,22,20,117.0,151.0
+Trains,Bexley North,7,10,140.0,154.0
+Trains,Bexley North,8,23,126.0,143.0
+Trains,Bexley North,9,32,132.0,150.0
+Trains,Bexley North,10,32,132.0,148.0
+Trains,Bexley North,11,32,135.0,150.0
+Trains,Bexley North,12,32,136.0,159.0
+Trains,Bexley North,13,21,137.0,168.0
+Trains,Bexley North,14,23,131.0,170.0
+Trains,Bexley North,15,30,132.0,162.0
+Trains,Bexley North,16,32,135.0,161.0
+Trains,Bexley North,17,30,130.0,173.0
+Trains,Bexley North,18,30,133.0,142.0
+Trains,Bexley North,19,26,132.0,152.0
+Trains,Bexley North,20,31,137.0,142.0
+Trains,Bexley North,21,30,122.0,155.0
+Trains,Bexley North,22,17,93.0,136.0
+Trains,Birrong,8,23,100.0,125.0
+Trains,Birrong,9,32,110.0,139.0
+Trains,Birrong,10,32,114.0,144.0
+Trains,Birrong,11,32,112.0,127.0
+Trains,Birrong,12,31,111.0,122.0
+Trains,Birrong,13,19,108.0,125.0
+Trains,Birrong,14,30,113.0,243.0
+Trains,Birrong,15,28,96.0,109.0
+Trains,Birrong,16,32,95.0,101.0
+Trains,Birrong,17,27,95.0,104.0
+Trains,Birrong,18,30,106.0,126.0
+Trains,Birrong,19,24,110.0,126.0
+Trains,Birrong,20,31,104.0,171.0
+Trains,Birrong,21,26,109.0,174.0
+Trains,Birrong,22,11,98.0,111.0
+Trains,Blackheath,11,11,161.0,175.0
+Trains,Blackheath,16,11,151.0,182.0
+Trains,Blackheath,18,15,154.0,174.0
+Trains,Blackheath,19,10,142.0,158.0
+Trains,Blacktown,7,24,118.0,150.0
+Trains,Blacktown,8,67,128.0,212.0
+Trains,Blacktown,9,84,115.0,189.0
+Trains,Blacktown,10,73,118.0,167.0
+Trains,Blacktown,11,70,114.0,150.0
+Trains,Blacktown,12,68,113.0,157.0
+Trains,Blacktown,13,45,116.0,185.0
+Trains,Blacktown,14,65,118.0,151.0
+Trains,Blacktown,15,75,118.0,178.0
+Trains,Blacktown,16,81,110.0,179.0
+Trains,Blacktown,17,92,108.0,165.0
+Trains,Blacktown,18,87,110.0,160.0
+Trains,Blacktown,19,59,108.0,142.0
+Trains,Blacktown,20,69,113.0,139.0
+Trains,Blacktown,21,68,118.0,150.0
+Trains,Blacktown,22,34,116.0,196.0
+Trains,Blaxland,8,10,126.0,174.0
+Trains,Blaxland,9,16,128.0,186.0
+Trains,Blaxland,10,12,88.0,171.0
+Trains,Blaxland,14,13,94.0,190.0
+Trains,Blaxland,15,15,156.0,184.0
+Trains,Blaxland,16,16,126.0,192.0
+Trains,Blaxland,17,23,84.0,184.0
+Trains,Blaxland,18,15,90.0,189.0
+Trains,Bombo,8,10,102.0,106.0
+Trains,Bombo,18,14,84.0,107.0
+Trains,Bombo,19,10,85.0,102.0
+Trains,Bombo,20,10,75.0,84.0
+Trains,Bombo,21,11,83.0,102.0
+Trains,Bullaburra,8,11,120.0,151.0
+Trains,Bullaburra,10,12,142.0,147.0
+Trains,Bullaburra,16,16,135.0,151.0
+Trains,Bullaburra,18,12,147.0,153.0
+Trains,Bullaburra,19,10,146.0,158.0
+Trains,Bullaburra,20,10,144.0,152.0
+Trains,Burwood,7,32,78.0,106.0
+Trains,Burwood,8,103,77.0,110.0
+Trains,Burwood,9,109,79.0,105.0
+Trains,Burwood,10,112,74.0,95.0
+Trains,Burwood,11,112,73.0,100.0
+Trains,Burwood,12,107,73.0,100.0
+Trains,Burwood,13,70,74.0,102.0
+Trains,Burwood,14,89,76.0,107.0
+Trains,Burwood,15,111,79.0,106.0
+Trains,Burwood,16,120,76.0,100.0
+Trains,Burwood,17,132,76.0,98.0
+Trains,Burwood,18,132,76.0,101.0
+Trains,Burwood,19,84,76.0,108.0
+Trains,Burwood,20,111,74.0,106.0
+Trains,Burwood,21,100,74.0,100.0
+Trains,Burwood,22,53,73.0,91.0
+Trains,Cabramatta,7,26,104.0,112.0
+Trains,Cabramatta,8,57,102.0,120.0
+Trains,Cabramatta,9,64,112.0,150.0
+Trains,Cabramatta,10,64,102.0,149.0
+Trains,Cabramatta,11,64,102.0,143.0
+Trains,Cabramatta,12,61,101.0,162.0
+Trains,Cabramatta,13,40,102.0,120.0
+Trains,Cabramatta,14,55,111.0,145.0
+Trains,Cabramatta,15,64,106.0,139.0
+Trains,Cabramatta,16,62,102.0,125.0
+Trains,Cabramatta,17,75,100.0,130.0
+Trains,Cabramatta,18,82,94.0,127.0
+Trains,Cabramatta,19,57,95.0,121.0
+Trains,Cabramatta,20,58,94.0,131.0
+Trains,Cabramatta,21,49,97.0,115.0
+Trains,Cabramatta,22,37,99.0,108.0
+Trains,Campbelltown,8,24,113.0,151.0
+Trains,Campbelltown,9,36,128.0,191.0
+Trains,Campbelltown,10,32,133.0,164.0
+Trains,Campbelltown,11,32,120.0,164.0
+Trains,Campbelltown,12,33,122.0,154.0
+Trains,Campbelltown,13,21,127.0,186.0
+Trains,Campbelltown,14,24,104.0,156.0
+Trains,Campbelltown,15,31,122.0,146.0
+Trains,Campbelltown,16,36,124.0,158.0
+Trains,Campbelltown,17,30,114.0,160.0
+Trains,Campbelltown,18,39,148.0,241.0
+Trains,Campbelltown,19,24,115.0,146.0
+Trains,Campbelltown,20,29,124.0,146.0
+Trains,Campbelltown,21,30,146.0,168.0
+Trains,Campbelltown,22,16,138.0,178.0
+Trains,Canley Vale,7,16,84.0,134.0
+Trains,Canley Vale,8,31,101.0,141.0
+Trains,Canley Vale,9,48,94.0,126.0
+Trains,Canley Vale,10,48,92.0,118.0
+Trains,Canley Vale,11,48,90.0,111.0
+Trains,Canley Vale,12,47,92.0,124.0
+Trains,Canley Vale,13,30,96.0,126.0
+Trains,Canley Vale,14,41,96.0,140.0
+Trains,Canley Vale,15,48,94.0,137.0
+Trains,Canley Vale,16,45,89.0,145.0
+Trains,Canley Vale,17,49,114.0,169.0
+Trains,Canley Vale,18,57,121.0,192.0
+Trains,Canley Vale,19,43,100.0,187.0
+Trains,Canley Vale,20,48,98.0,126.0
+Trains,Canley Vale,21,39,100.0,132.0
+Trains,Canley Vale,22,24,100.0,123.0
+Trains,Caringbah,8,28,99.0,107.0
+Trains,Caringbah,9,32,100.0,112.0
+Trains,Caringbah,10,31,94.0,112.0
+Trains,Caringbah,11,30,96.0,114.0
+Trains,Caringbah,12,30,100.0,112.0
+Trains,Caringbah,13,19,94.0,113.0
+Trains,Caringbah,14,22,100.0,112.0
+Trains,Caringbah,15,31,97.0,130.0
+Trains,Caringbah,16,32,98.0,109.0
+Trains,Caringbah,17,33,97.0,106.0
+Trains,Caringbah,18,36,96.0,102.0
+Trains,Caringbah,19,27,93.0,101.0
+Trains,Caringbah,20,32,94.0,107.0
+Trains,Caringbah,21,28,93.0,110.0
+Trains,Caringbah,22,17,94.0,126.0
+Trains,Carramar,8,21,225.0,252.0
+Trains,Carramar,9,16,255.0,294.0
+Trains,Carramar,10,16,258.0,308.0
+Trains,Carramar,11,16,242.0,270.0
+Trains,Carramar,12,16,252.0,278.0
+Trains,Carramar,13,10,245.0,265.0
+Trains,Carramar,14,11,248.0,303.0
+Trains,Carramar,15,16,230.0,263.0
+Trains,Carramar,16,16,249.0,278.0
+Trains,Carramar,17,20,146.0,279.0
+Trains,Carramar,18,24,84.0,285.0
+Trains,Carramar,19,12,244.0,279.0
+Trains,Carramar,20,16,252.0,276.0
+Trains,Carramar,21,16,246.0,275.0
+Trains,Carramar,22,14,110.0,236.0
+Trains,Casula,7,15,100.0,111.0
+Trains,Casula,8,33,101.0,114.0
+Trains,Casula,9,48,106.0,138.0
+Trains,Casula,10,48,99.0,107.0
+Trains,Casula,11,47,103.0,111.0
+Trains,Casula,12,47,103.0,112.0
+Trains,Casula,13,30,96.0,112.0
+Trains,Casula,14,39,100.0,108.0
+Trains,Casula,15,48,104.0,118.0
+Trains,Casula,16,47,101.0,109.0
+Trains,Casula,17,45,104.0,113.0
+Trains,Casula,18,58,103.0,125.0
+Trains,Casula,19,48,104.0,129.0
+Trains,Casula,20,43,100.0,109.0
+Trains,Casula,21,37,103.0,125.0
+Trains,Casula,22,25,102.0,125.0
+Trains,Central,7,60,100.0,173.0
+Trains,Central,8,251,99.0,171.0
+Trains,Central,9,327,95.0,166.0
+Trains,Central,10,257,100.0,232.0
+Trains,Central,11,237,101.0,206.0
+Trains,Central,12,235,102.0,267.0
+Trains,Central,13,149,104.0,265.0
+Trains,Central,14,182,107.0,268.0
+Trains,Central,15,274,99.0,259.0
+Trains,Central,16,313,102.0,156.0
+Trains,Central,17,334,105.0,175.0
+Trains,Central,18,293,104.0,180.0
+Trains,Central,19,194,102.0,223.0
+Trains,Central,20,234,101.0,263.0
+Trains,Central,21,224,107.0,256.0
+Trains,Central,22,95,119.0,257.0
+Trains,Central,23,14,138.0,217.0
+Trains,Chatswood,7,23,95.0,127.0
+Trains,Chatswood,8,82,86.0,113.0
+Trains,Chatswood,9,96,82.0,105.0
+Trains,Chatswood,10,68,92.0,123.0
+Trains,Chatswood,11,63,88.0,120.0
+Trains,Chatswood,12,63,91.0,118.0
+Trains,Chatswood,13,39,100.0,123.0
+Trains,Chatswood,14,53,90.0,129.0
+Trains,Chatswood,15,75,96.0,135.0
+Trains,Chatswood,16,105,90.0,129.0
+Trains,Chatswood,17,114,95.0,131.0
+Trains,Chatswood,18,92,110.0,214.0
+Trains,Chatswood,19,56,111.0,154.0
+Trains,Chatswood,20,62,96.0,128.0
+Trains,Chatswood,21,49,86.0,122.0
+Trains,Chatswood,22,15,93.0,203.0
+Trains,Cheltenham,8,22,106.0,125.0
+Trains,Cheltenham,9,32,100.0,118.0
+Trains,Cheltenham,10,32,96.0,128.0
+Trains,Cheltenham,11,32,96.0,122.0
+Trains,Cheltenham,12,30,100.0,117.0
+Trains,Cheltenham,13,20,102.0,136.0
+Trains,Cheltenham,14,26,93.0,121.0
+Trains,Cheltenham,15,32,98.0,137.0
+Trains,Cheltenham,16,33,100.0,116.0
+Trains,Cheltenham,17,30,96.0,131.0
+Trains,Cheltenham,18,31,97.0,105.0
+Trains,Cheltenham,19,23,94.0,114.0
+Trains,Cheltenham,20,32,91.0,112.0
+Trains,Cheltenham,21,30,96.0,125.0
+Trains,Cheltenham,22,16,96.0,110.0
+Trains,Chester Hill,7,10,76.0,82.0
+Trains,Chester Hill,8,19,79.0,83.0
+Trains,Chester Hill,9,16,83.0,91.0
+Trains,Chester Hill,10,16,79.0,88.0
+Trains,Chester Hill,11,16,81.0,88.0
+Trains,Chester Hill,12,16,79.0,87.0
+Trains,Chester Hill,13,10,76.0,83.0
+Trains,Chester Hill,14,12,76.0,94.0
+Trains,Chester Hill,15,16,88.0,100.0
+Trains,Chester Hill,16,16,83.0,99.0
+Trains,Chester Hill,17,22,83.0,89.0
+Trains,Chester Hill,18,23,83.0,93.0
+Trains,Chester Hill,19,12,80.0,84.0
+Trains,Chester Hill,20,15,81.0,89.0
+Trains,Chester Hill,21,15,76.0,89.0
+Trains,Chester Hill,22,11,82.0,85.0
+Trains,Circular Quay,7,29,72.0,97.0
+Trains,Circular Quay,8,90,75.0,91.0
+Trains,Circular Quay,9,111,74.0,97.0
+Trains,Circular Quay,10,96,77.0,102.0
+Trains,Circular Quay,11,95,78.0,116.0
+Trains,Circular Quay,12,94,75.0,102.0
+Trains,Circular Quay,13,60,74.0,107.0
+Trains,Circular Quay,14,78,73.0,98.0
+Trains,Circular Quay,15,92,74.0,94.0
+Trains,Circular Quay,16,96,85.0,110.0
+Trains,Circular Quay,17,109,86.0,110.0
+Trains,Circular Quay,18,97,75.0,104.0
+Trains,Circular Quay,19,74,72.0,84.0
+Trains,Circular Quay,20,94,71.0,96.0
+Trains,Circular Quay,21,82,72.0,107.0
+Trains,Circular Quay,22,45,85.0,243.0
+Trains,Clarendon,8,13,123.0,201.0
+Trains,Clarendon,9,16,118.0,186.0
+Trains,Clarendon,10,16,132.0,265.0
+Trains,Clarendon,11,16,98.0,230.0
+Trains,Clarendon,12,12,77.0,340.0
+Trains,Clarendon,14,14,82.0,136.0
+Trains,Clarendon,15,14,88.0,245.0
+Trains,Clarendon,16,15,84.0,336.0
+Trains,Clarendon,17,13,85.0,357.0
+Trains,Clarendon,18,13,139.0,395.0
+Trains,Clarendon,19,13,131.0,331.0
+Trains,Clarendon,20,15,77.0,429.0
+Trains,Clarendon,21,13,82.0,396.0
+Trains,Clyde,7,16,70.0,91.0
+Trains,Clyde,8,35,71.0,94.0
+Trains,Clyde,9,63,69.0,93.0
+Trains,Clyde,10,52,68.0,92.0
+Trains,Clyde,11,48,70.0,93.0
+Trains,Clyde,12,47,72.0,90.0
+Trains,Clyde,13,30,68.0,90.0
+Trains,Clyde,14,50,72.0,94.0
+Trains,Clyde,15,64,70.0,95.0
+Trains,Clyde,16,62,74.0,100.0
+Trains,Clyde,17,54,73.0,105.0
+Trains,Clyde,18,64,72.0,95.0
+Trains,Clyde,19,50,70.0,91.0
+Trains,Clyde,20,63,70.0,89.0
+Trains,Clyde,21,36,70.0,82.0
+Trains,Clyde,22,17,70.0,88.0
+Trains,Concord West,7,10,72.0,80.0
+Trains,Concord West,8,22,72.0,82.0
+Trains,Concord West,9,31,71.0,84.0
+Trains,Concord West,10,32,74.0,108.0
+Trains,Concord West,11,32,69.0,78.0
+Trains,Concord West,12,29,71.0,81.0
+Trains,Concord West,13,20,71.0,79.0
+Trains,Concord West,14,30,72.0,89.0
+Trains,Concord West,15,30,74.0,93.0
+Trains,Concord West,16,29,72.0,82.0
+Trains,Concord West,17,29,70.0,85.0
+Trains,Concord West,18,27,74.0,91.0
+Trains,Concord West,19,25,71.0,82.0
+Trains,Concord West,20,30,72.0,79.0
+Trains,Concord West,21,28,71.0,97.0
+Trains,Concord West,22,13,68.0,83.0
+Trains,Cowan,16,12,74.0,85.0
+Trains,Cowan,17,10,70.0,75.0
+Trains,Cowan,18,13,73.0,91.0
+Trains,Croydon,7,15,68.0,91.0
+Trains,Croydon,8,28,68.0,92.0
+Trains,Croydon,9,32,64.0,90.0
+Trains,Croydon,10,32,64.0,96.0
+Trains,Croydon,11,32,63.0,95.0
+Trains,Croydon,12,31,62.0,82.0
+Trains,Croydon,13,21,64.0,88.0
+Trains,Croydon,14,25,62.0,82.0
+Trains,Croydon,15,30,66.0,75.0
+Trains,Croydon,16,34,65.0,81.0
+Trains,Croydon,17,44,69.0,91.0
+Trains,Croydon,18,43,65.0,78.0
+Trains,Croydon,19,26,64.0,93.0
+Trains,Croydon,20,31,61.0,77.0
+Trains,Croydon,21,29,61.0,84.0
+Trains,Croydon,22,24,60.0,79.0
+Trains,Dapto,17,11,105.0,119.0
+Trains,Dapto,18,11,95.0,119.0
+Trains,Dapto,19,13,112.0,236.0
+Trains,Dapto,20,12,104.0,258.0
+Trains,Denistone,8,21,105.0,125.0
+Trains,Denistone,9,32,94.0,115.0
+Trains,Denistone,10,32,96.0,107.0
+Trains,Denistone,11,32,98.0,118.0
+Trains,Denistone,12,29,91.0,110.0
+Trains,Denistone,13,20,93.0,115.0
+Trains,Denistone,14,29,91.0,116.0
+Trains,Denistone,15,32,94.0,116.0
+Trains,Denistone,16,29,93.0,112.0
+Trains,Denistone,17,28,98.0,108.0
+Trains,Denistone,18,30,92.0,111.0
+Trains,Denistone,19,25,95.0,115.0
+Trains,Denistone,20,32,89.0,110.0
+Trains,Denistone,21,31,94.0,111.0
+Trains,Denistone,22,16,92.0,102.0
+Trains,Doonside,8,33,87.0,107.0
+Trains,Doonside,9,28,90.0,100.0
+Trains,Doonside,10,32,88.0,96.0
+Trains,Doonside,11,32,88.0,105.0
+Trains,Doonside,12,32,90.0,104.0
+Trains,Doonside,13,20,88.0,110.0
+Trains,Doonside,14,25,87.0,109.0
+Trains,Doonside,15,31,90.0,109.0
+Trains,Doonside,16,34,92.0,108.0
+Trains,Doonside,17,35,91.0,108.0
+Trains,Doonside,18,41,91.0,104.0
+Trains,Doonside,19,21,90.0,108.0
+Trains,Doonside,20,30,88.0,105.0
+Trains,Doonside,21,30,88.0,96.0
+Trains,Doonside,22,20,90.0,113.0
+Trains,East Hills,7,10,86.0,93.0
+Trains,East Hills,8,23,86.0,106.0
+Trains,East Hills,9,32,92.0,132.0
+Trains,East Hills,10,32,88.0,132.0
+Trains,East Hills,11,32,98.0,142.0
+Trains,East Hills,12,32,94.0,132.0
+Trains,East Hills,13,22,88.0,135.0
+Trains,East Hills,14,25,88.0,144.0
+Trains,East Hills,15,32,94.0,141.0
+Trains,East Hills,16,31,89.0,128.0
+Trains,East Hills,17,30,94.0,130.0
+Trains,East Hills,18,34,92.0,138.0
+Trains,East Hills,19,25,99.0,136.0
+Trains,East Hills,20,31,95.0,124.0
+Trains,East Hills,21,30,93.0,134.0
+Trains,East Hills,22,17,102.0,151.0
+Trains,East Richmond,8,11,78.0,97.0
+Trains,East Richmond,9,16,88.0,94.0
+Trains,East Richmond,10,16,85.0,92.0
+Trains,East Richmond,11,16,80.0,87.0
+Trains,East Richmond,12,12,86.0,94.0
+Trains,East Richmond,13,10,84.0,92.0
+Trains,East Richmond,14,13,85.0,94.0
+Trains,East Richmond,15,14,88.0,96.0
+Trains,East Richmond,16,16,86.0,94.0
+Trains,East Richmond,17,12,82.0,93.0
+Trains,East Richmond,18,15,87.0,90.0
+Trains,East Richmond,19,13,81.0,109.0
+Trains,East Richmond,20,13,86.0,98.0
+Trains,East Richmond,21,14,86.0,93.0
+Trains,East Richmond,22,10,82.0,89.0
+Trains,Eastwood,7,12,74.0,96.0
+Trains,Eastwood,8,46,81.0,116.0
+Trains,Eastwood,9,32,85.0,95.0
+Trains,Eastwood,10,32,88.0,103.0
+Trains,Eastwood,11,32,91.0,103.0
+Trains,Eastwood,12,30,96.0,112.0
+Trains,Eastwood,13,21,97.0,121.0
+Trains,Eastwood,14,26,96.0,112.0
+Trains,Eastwood,15,31,98.0,119.0
+Trains,Eastwood,16,53,89.0,110.0
+Trains,Eastwood,17,57,88.0,107.0
+Trains,Eastwood,18,48,88.0,102.0
+Trains,Eastwood,19,25,86.0,101.0
+Trains,Eastwood,20,32,85.0,106.0
+Trains,Eastwood,21,31,84.0,110.0
+Trains,Eastwood,22,17,82.0,101.0
+Trains,Edgecliff,7,28,68.0,80.0
+Trains,Edgecliff,8,97,68.0,76.0
+Trains,Edgecliff,9,130,64.0,76.0
+Trains,Edgecliff,10,55,66.0,75.0
+Trains,Edgecliff,11,46,68.0,78.0
+Trains,Edgecliff,12,46,67.0,76.0
+Trains,Edgecliff,13,24,70.0,75.0
+Trains,Edgecliff,14,40,68.0,77.0
+Trains,Edgecliff,15,84,68.0,77.0
+Trains,Edgecliff,16,116,66.0,74.0
+Trains,Edgecliff,17,117,67.0,79.0
+Trains,Edgecliff,18,98,65.0,74.0
+Trains,Edgecliff,19,63,67.0,77.0
+Trains,Edgecliff,20,46,65.0,70.0
+Trains,Edgecliff,21,42,67.0,88.0
+Trains,Edgecliff,22,18,64.0,151.0
+Trains,Edmondson Park,7,11,86.0,117.0
+Trains,Edmondson Park,8,31,90.0,123.0
+Trains,Edmondson Park,9,47,90.0,141.0
+Trains,Edmondson Park,10,48,85.0,142.0
+Trains,Edmondson Park,11,47,87.0,132.0
+Trains,Edmondson Park,12,48,84.0,142.0
+Trains,Edmondson Park,13,29,84.0,137.0
+Trains,Edmondson Park,14,38,85.0,143.0
+Trains,Edmondson Park,15,48,88.0,134.0
+Trains,Edmondson Park,16,47,87.0,140.0
+Trains,Edmondson Park,17,43,90.0,130.0
+Trains,Edmondson Park,18,57,82.0,127.0
+Trains,Edmondson Park,19,44,82.0,139.0
+Trains,Edmondson Park,20,38,85.0,133.0
+Trains,Edmondson Park,21,36,81.0,126.0
+Trains,Edmondson Park,22,24,80.0,97.0
+Trains,Emu Plains,8,12,116.0,150.0
+Trains,Emu Plains,9,16,100.0,157.0
+Trains,Emu Plains,14,13,104.0,133.0
+Trains,Emu Plains,15,15,111.0,143.0
+Trains,Emu Plains,16,20,117.0,156.0
+Trains,Emu Plains,17,23,108.0,149.0
+Trains,Emu Plains,18,15,109.0,132.0
+Trains,Engadine,8,16,92.0,132.0
+Trains,Engadine,9,20,117.0,127.0
+Trains,Engadine,10,20,111.0,158.0
+Trains,Engadine,11,16,104.0,122.0
+Trains,Engadine,12,16,112.0,125.0
+Trains,Engadine,14,13,121.0,131.0
+Trains,Engadine,15,16,110.0,138.0
+Trains,Engadine,16,16,106.0,124.0
+Trains,Engadine,17,18,124.0,140.0
+Trains,Engadine,18,19,116.0,128.0
+Trains,Engadine,19,14,116.0,135.0
+Trains,Engadine,20,19,119.0,130.0
+Trains,Engadine,21,15,84.0,131.0
+Trains,Engadine,22,10,103.0,130.0
+Trains,Epping,7,13,152.0,190.0
+Trains,Epping,8,36,153.0,188.0
+Trains,Epping,9,52,140.0,165.0
+Trains,Epping,10,45,127.0,149.0
+Trains,Epping,11,47,135.0,173.0
+Trains,Epping,12,43,129.0,146.0
+Trains,Epping,13,30,130.0,314.0
+Trains,Epping,14,41,129.0,161.0
+Trains,Epping,15,52,131.0,157.0
+Trains,Epping,16,52,124.0,149.0
+Trains,Epping,17,50,126.0,142.0
+Trains,Epping,18,49,129.0,146.0
+Trains,Epping,19,38,135.0,155.0
+Trains,Epping,20,44,128.0,162.0
+Trains,Epping,21,40,128.0,140.0
+Trains,Epping,22,17,123.0,134.0
+Trains,Erskineville,7,11,80.0,102.0
+Trains,Erskineville,8,30,90.0,145.0
+Trains,Erskineville,9,35,80.0,118.0
+Trains,Erskineville,10,28,77.0,146.0
+Trains,Erskineville,11,32,88.0,145.0
+Trains,Erskineville,12,31,86.0,146.0
+Trains,Erskineville,13,21,129.0,151.0
+Trains,Erskineville,14,24,90.0,152.0
+Trains,Erskineville,15,32,117.0,149.0
+Trains,Erskineville,16,35,66.0,86.0
+Trains,Erskineville,17,27,74.0,95.0
+Trains,Erskineville,18,28,78.0,141.0
+Trains,Erskineville,19,21,84.0,145.0
+Trains,Erskineville,20,32,80.0,142.0
+Trains,Erskineville,21,31,122.0,145.0
+Trains,Erskineville,22,22,70.0,146.0
+Trains,Fairfield,7,15,92.0,101.0
+Trains,Fairfield,8,35,87.0,97.0
+Trains,Fairfield,9,48,96.0,109.0
+Trains,Fairfield,10,48,90.0,105.0
+Trains,Fairfield,11,48,88.0,101.0
+Trains,Fairfield,12,46,88.0,104.0
+Trains,Fairfield,13,30,84.0,99.0
+Trains,Fairfield,14,39,91.0,108.0
+Trains,Fairfield,15,48,98.0,114.0
+Trains,Fairfield,16,45,89.0,105.0
+Trains,Fairfield,17,56,86.0,104.0
+Trains,Fairfield,18,60,86.0,97.0
+Trains,Fairfield,19,41,78.0,104.0
+Trains,Fairfield,20,48,82.0,97.0
+Trains,Fairfield,21,37,78.0,96.0
+Trains,Fairfield,22,26,78.0,96.0
+Trains,Faulconbridge,8,12,148.0,171.0
+Trains,Faulconbridge,16,16,146.0,150.0
+Trains,Faulconbridge,17,12,153.0,162.0
+Trains,Faulconbridge,18,11,153.0,163.0
+Trains,Faulconbridge,19,10,150.0,163.0
+Trains,Flemington,7,19,66.0,91.0
+Trains,Flemington,8,50,69.0,110.0
+Trains,Flemington,9,63,68.0,98.0
+Trains,Flemington,10,52,67.0,90.0
+Trains,Flemington,11,48,68.0,91.0
+Trains,Flemington,12,46,68.0,94.0
+Trains,Flemington,13,30,67.0,89.0
+Trains,Flemington,14,50,68.0,94.0
+Trains,Flemington,15,63,66.0,96.0
+Trains,Flemington,16,62,70.0,95.0
+Trains,Flemington,17,65,72.0,133.0
+Trains,Flemington,18,74,85.0,145.0
+Trains,Flemington,19,48,70.0,92.0
+Trains,Flemington,20,62,70.0,90.0
+Trains,Flemington,21,37,75.0,115.0
+Trains,Flemington,22,22,62.0,80.0
+Trains,Glenbrook,8,12,100.0,121.0
+Trains,Glenbrook,9,16,102.0,123.0
+Trains,Glenbrook,14,15,101.0,113.0
+Trains,Glenbrook,15,15,105.0,116.0
+Trains,Glenbrook,16,20,102.0,118.0
+Trains,Glenbrook,17,23,100.0,121.0
+Trains,Glenbrook,18,14,100.0,114.0
+Trains,Glenfield,7,32,122.0,234.0
+Trains,Glenfield,8,63,169.0,238.0
+Trains,Glenfield,9,84,183.0,270.0
+Trains,Glenfield,10,76,194.0,253.0
+Trains,Glenfield,11,79,187.0,241.0
+Trains,Glenfield,12,79,188.0,262.0
+Trains,Glenfield,13,53,183.0,237.0
+Trains,Glenfield,14,63,200.0,247.0
+Trains,Glenfield,15,80,198.0,253.0
+Trains,Glenfield,16,83,159.0,233.0
+Trains,Glenfield,17,94,161.0,224.0
+Trains,Glenfield,18,106,157.0,222.0
+Trains,Glenfield,19,71,145.0,242.0
+Trains,Glenfield,20,75,185.0,252.0
+Trains,Glenfield,21,69,181.0,252.0
+Trains,Glenfield,22,44,195.0,262.0
+Trains,Gordon,7,20,92.0,176.0
+Trains,Gordon,8,60,88.0,108.0
+Trains,Gordon,9,58,81.0,105.0
+Trains,Gordon,10,39,82.0,119.0
+Trains,Gordon,11,32,90.0,131.0
+Trains,Gordon,12,32,92.0,117.0
+Trains,Gordon,13,22,84.0,118.0
+Trains,Gordon,14,28,86.0,110.0
+Trains,Gordon,15,46,90.0,119.0
+Trains,Gordon,16,70,90.0,117.0
+Trains,Gordon,17,84,96.0,146.0
+Trains,Gordon,18,62,98.0,175.0
+Trains,Gordon,19,28,86.0,110.0
+Trains,Gordon,20,31,84.0,117.0
+Trains,Gordon,21,25,94.0,120.0
+Trains,Gordon,22,12,80.0,109.0
+Trains,Gosford,8,20,127.0,198.0
+Trains,Gosford,9,16,111.0,218.0
+Trains,Gosford,10,20,116.0,172.0
+Trains,Gosford,11,12,122.0,193.0
+Trains,Gosford,12,14,100.0,194.0
+Trains,Gosford,13,10,121.0,214.0
+Trains,Gosford,14,14,126.0,212.0
+Trains,Gosford,15,20,122.0,211.0
+Trains,Gosford,16,16,138.0,230.0
+Trains,Gosford,17,23,124.0,195.0
+Trains,Gosford,18,27,113.0,158.0
+Trains,Gosford,19,11,109.0,140.0
+Trains,Gosford,20,14,128.0,499.0
+Trains,Granville,7,15,79.0,91.0
+Trains,Granville,8,43,80.0,118.0
+Trains,Granville,9,71,82.0,100.0
+Trains,Granville,10,64,78.0,109.0
+Trains,Granville,11,64,75.0,97.0
+Trains,Granville,12,64,80.0,98.0
+Trains,Granville,13,42,82.0,112.0
+Trains,Granville,14,61,80.0,110.0
+Trains,Granville,15,75,86.0,116.0
+Trains,Granville,16,66,85.0,108.0
+Trains,Granville,17,65,89.0,139.0
+Trains,Granville,18,86,84.0,168.0
+Trains,Granville,19,53,81.0,112.0
+Trains,Granville,20,80,78.0,98.0
+Trains,Granville,21,57,76.0,97.0
+Trains,Granville,22,34,79.0,99.0
+Trains,Guildford,8,17,75.0,126.0
+Trains,Guildford,9,24,99.0,138.0
+Trains,Guildford,10,24,76.0,92.0
+Trains,Guildford,11,24,76.0,92.0
+Trains,Guildford,12,24,80.0,90.0
+Trains,Guildford,13,15,77.0,97.0
+Trains,Guildford,14,20,78.0,101.0
+Trains,Guildford,15,24,80.0,92.0
+Trains,Guildford,16,26,83.0,89.0
+Trains,Guildford,17,28,78.0,86.0
+Trains,Guildford,18,36,76.0,87.0
+Trains,Guildford,19,22,76.0,81.0
+Trains,Guildford,20,24,79.0,87.0
+Trains,Guildford,21,23,75.0,82.0
+Trains,Guildford,22,11,77.0,128.0
+Trains,Gymea,7,14,84.0,92.0
+Trains,Gymea,8,27,84.0,101.0
+Trains,Gymea,9,35,85.0,101.0
+Trains,Gymea,10,32,84.0,103.0
+Trains,Gymea,11,31,83.0,98.0
+Trains,Gymea,12,30,82.0,104.0
+Trains,Gymea,13,20,83.0,101.0
+Trains,Gymea,14,27,87.0,92.0
+Trains,Gymea,15,31,88.0,108.0
+Trains,Gymea,16,32,86.0,98.0
+Trains,Gymea,17,33,84.0,101.0
+Trains,Gymea,18,34,84.0,98.0
+Trains,Gymea,19,27,83.0,100.0
+Trains,Gymea,20,30,86.0,91.0
+Trains,Gymea,21,27,87.0,92.0
+Trains,Gymea,22,13,85.0,125.0
+Trains,Harris Park,7,13,79.0,96.0
+Trains,Harris Park,8,39,76.0,104.0
+Trains,Harris Park,9,43,73.0,107.0
+Trains,Harris Park,10,34,79.0,160.0
+Trains,Harris Park,11,32,79.0,148.0
+Trains,Harris Park,12,30,80.0,156.0
+Trains,Harris Park,13,20,78.0,152.0
+Trains,Harris Park,14,35,77.0,154.0
+Trains,Harris Park,15,48,74.0,117.0
+Trains,Harris Park,16,48,73.0,140.0
+Trains,Harris Park,17,48,74.0,100.0
+Trains,Harris Park,18,44,78.0,118.0
+Trains,Harris Park,19,38,84.0,151.0
+Trains,Harris Park,20,46,72.0,89.0
+Trains,Harris Park,21,36,78.0,98.0
+Trains,Harris Park,22,21,71.0,130.0
+Trains,Hawkesbury River,17,16,138.0,164.0
+Trains,Hawkesbury River,18,10,136.0,144.0
+Trains,Hazelbrook,8,10,118.0,165.0
+Trains,Hazelbrook,10,16,96.0,150.0
+Trains,Hazelbrook,14,11,140.0,151.0
+Trains,Hazelbrook,16,16,134.0,152.0
+Trains,Hazelbrook,18,20,100.0,147.0
+Trains,Hazelbrook,20,10,91.0,160.0
+Trains,Heathcote,8,16,76.0,118.0
+Trains,Heathcote,9,20,114.0,127.0
+Trains,Heathcote,10,20,110.0,121.0
+Trains,Heathcote,11,16,94.0,116.0
+Trains,Heathcote,12,14,99.0,120.0
+Trains,Heathcote,14,10,114.0,124.0
+Trains,Heathcote,15,16,100.0,134.0
+Trains,Heathcote,16,16,98.0,126.0
+Trains,Heathcote,17,17,114.0,128.0
+Trains,Heathcote,18,22,108.0,122.0
+Trains,Heathcote,19,16,113.0,127.0
+Trains,Heathcote,20,18,118.0,175.0
+Trains,Heathcote,21,14,114.0,123.0
+Trains,Holsworthy,7,12,119.0,144.0
+Trains,Holsworthy,8,27,114.0,137.0
+Trains,Holsworthy,9,32,105.0,118.0
+Trains,Holsworthy,10,36,102.0,129.0
+Trains,Holsworthy,11,32,104.0,115.0
+Trains,Holsworthy,12,31,107.0,117.0
+Trains,Holsworthy,13,20,107.0,124.0
+Trains,Holsworthy,14,27,102.0,138.0
+Trains,Holsworthy,15,32,110.0,123.0
+Trains,Holsworthy,16,36,104.0,144.0
+Trains,Holsworthy,17,45,116.0,192.0
+Trains,Holsworthy,18,50,106.0,165.0
+Trains,Holsworthy,19,24,110.0,120.0
+Trains,Holsworthy,20,28,104.0,120.0
+Trains,Holsworthy,21,35,106.0,123.0
+Trains,Holsworthy,22,16,106.0,123.0
+Trains,Homebush,7,13,72.0,104.0
+Trains,Homebush,8,40,76.0,94.0
+Trains,Homebush,9,48,76.0,94.0
+Trains,Homebush,10,36,76.0,90.0
+Trains,Homebush,11,32,75.0,88.0
+Trains,Homebush,12,32,75.0,100.0
+Trains,Homebush,13,20,76.0,88.0
+Trains,Homebush,14,38,77.0,105.0
+Trains,Homebush,15,48,77.0,88.0
+Trains,Homebush,16,50,78.0,89.0
+Trains,Homebush,17,51,79.0,90.0
+Trains,Homebush,18,51,78.0,97.0
+Trains,Homebush,19,36,78.0,98.0
+Trains,Homebush,20,48,76.0,96.0
+Trains,Homebush,21,34,75.0,81.0
+Trains,Homebush,22,27,74.0,103.0
+Trains,Hornsby,7,11,115.0,275.0
+Trains,Hornsby,8,38,114.0,319.0
+Trains,Hornsby,9,36,100.0,220.0
+Trains,Hornsby,10,33,121.0,175.0
+Trains,Hornsby,11,31,101.0,159.0
+Trains,Hornsby,12,29,103.0,156.0
+Trains,Hornsby,13,18,106.0,213.0
+Trains,Hornsby,14,26,114.0,159.0
+Trains,Hornsby,15,48,132.0,253.0
+Trains,Hornsby,16,63,130.0,269.0
+Trains,Hornsby,17,62,128.0,267.0
+Trains,Hornsby,18,58,124.0,230.0
+Trains,Hornsby,19,35,115.0,225.0
+Trains,Hornsby,20,28,94.0,155.0
+Trains,Hornsby,21,26,102.0,145.0
+Trains,Hornsby,22,12,114.0,254.0
+Trains,Ingleburn,7,16,76.0,81.0
+Trains,Ingleburn,8,28,77.0,87.0
+Trains,Ingleburn,9,32,83.0,97.0
+Trains,Ingleburn,10,32,76.0,98.0
+Trains,Ingleburn,11,32,78.0,104.0
+Trains,Ingleburn,12,31,89.0,110.0
+Trains,Ingleburn,13,21,80.0,93.0
+Trains,Ingleburn,14,26,84.0,96.0
+Trains,Ingleburn,15,32,83.0,95.0
+Trains,Ingleburn,16,32,84.0,93.0
+Trains,Ingleburn,17,44,76.0,106.0
+Trains,Ingleburn,18,54,78.0,96.0
+Trains,Ingleburn,19,25,78.0,95.0
+Trains,Ingleburn,20,31,78.0,95.0
+Trains,Ingleburn,21,30,74.0,89.0
+Trains,Ingleburn,22,16,74.0,93.0
+Trains,Katoomba,9,13,167.0,187.0
+Trains,Katoomba,10,12,162.0,218.0
+Trains,Katoomba,16,11,162.0,173.0
+Trains,Katoomba,17,12,160.0,173.0
+Trains,Katoomba,18,11,192.0,227.0
+Trains,Katoomba,19,14,150.0,493.0
+Trains,Killara,7,17,80.0,85.0
+Trains,Killara,8,68,80.0,86.0
+Trains,Killara,9,94,78.0,85.0
+Trains,Killara,10,71,77.0,84.0
+Trains,Killara,11,63,77.0,84.0
+Trains,Killara,12,61,76.0,81.0
+Trains,Killara,13,40,77.0,82.0
+Trains,Killara,14,54,79.0,87.0
+Trains,Killara,15,76,80.0,91.0
+Trains,Killara,16,87,77.0,86.0
+Trains,Killara,17,83,77.0,86.0
+Trains,Killara,18,74,76.0,86.0
+Trains,Killara,19,51,79.0,85.0
+Trains,Killara,20,63,76.0,84.0
+Trains,Killara,21,49,77.0,84.0
+Trains,Killara,22,13,78.0,99.0
+Trains,Kings Cross,7,30,69.0,95.0
+Trains,Kings Cross,8,94,73.0,97.0
+Trains,Kings Cross,9,127,69.0,91.0
+Trains,Kings Cross,10,55,72.0,98.0
+Trains,Kings Cross,11,46,78.0,108.0
+Trains,Kings Cross,12,47,72.0,94.0
+Trains,Kings Cross,13,25,73.0,110.0
+Trains,Kings Cross,14,39,70.0,99.0
+Trains,Kings Cross,15,91,69.0,95.0
+Trains,Kings Cross,16,115,68.0,96.0
+Trains,Kings Cross,17,119,70.0,97.0
+Trains,Kings Cross,18,98,68.0,104.0
+Trains,Kings Cross,19,59,69.0,95.0
+Trains,Kings Cross,20,47,70.0,84.0
+Trains,Kings Cross,21,43,70.0,87.0
+Trains,Kings Cross,22,20,68.0,91.0
+Trains,Kingsgrove,8,22,92.0,106.0
+Trains,Kingsgrove,9,32,94.0,113.0
+Trains,Kingsgrove,10,32,90.0,108.0
+Trains,Kingsgrove,11,32,92.0,107.0
+Trains,Kingsgrove,12,32,94.0,107.0
+Trains,Kingsgrove,13,20,94.0,108.0
+Trains,Kingsgrove,14,24,98.0,110.0
+Trains,Kingsgrove,15,30,98.0,114.0
+Trains,Kingsgrove,16,32,96.0,108.0
+Trains,Kingsgrove,17,29,98.0,108.0
+Trains,Kingsgrove,18,31,96.0,110.0
+Trains,Kingsgrove,19,24,94.0,106.0
+Trains,Kingsgrove,20,31,97.0,109.0
+Trains,Kingsgrove,21,30,95.0,110.0
+Trains,Kingsgrove,22,18,94.0,111.0
+Trains,Kingswood,7,10,120.0,142.0
+Trains,Kingswood,8,32,116.0,130.0
+Trains,Kingswood,9,28,114.0,127.0
+Trains,Kingswood,10,32,108.0,135.0
+Trains,Kingswood,11,32,110.0,134.0
+Trains,Kingswood,12,31,107.0,138.0
+Trains,Kingswood,13,19,109.0,134.0
+Trains,Kingswood,14,27,110.0,130.0
+Trains,Kingswood,15,32,110.0,139.0
+Trains,Kingswood,16,30,117.0,152.0
+Trains,Kingswood,17,31,114.0,169.0
+Trains,Kingswood,18,41,103.0,159.0
+Trains,Kingswood,19,27,112.0,157.0
+Trains,Kingswood,20,30,110.0,175.0
+Trains,Kingswood,21,31,106.0,136.0
+Trains,Kingswood,22,18,120.0,135.0
+Trains,Kirrawee,7,10,86.0,94.0
+Trains,Kirrawee,8,28,84.0,91.0
+Trains,Kirrawee,9,32,86.0,92.0
+Trains,Kirrawee,10,32,82.0,100.0
+Trains,Kirrawee,11,30,86.0,93.0
+Trains,Kirrawee,12,29,84.0,88.0
+Trains,Kirrawee,13,21,82.0,98.0
+Trains,Kirrawee,14,24,84.0,95.0
+Trains,Kirrawee,15,30,86.0,102.0
+Trains,Kirrawee,16,31,84.0,94.0
+Trains,Kirrawee,17,32,84.0,129.0
+Trains,Kirrawee,18,38,84.0,92.0
+Trains,Kirrawee,19,26,84.0,105.0
+Trains,Kirrawee,20,31,83.0,89.0
+Trains,Kirrawee,21,30,84.0,92.0
+Trains,Kirrawee,22,12,83.0,90.0
+Trains,Koolewong,15,12,141.0,149.0
+Trains,Koolewong,16,12,132.0,158.0
+Trains,Koolewong,17,11,118.0,139.0
+Trains,Koolewong,18,11,127.0,145.0
+Trains,Lapstone,8,12,83.0,92.0
+Trains,Lapstone,9,12,81.0,87.0
+Trains,Lapstone,15,15,83.0,116.0
+Trains,Lapstone,16,20,84.0,91.0
+Trains,Lapstone,17,14,84.0,90.0
+Trains,Lapstone,18,10,84.0,88.0
+Trains,Lawson,8,11,105.0,127.0
+Trains,Lawson,10,12,106.0,133.0
+Trains,Lawson,16,16,118.0,134.0
+Trains,Lawson,18,12,96.0,128.0
+Trains,Lawson,20,10,104.0,140.0
+Trains,Leightonfield,7,10,116.0,123.0
+Trains,Leightonfield,8,19,109.0,122.0
+Trains,Leightonfield,9,16,96.0,113.0
+Trains,Leightonfield,10,16,101.0,108.0
+Trains,Leightonfield,11,16,98.0,108.0
+Trains,Leightonfield,12,16,93.0,106.0
+Trains,Leightonfield,14,14,100.0,115.0
+Trains,Leightonfield,15,16,89.0,108.0
+Trains,Leightonfield,16,16,90.0,110.0
+Trains,Leightonfield,17,21,75.0,112.0
+Trains,Leightonfield,18,22,76.0,108.0
+Trains,Leightonfield,19,14,102.0,104.0
+Trains,Leightonfield,20,15,96.0,105.0
+Trains,Leightonfield,21,15,97.0,116.0
+Trains,Leightonfield,22,11,97.0,120.0
+Trains,Leumeah,7,16,115.0,142.0
+Trains,Leumeah,8,25,112.0,132.0
+Trains,Leumeah,9,32,111.0,121.0
+Trains,Leumeah,10,32,114.0,129.0
+Trains,Leumeah,11,32,113.0,126.0
+Trains,Leumeah,12,31,116.0,145.0
+Trains,Leumeah,13,20,115.0,143.0
+Trains,Leumeah,14,26,114.0,129.0
+Trains,Leumeah,15,32,116.0,129.0
+Trains,Leumeah,16,32,120.0,156.0
+Trains,Leumeah,17,44,139.0,165.0
+Trains,Leumeah,18,49,139.0,170.0
+Trains,Leumeah,19,24,118.0,142.0
+Trains,Leumeah,20,31,116.0,137.0
+Trains,Leumeah,21,31,110.0,126.0
+Trains,Leumeah,22,18,112.0,152.0
+Trains,Leura,10,12,190.0,211.0
+Trains,Leura,15,12,105.0,193.0
+Trains,Leura,16,11,192.0,201.0
+Trains,Leura,17,16,184.0,205.0
+Trains,Leura,18,13,183.0,204.0
+Trains,Leura,19,13,183.0,248.0
+Trains,Lewisham,7,14,61.0,82.0
+Trains,Lewisham,8,43,64.0,87.0
+Trains,Lewisham,9,36,63.0,82.0
+Trains,Lewisham,10,31,72.0,82.0
+Trains,Lewisham,11,32,70.0,80.0
+Trains,Lewisham,12,30,63.0,81.0
+Trains,Lewisham,13,19,63.0,93.0
+Trains,Lewisham,14,26,64.0,80.0
+Trains,Lewisham,15,30,63.0,85.0
+Trains,Lewisham,16,46,63.0,121.0
+Trains,Lewisham,17,58,65.0,148.0
+Trains,Lewisham,18,50,75.0,149.0
+Trains,Lewisham,19,23,78.0,121.0
+Trains,Lewisham,20,32,64.0,77.0
+Trains,Lewisham,21,31,62.0,81.0
+Trains,Lewisham,22,25,65.0,99.0
+Trains,Lidcombe,7,29,92.0,122.0
+Trains,Lidcombe,8,94,88.0,116.0
+Trains,Lidcombe,9,138,82.0,106.0
+Trains,Lidcombe,10,116,86.0,109.0
+Trains,Lidcombe,11,112,90.0,119.0
+Trains,Lidcombe,12,109,83.0,110.0
+Trains,Lidcombe,13,69,90.0,138.0
+Trains,Lidcombe,14,103,90.0,120.0
+Trains,Lidcombe,15,139,87.0,116.0
+Trains,Lidcombe,16,128,86.0,107.0
+Trains,Lidcombe,17,119,91.0,117.0
+Trains,Lidcombe,18,131,88.0,103.0
+Trains,Lidcombe,19,109,83.0,120.0
+Trains,Lidcombe,20,124,82.0,109.0
+Trains,Lidcombe,21,93,81.0,115.0
+Trains,Lidcombe,22,47,82.0,118.0
+Trains,Linden,8,12,141.0,156.0
+Trains,Linden,16,16,131.0,164.0
+Trains,Linden,17,11,151.0,161.0
+Trains,Linden,18,11,148.0,159.0
+Trains,Lindfield,7,18,81.0,91.0
+Trains,Lindfield,8,66,77.0,86.0
+Trains,Lindfield,9,97,75.0,88.0
+Trains,Lindfield,10,68,76.0,93.0
+Trains,Lindfield,11,64,77.0,87.0
+Trains,Lindfield,12,62,76.0,85.0
+Trains,Lindfield,13,39,77.0,87.0
+Trains,Lindfield,14,51,78.0,90.0
+Trains,Lindfield,15,76,82.0,98.0
+Trains,Lindfield,16,88,77.0,93.0
+Trains,Lindfield,17,84,78.0,89.0
+Trains,Lindfield,18,75,75.0,92.0
+Trains,Lindfield,19,51,76.0,94.0
+Trains,Lindfield,20,63,75.0,86.0
+Trains,Lindfield,21,52,75.0,85.0
+Trains,Lindfield,22,14,76.0,130.0
+Trains,Lisarow,8,14,122.0,128.0
+Trains,Lisarow,15,12,134.0,207.0
+Trains,Lisarow,17,15,121.0,137.0
+Trains,Lisarow,18,23,120.0,128.0
+Trains,Lisarow,19,21,120.0,133.0
+Trains,Liverpool,7,17,120.0,139.0
+Trains,Liverpool,8,37,122.0,159.0
+Trains,Liverpool,9,48,126.0,155.0
+Trains,Liverpool,10,44,95.0,147.0
+Trains,Liverpool,11,47,113.0,153.0
+Trains,Liverpool,12,47,105.0,168.0
+Trains,Liverpool,13,31,120.0,155.0
+Trains,Liverpool,14,37,106.0,158.0
+Trains,Liverpool,15,48,115.0,155.0
+Trains,Liverpool,16,47,109.0,151.0
+Trains,Liverpool,17,48,122.0,154.0
+Trains,Liverpool,18,58,96.0,146.0
+Trains,Liverpool,19,47,106.0,155.0
+Trains,Liverpool,20,46,116.0,156.0
+Trains,Liverpool,21,37,121.0,205.0
+Trains,Liverpool,22,27,115.0,179.0
+Trains,Loftus,8,16,84.0,92.0
+Trains,Loftus,9,16,88.0,99.0
+Trains,Loftus,10,20,80.0,93.0
+Trains,Loftus,11,16,88.0,101.0
+Trains,Loftus,12,16,83.0,106.0
+Trains,Loftus,13,11,87.0,96.0
+Trains,Loftus,14,13,82.0,108.0
+Trains,Loftus,15,16,84.0,95.0
+Trains,Loftus,16,16,82.0,94.0
+Trains,Loftus,17,18,80.0,109.0
+Trains,Loftus,18,19,81.0,84.0
+Trains,Loftus,19,16,81.0,113.0
+Trains,Loftus,20,20,83.0,91.0
+Trains,Loftus,21,16,81.0,94.0
+Trains,Loftus,22,10,82.0,126.0
+Trains,Macdonaldtown,7,12,74.0,83.0
+Trains,Macdonaldtown,8,35,74.0,85.0
+Trains,Macdonaldtown,9,40,72.0,83.0
+Trains,Macdonaldtown,10,32,71.0,88.0
+Trains,Macdonaldtown,11,32,69.0,91.0
+Trains,Macdonaldtown,12,32,72.0,98.0
+Trains,Macdonaldtown,13,21,73.0,88.0
+Trains,Macdonaldtown,14,24,70.0,83.0
+Trains,Macdonaldtown,15,30,70.0,98.0
+Trains,Macdonaldtown,16,39,70.0,79.0
+Trains,Macdonaldtown,17,44,71.0,90.0
+Trains,Macdonaldtown,18,38,72.0,84.0
+Trains,Macdonaldtown,19,24,70.0,86.0
+Trains,Macdonaldtown,20,30,68.0,90.0
+Trains,Macdonaldtown,21,30,67.0,77.0
+Trains,Macdonaldtown,22,22,69.0,75.0
+Trains,Macquarie Fields,7,18,104.0,129.0
+Trains,Macquarie Fields,8,26,100.0,130.0
+Trains,Macquarie Fields,9,32,96.0,100.0
+Trains,Macquarie Fields,10,32,94.0,105.0
+Trains,Macquarie Fields,11,32,96.0,102.0
+Trains,Macquarie Fields,12,32,98.0,118.0
+Trains,Macquarie Fields,13,21,99.0,110.0
+Trains,Macquarie Fields,14,24,97.0,104.0
+Trains,Macquarie Fields,15,32,101.0,107.0
+Trains,Macquarie Fields,16,32,98.0,114.0
+Trains,Macquarie Fields,17,43,94.0,105.0
+Trains,Macquarie Fields,18,53,96.0,112.0
+Trains,Macquarie Fields,19,27,95.0,161.0
+Trains,Macquarie Fields,20,32,102.0,109.0
+Trains,Macquarie Fields,21,31,97.0,105.0
+Trains,Macquarie Fields,22,19,98.0,153.0
+Trains,Marayong,8,23,101.0,113.0
+Trains,Marayong,9,32,98.0,108.0
+Trains,Marayong,10,31,97.0,113.0
+Trains,Marayong,11,32,96.0,112.0
+Trains,Marayong,12,30,98.0,102.0
+Trains,Marayong,13,18,98.0,105.0
+Trains,Marayong,14,27,104.0,111.0
+Trains,Marayong,15,28,100.0,112.0
+Trains,Marayong,16,29,94.0,105.0
+Trains,Marayong,17,35,99.0,127.0
+Trains,Marayong,18,32,96.0,108.0
+Trains,Marayong,19,24,98.0,116.0
+Trains,Marayong,20,31,100.0,108.0
+Trains,Marayong,21,30,102.0,110.0
+Trains,Marayong,22,17,95.0,111.0
+Trains,Martin Place,7,27,75.0,81.0
+Trains,Martin Place,8,98,82.0,99.0
+Trains,Martin Place,9,127,73.0,84.0
+Trains,Martin Place,10,58,71.0,98.0
+Trains,Martin Place,11,46,77.0,86.0
+Trains,Martin Place,12,46,73.0,85.0
+Trains,Martin Place,13,25,74.0,82.0
+Trains,Martin Place,14,40,73.0,91.0
+Trains,Martin Place,15,92,72.0,80.0
+Trains,Martin Place,16,112,73.0,84.0
+Trains,Martin Place,17,118,80.0,94.0
+Trains,Martin Place,18,103,73.0,82.0
+Trains,Martin Place,19,57,70.0,96.0
+Trains,Martin Place,20,48,72.0,83.0
+Trains,Martin Place,21,43,71.0,81.0
+Trains,Martin Place,22,20,68.0,90.0
+Trains,Meadowbank,8,34,90.0,111.0
+Trains,Meadowbank,9,35,93.0,112.0
+Trains,Meadowbank,10,32,94.0,103.0
+Trains,Meadowbank,11,32,89.0,121.0
+Trains,Meadowbank,12,30,92.0,118.0
+Trains,Meadowbank,13,20,92.0,118.0
+Trains,Meadowbank,14,27,98.0,131.0
+Trains,Meadowbank,15,32,98.0,133.0
+Trains,Meadowbank,16,41,99.0,120.0
+Trains,Meadowbank,17,45,101.0,125.0
+Trains,Meadowbank,18,45,98.0,132.0
+Trains,Meadowbank,19,23,92.0,125.0
+Trains,Meadowbank,20,32,90.0,120.0
+Trains,Meadowbank,21,31,94.0,115.0
+Trains,Meadowbank,22,15,88.0,114.0
+Trains,Medlow Bath,10,12,109.0,173.0
+Trains,Medlow Bath,16,11,122.0,175.0
+Trains,Medlow Bath,18,15,122.0,191.0
+Trains,Merrylands,7,19,90.0,123.0
+Trains,Merrylands,8,43,98.0,153.0
+Trains,Merrylands,9,44,89.0,157.0
+Trains,Merrylands,10,48,89.0,149.0
+Trains,Merrylands,11,48,89.0,144.0
+Trains,Merrylands,12,47,90.0,120.0
+Trains,Merrylands,13,32,93.0,130.0
+Trains,Merrylands,14,41,88.0,155.0
+Trains,Merrylands,15,47,94.0,145.0
+Trains,Merrylands,16,49,93.0,145.0
+Trains,Merrylands,17,51,94.0,148.0
+Trains,Merrylands,18,59,84.0,132.0
+Trains,Merrylands,19,41,89.0,175.0
+Trains,Merrylands,20,47,87.0,101.0
+Trains,Merrylands,21,40,84.0,111.0
+Trains,Merrylands,22,19,85.0,93.0
+Trains,Milsons Point,7,27,73.0,89.0
+Trains,Milsons Point,8,95,67.0,93.0
+Trains,Milsons Point,9,100,66.0,91.0
+Trains,Milsons Point,10,84,70.0,89.0
+Trains,Milsons Point,11,80,68.0,92.0
+Trains,Milsons Point,12,77,70.0,94.0
+Trains,Milsons Point,13,49,68.0,96.0
+Trains,Milsons Point,14,68,68.0,93.0
+Trains,Milsons Point,15,88,74.0,96.0
+Trains,Milsons Point,16,117,67.0,93.0
+Trains,Milsons Point,17,120,71.0,96.0
+Trains,Milsons Point,18,90,72.0,98.0
+Trains,Milsons Point,19,64,74.0,97.0
+Trains,Milsons Point,20,77,64.0,89.0
+Trains,Milsons Point,21,66,70.0,92.0
+Trains,Milsons Point,22,13,78.0,94.0
+Trains,Minnamurra,9,12,138.0,479.0
+Trains,Minnamurra,17,11,127.0,358.0
+Trains,Minnamurra,18,11,308.0,321.0
+Trains,Minnamurra,19,13,173.0,327.0
+Trains,Minnamurra,20,12,320.0,337.0
+Trains,Minto,7,16,86.0,122.0
+Trains,Minto,8,23,109.0,149.0
+Trains,Minto,9,32,120.0,159.0
+Trains,Minto,10,32,130.0,168.0
+Trains,Minto,11,32,126.0,168.0
+Trains,Minto,12,32,120.0,162.0
+Trains,Minto,13,20,128.0,168.0
+Trains,Minto,14,25,127.0,164.0
+Trains,Minto,15,32,131.0,162.0
+Trains,Minto,16,32,108.0,153.0
+Trains,Minto,17,43,105.0,121.0
+Trains,Minto,18,53,109.0,126.0
+Trains,Minto,19,23,113.0,152.0
+Trains,Minto,20,32,116.0,168.0
+Trains,Minto,21,31,111.0,167.0
+Trains,Minto,22,21,104.0,171.0
+Trains,Miranda,8,29,93.0,109.0
+Trains,Miranda,9,36,97.0,110.0
+Trains,Miranda,10,28,93.0,113.0
+Trains,Miranda,11,30,96.0,108.0
+Trains,Miranda,12,30,95.0,105.0
+Trains,Miranda,13,19,98.0,105.0
+Trains,Miranda,14,23,94.0,114.0
+Trains,Miranda,15,31,100.0,113.0
+Trains,Miranda,16,36,103.0,118.0
+Trains,Miranda,17,33,97.0,106.0
+Trains,Miranda,18,36,97.0,108.0
+Trains,Miranda,19,29,92.0,103.0
+Trains,Miranda,20,28,88.0,105.0
+Trains,Miranda,21,27,91.0,108.0
+Trains,Miranda,22,17,96.0,104.0
+Trains,Mount Colah,8,21,108.0,121.0
+Trains,Mount Colah,9,16,104.0,119.0
+Trains,Mount Colah,10,16,110.0,120.0
+Trains,Mount Colah,11,16,108.0,122.0
+Trains,Mount Colah,12,16,109.0,122.0
+Trains,Mount Colah,13,10,110.0,125.0
+Trains,Mount Colah,14,14,110.0,131.0
+Trains,Mount Colah,15,28,116.0,126.0
+Trains,Mount Colah,16,32,108.0,127.0
+Trains,Mount Colah,17,28,120.0,148.0
+Trains,Mount Colah,18,31,112.0,126.0
+Trains,Mount Colah,19,23,119.0,148.0
+Trains,Mount Colah,20,15,115.0,119.0
+Trains,Mount Colah,21,14,106.0,125.0
+Trains,Mount Druitt,7,12,96.0,105.0
+Trains,Mount Druitt,8,26,94.0,106.0
+Trains,Mount Druitt,9,32,84.0,103.0
+Trains,Mount Druitt,10,32,90.0,100.0
+Trains,Mount Druitt,11,32,88.0,101.0
+Trains,Mount Druitt,12,32,88.0,98.0
+Trains,Mount Druitt,13,20,84.0,102.0
+Trains,Mount Druitt,14,25,88.0,105.0
+Trains,Mount Druitt,15,30,95.0,103.0
+Trains,Mount Druitt,16,31,91.0,99.0
+Trains,Mount Druitt,17,35,88.0,101.0
+Trains,Mount Druitt,18,41,79.0,94.0
+Trains,Mount Druitt,19,24,86.0,102.0
+Trains,Mount Druitt,20,31,85.0,97.0
+Trains,Mount Druitt,21,30,86.0,100.0
+Trains,Mount Druitt,22,20,92.0,110.0
+Trains,Mount Kuring-gai,7,10,92.0,101.0
+Trains,Mount Kuring-gai,8,17,90.0,99.0
+Trains,Mount Kuring-gai,9,16,90.0,101.0
+Trains,Mount Kuring-gai,10,16,86.0,99.0
+Trains,Mount Kuring-gai,11,16,89.0,97.0
+Trains,Mount Kuring-gai,12,16,92.0,96.0
+Trains,Mount Kuring-gai,14,15,93.0,100.0
+Trains,Mount Kuring-gai,15,32,86.0,99.0
+Trains,Mount Kuring-gai,16,32,88.0,97.0
+Trains,Mount Kuring-gai,17,30,90.0,97.0
+Trains,Mount Kuring-gai,18,28,80.0,99.0
+Trains,Mount Kuring-gai,19,17,88.0,99.0
+Trains,Mount Kuring-gai,20,16,94.0,102.0
+Trains,Mount Kuring-gai,21,14,91.0,94.0
+Trains,Mount Victoria,11,11,139.0,192.0
+Trains,Mount Victoria,16,11,156.0,203.0
+Trains,Mulgrave,8,11,100.0,105.0
+Trains,Mulgrave,9,16,92.0,106.0
+Trains,Mulgrave,10,16,99.0,106.0
+Trains,Mulgrave,11,16,88.0,122.0
+Trains,Mulgrave,12,15,98.0,113.0
+Trains,Mulgrave,14,13,139.0,644.0
+Trains,Mulgrave,15,15,102.0,126.0
+Trains,Mulgrave,16,15,99.0,112.0
+Trains,Mulgrave,17,14,86.0,111.0
+Trains,Mulgrave,18,14,104.0,108.0
+Trains,Mulgrave,19,14,99.0,174.0
+Trains,Mulgrave,20,15,93.0,111.0
+Trains,Mulgrave,21,14,102.0,105.0
+Trains,Mulgrave,22,10,78.0,121.0
+Trains,Museum,7,29,73.0,86.0
+Trains,Museum,8,91,73.0,86.0
+Trains,Museum,9,107,71.0,88.0
+Trains,Museum,10,96,72.0,87.0
+Trains,Museum,11,95,72.0,86.0
+Trains,Museum,12,93,72.0,90.0
+Trains,Museum,13,60,74.0,89.0
+Trains,Museum,14,76,71.0,99.0
+Trains,Museum,15,91,74.0,96.0
+Trains,Museum,16,104,72.0,86.0
+Trains,Museum,17,109,73.0,97.0
+Trains,Museum,18,91,74.0,93.0
+Trains,Museum,19,68,71.0,89.0
+Trains,Museum,20,94,68.0,81.0
+Trains,Museum,21,90,70.0,88.0
+Trains,Museum,22,41,71.0,93.0
+Trains,Narara,17,11,117.0,131.0
+Trains,Narara,18,17,126.0,192.0
+Trains,Narwee,8,21,95.0,126.0
+Trains,Narwee,9,32,96.0,116.0
+Trains,Narwee,10,32,97.0,121.0
+Trains,Narwee,11,32,97.0,115.0
+Trains,Narwee,12,32,98.0,109.0
+Trains,Narwee,13,21,97.0,122.0
+Trains,Narwee,14,22,100.0,127.0
+Trains,Narwee,15,35,101.0,118.0
+Trains,Narwee,16,31,102.0,119.0
+Trains,Narwee,17,24,104.0,118.0
+Trains,Narwee,18,30,102.0,111.0
+Trains,Narwee,19,22,98.0,108.0
+Trains,Narwee,20,32,100.0,108.0
+Trains,Narwee,21,30,100.0,119.0
+Trains,Narwee,22,21,103.0,120.0
+Trains,Newtown,7,26,75.0,112.0
+Trains,Newtown,8,75,76.0,101.0
+Trains,Newtown,9,86,74.0,122.0
+Trains,Newtown,10,80,78.0,146.0
+Trains,Newtown,11,80,82.0,141.0
+Trains,Newtown,12,78,76.0,142.0
+Trains,Newtown,13,51,81.0,142.0
+Trains,Newtown,14,66,81.0,140.0
+Trains,Newtown,15,73,84.0,136.0
+Trains,Newtown,16,82,85.0,199.0
+Trains,Newtown,17,100,86.0,171.0
+Trains,Newtown,18,87,87.0,150.0
+Trains,Newtown,19,55,81.0,148.0
+Trains,Newtown,20,83,79.0,149.0
+Trains,Newtown,21,75,81.0,130.0
+Trains,Newtown,22,36,77.0,132.0
+Trains,Niagara Park,8,12,77.0,98.0
+Trains,Niagara Park,15,12,74.0,89.0
+Trains,Niagara Park,17,14,74.0,93.0
+Trains,Niagara Park,18,25,74.0,93.0
+Trains,Niagara Park,19,19,84.0,99.0
+Trains,Normanhurst,8,21,95.0,127.0
+Trains,Normanhurst,9,32,94.0,118.0
+Trains,Normanhurst,10,32,102.0,128.0
+Trains,Normanhurst,11,31,96.0,130.0
+Trains,Normanhurst,12,29,101.0,133.0
+Trains,Normanhurst,13,19,98.0,125.0
+Trains,Normanhurst,14,28,98.0,125.0
+Trains,Normanhurst,15,31,104.0,123.0
+Trains,Normanhurst,16,29,98.0,125.0
+Trains,Normanhurst,17,30,95.0,122.0
+Trains,Normanhurst,18,30,96.0,122.0
+Trains,Normanhurst,19,26,95.0,122.0
+Trains,Normanhurst,20,29,96.0,133.0
+Trains,Normanhurst,21,27,87.0,113.0
+Trains,Normanhurst,22,14,94.0,136.0
+Trains,North Strathfield,7,10,78.0,94.0
+Trains,North Strathfield,8,25,81.0,88.0
+Trains,North Strathfield,9,32,77.0,87.0
+Trains,North Strathfield,10,32,77.0,90.0
+Trains,North Strathfield,11,32,77.0,106.0
+Trains,North Strathfield,12,29,77.0,84.0
+Trains,North Strathfield,13,18,75.0,91.0
+Trains,North Strathfield,14,27,76.0,84.0
+Trains,North Strathfield,15,32,80.0,95.0
+Trains,North Strathfield,16,29,79.0,93.0
+Trains,North Strathfield,17,30,84.0,102.0
+Trains,North Strathfield,18,28,77.0,83.0
+Trains,North Strathfield,19,25,76.0,98.0
+Trains,North Strathfield,20,31,76.0,82.0
+Trains,North Strathfield,21,28,77.0,91.0
+Trains,North Strathfield,22,13,75.0,80.0
+Trains,North Sydney,7,24,86.0,132.0
+Trains,North Sydney,8,90,82.0,114.0
+Trains,North Sydney,9,90,76.0,121.0
+Trains,North Sydney,10,67,73.0,130.0
+Trains,North Sydney,11,64,74.0,129.0
+Trains,North Sydney,12,64,74.0,124.0
+Trains,North Sydney,13,38,74.0,137.0
+Trains,North Sydney,14,49,80.0,136.0
+Trains,North Sydney,15,80,71.0,125.0
+Trains,North Sydney,16,109,73.0,118.0
+Trains,North Sydney,17,115,74.0,111.0
+Trains,North Sydney,18,85,76.0,133.0
+Trains,North Sydney,19,54,88.0,146.0
+Trains,North Sydney,20,63,68.0,135.0
+Trains,North Sydney,21,56,84.0,139.0
+Trains,North Sydney,22,13,94.0,139.0
+Trains,Oak Flats,17,12,156.0,162.0
+Trains,Oak Flats,18,11,140.0,152.0
+Trains,Oak Flats,19,13,151.0,170.0
+Trains,Oak Flats,20,12,138.0,160.0
+Trains,Ourimbah,8,14,114.0,148.0
+Trains,Ourimbah,15,12,120.0,132.0
+Trains,Ourimbah,17,14,120.0,145.0
+Trains,Ourimbah,18,23,115.0,140.0
+Trains,Ourimbah,19,21,106.0,117.0
+Trains,Padstow,7,13,114.0,220.0
+Trains,Padstow,8,26,114.0,136.0
+Trains,Padstow,9,32,116.0,138.0
+Trains,Padstow,10,32,137.0,168.0
+Trains,Padstow,11,32,134.0,158.0
+Trains,Padstow,12,32,134.0,157.0
+Trains,Padstow,13,20,136.0,157.0
+Trains,Padstow,14,21,137.0,167.0
+Trains,Padstow,15,31,128.0,151.0
+Trains,Padstow,16,31,118.0,138.0
+Trains,Padstow,17,34,112.0,164.0
+Trains,Padstow,18,34,124.0,195.0
+Trains,Padstow,19,26,136.0,168.0
+Trains,Padstow,20,30,130.0,156.0
+Trains,Padstow,21,27,100.0,123.0
+Trains,Padstow,22,19,101.0,105.0
+Trains,Panania,7,10,118.0,144.0
+Trains,Panania,8,23,119.0,141.0
+Trains,Panania,9,32,106.0,138.0
+Trains,Panania,10,32,125.0,141.0
+Trains,Panania,11,32,110.0,140.0
+Trains,Panania,12,32,110.0,141.0
+Trains,Panania,13,22,110.0,169.0
+Trains,Panania,14,25,111.0,144.0
+Trains,Panania,15,32,114.0,146.0
+Trains,Panania,16,30,122.0,141.0
+Trains,Panania,17,29,110.0,154.0
+Trains,Panania,18,34,116.0,146.0
+Trains,Panania,19,26,119.0,139.0
+Trains,Panania,20,31,102.0,144.0
+Trains,Panania,21,31,107.0,136.0
+Trains,Panania,22,18,104.0,138.0
+Trains,Parramatta,7,29,107.0,137.0
+Trains,Parramatta,8,90,115.0,259.0
+Trains,Parramatta,9,102,110.0,237.0
+Trains,Parramatta,10,79,115.0,227.0
+Trains,Parramatta,11,70,133.0,216.0
+Trains,Parramatta,12,68,117.0,202.0
+Trains,Parramatta,13,45,123.0,255.0
+Trains,Parramatta,14,64,118.0,208.0
+Trains,Parramatta,15,91,122.0,201.0
+Trains,Parramatta,16,123,117.0,232.0
+Trains,Parramatta,17,120,114.0,156.0
+Trains,Parramatta,18,94,105.0,201.0
+Trains,Parramatta,19,65,103.0,242.0
+Trains,Parramatta,20,78,106.0,186.0
+Trains,Parramatta,21,67,102.0,257.0
+Trains,Parramatta,22,36,102.0,210.0
+Trains,Pendle Hill,8,42,86.0,93.0
+Trains,Pendle Hill,9,43,84.0,94.0
+Trains,Pendle Hill,10,36,88.0,101.0
+Trains,Pendle Hill,11,32,90.0,102.0
+Trains,Pendle Hill,12,30,85.0,98.0
+Trains,Pendle Hill,13,19,91.0,100.0
+Trains,Pendle Hill,14,25,88.0,102.0
+Trains,Pendle Hill,15,43,90.0,100.0
+Trains,Pendle Hill,16,52,87.0,102.0
+Trains,Pendle Hill,17,53,88.0,95.0
+Trains,Pendle Hill,18,37,87.0,100.0
+Trains,Pendle Hill,19,33,86.0,94.0
+Trains,Pendle Hill,20,36,85.0,91.0
+Trains,Pendle Hill,21,32,86.0,95.0
+Trains,Pendle Hill,22,23,86.0,140.0
+Trains,Pennant Hills,8,21,90.0,279.0
+Trains,Pennant Hills,9,31,84.0,259.0
+Trains,Pennant Hills,10,31,89.0,129.0
+Trains,Pennant Hills,11,32,88.0,154.0
+Trains,Pennant Hills,12,29,81.0,124.0
+Trains,Pennant Hills,13,20,86.0,130.0
+Trains,Pennant Hills,14,28,82.0,116.0
+Trains,Pennant Hills,15,31,82.0,127.0
+Trains,Pennant Hills,16,33,80.0,95.0
+Trains,Pennant Hills,17,27,77.0,88.0
+Trains,Pennant Hills,18,31,74.0,89.0
+Trains,Pennant Hills,19,23,77.0,141.0
+Trains,Pennant Hills,20,32,79.0,116.0
+Trains,Pennant Hills,21,30,84.0,119.0
+Trains,Pennant Hills,22,17,77.0,127.0
+Trains,Penrith,8,28,112.0,338.0
+Trains,Penrith,9,36,118.0,154.0
+Trains,Penrith,10,27,109.0,158.0
+Trains,Penrith,11,21,118.0,138.0
+Trains,Penrith,12,20,99.0,174.0
+Trains,Penrith,13,14,109.0,178.0
+Trains,Penrith,14,25,108.0,139.0
+Trains,Penrith,15,32,114.0,155.0
+Trains,Penrith,16,31,121.0,148.0
+Trains,Penrith,17,36,128.0,182.0
+Trains,Penrith,18,32,98.0,140.0
+Trains,Penrith,19,23,124.0,160.0
+Trains,Penrith,20,21,92.0,108.0
+Trains,Penrith,21,17,93.0,113.0
+Trains,Penrith,22,14,86.0,140.0
+Trains,Petersham,7,14,68.0,93.0
+Trains,Petersham,8,46,66.0,89.0
+Trains,Petersham,9,40,65.0,79.0
+Trains,Petersham,10,32,62.0,81.0
+Trains,Petersham,11,32,64.0,79.0
+Trains,Petersham,12,32,64.0,81.0
+Trains,Petersham,13,20,64.0,86.0
+Trains,Petersham,14,25,63.0,80.0
+Trains,Petersham,15,30,69.0,88.0
+Trains,Petersham,16,37,66.0,85.0
+Trains,Petersham,17,55,74.0,101.0
+Trains,Petersham,18,47,67.0,93.0
+Trains,Petersham,19,22,62.0,86.0
+Trains,Petersham,20,32,63.0,83.0
+Trains,Petersham,21,31,61.0,79.0
+Trains,Petersham,22,25,59.0,80.0
+Trains,Point Clare,15,12,84.0,118.0
+Trains,Point Clare,16,12,120.0,123.0
+Trains,Point Clare,17,12,115.0,125.0
+Trains,Point Clare,18,11,108.0,116.0
+Trains,Pymble,7,13,97.0,104.0
+Trains,Pymble,8,43,89.0,98.0
+Trains,Pymble,9,50,85.0,94.0
+Trains,Pymble,10,39,86.0,91.0
+Trains,Pymble,11,32,86.0,94.0
+Trains,Pymble,12,32,86.0,94.0
+Trains,Pymble,13,20,86.0,95.0
+Trains,Pymble,14,29,85.0,101.0
+Trains,Pymble,15,50,90.0,99.0
+Trains,Pymble,16,68,86.0,96.0
+Trains,Pymble,17,67,83.0,96.0
+Trains,Pymble,18,58,88.0,100.0
+Trains,Pymble,19,27,87.0,96.0
+Trains,Pymble,20,31,86.0,96.0
+Trains,Pymble,21,26,83.0,95.0
+Trains,Pymble,22,11,87.0,95.0
+Trains,Quakers Hill,8,23,84.0,88.0
+Trains,Quakers Hill,9,32,82.0,90.0
+Trains,Quakers Hill,10,31,81.0,93.0
+Trains,Quakers Hill,11,32,80.0,107.0
+Trains,Quakers Hill,12,30,78.0,89.0
+Trains,Quakers Hill,13,18,82.0,96.0
+Trains,Quakers Hill,14,26,83.0,126.0
+Trains,Quakers Hill,15,28,83.0,97.0
+Trains,Quakers Hill,16,29,82.0,90.0
+Trains,Quakers Hill,17,33,83.0,102.0
+Trains,Quakers Hill,18,33,82.0,95.0
+Trains,Quakers Hill,19,26,82.0,93.0
+Trains,Quakers Hill,20,31,81.0,92.0
+Trains,Quakers Hill,21,30,80.0,124.0
+Trains,Quakers Hill,22,16,80.0,88.0
+Trains,Redfern,7,90,76.0,120.0
+Trains,Redfern,8,306,76.0,100.0
+Trains,Redfern,9,352,72.0,107.0
+Trains,Redfern,10,265,72.0,122.0
+Trains,Redfern,11,246,72.0,101.0
+Trains,Redfern,12,242,74.0,111.0
+Trains,Redfern,13,157,73.0,118.0
+Trains,Redfern,14,196,73.0,125.0
+Trains,Redfern,15,288,74.0,113.0
+Trains,Redfern,16,366,77.0,118.0
+Trains,Redfern,17,373,76.0,114.0
+Trains,Redfern,18,314,73.0,113.0
+Trains,Redfern,19,204,70.0,111.0
+Trains,Redfern,20,250,71.0,122.0
+Trains,Redfern,21,224,71.0,103.0
+Trains,Redfern,22,112,81.0,149.0
+Trains,Redfern,23,15,80.0,113.0
+Trains,Regents Park,7,17,98.0,121.0
+Trains,Regents Park,8,41,103.0,130.0
+Trains,Regents Park,9,44,146.0,222.0
+Trains,Regents Park,10,48,180.0,249.0
+Trains,Regents Park,11,48,194.0,235.0
+Trains,Regents Park,12,48,198.0,250.0
+Trains,Regents Park,13,31,190.0,245.0
+Trains,Regents Park,14,42,142.0,240.0
+Trains,Regents Park,15,48,117.0,172.0
+Trains,Regents Park,16,48,109.0,133.0
+Trains,Regents Park,17,51,100.0,137.0
+Trains,Regents Park,18,51,117.0,228.0
+Trains,Regents Park,19,34,202.0,241.0
+Trains,Regents Park,20,48,187.0,235.0
+Trains,Regents Park,21,45,177.0,247.0
+Trains,Regents Park,22,21,114.0,218.0
+Trains,Revesby,8,28,110.0,149.0
+Trains,Revesby,9,32,114.0,151.0
+Trains,Revesby,10,32,120.0,168.0
+Trains,Revesby,11,32,117.0,143.0
+Trains,Revesby,12,31,126.0,164.0
+Trains,Revesby,13,20,120.0,135.0
+Trains,Revesby,14,27,124.0,150.0
+Trains,Revesby,15,32,114.0,141.0
+Trains,Revesby,16,36,125.0,186.0
+Trains,Revesby,17,44,120.0,235.0
+Trains,Revesby,18,42,132.0,224.0
+Trains,Revesby,19,25,121.0,154.0
+Trains,Revesby,20,31,122.0,148.0
+Trains,Revesby,21,31,114.0,148.0
+Trains,Revesby,22,16,106.0,147.0
+Trains,Rhodes,7,11,91.0,101.0
+Trains,Rhodes,8,44,91.0,126.0
+Trains,Rhodes,9,39,89.0,99.0
+Trains,Rhodes,10,32,88.0,101.0
+Trains,Rhodes,11,32,88.0,116.0
+Trains,Rhodes,12,30,87.0,105.0
+Trains,Rhodes,13,20,86.0,103.0
+Trains,Rhodes,14,29,89.0,108.0
+Trains,Rhodes,15,32,95.0,122.0
+Trains,Rhodes,16,53,86.0,100.0
+Trains,Rhodes,17,57,87.0,98.0
+Trains,Rhodes,18,53,85.0,99.0
+Trains,Rhodes,19,22,86.0,98.0
+Trains,Rhodes,20,31,86.0,95.0
+Trains,Rhodes,21,31,85.0,93.0
+Trains,Rhodes,22,15,82.0,89.0
+Trains,Riverstone,9,16,170.0,202.0
+Trains,Riverstone,10,16,146.0,194.0
+Trains,Riverstone,11,16,104.0,204.0
+Trains,Riverstone,12,15,162.0,257.0
+Trains,Riverstone,13,11,129.0,340.0
+Trains,Riverstone,14,15,124.0,333.0
+Trains,Riverstone,15,15,127.0,199.0
+Trains,Riverstone,16,15,130.0,307.0
+Trains,Riverstone,17,14,106.0,269.0
+Trains,Riverstone,18,14,126.0,413.0
+Trains,Riverstone,19,11,193.0,370.0
+Trains,Riverstone,20,16,82.0,312.0
+Trains,Riverstone,21,15,155.0,372.0
+Trains,Riverwood,7,13,97.0,114.0
+Trains,Riverwood,8,26,96.0,108.0
+Trains,Riverwood,9,32,92.0,110.0
+Trains,Riverwood,10,32,92.0,109.0
+Trains,Riverwood,11,32,93.0,101.0
+Trains,Riverwood,12,32,96.0,108.0
+Trains,Riverwood,13,20,93.0,102.0
+Trains,Riverwood,14,23,95.0,120.0
+Trains,Riverwood,15,31,94.0,114.0
+Trains,Riverwood,16,31,96.0,109.0
+Trains,Riverwood,17,34,92.0,106.0
+Trains,Riverwood,18,35,96.0,110.0
+Trains,Riverwood,19,25,92.0,101.0
+Trains,Riverwood,20,31,88.0,99.0
+Trains,Riverwood,21,28,90.0,112.0
+Trains,Riverwood,22,21,94.0,112.0
+Trains,Rooty Hill,7,10,83.0,99.0
+Trains,Rooty Hill,8,29,85.0,92.0
+Trains,Rooty Hill,9,32,86.0,94.0
+Trains,Rooty Hill,10,32,86.0,93.0
+Trains,Rooty Hill,11,32,86.0,95.0
+Trains,Rooty Hill,12,32,82.0,95.0
+Trains,Rooty Hill,13,21,84.0,90.0
+Trains,Rooty Hill,14,26,90.0,96.0
+Trains,Rooty Hill,15,31,89.0,101.0
+Trains,Rooty Hill,16,31,91.0,104.0
+Trains,Rooty Hill,17,34,92.0,102.0
+Trains,Rooty Hill,18,40,92.0,105.0
+Trains,Rooty Hill,19,25,87.0,104.0
+Trains,Rooty Hill,20,31,83.0,98.0
+Trains,Rooty Hill,21,30,86.0,97.0
+Trains,Rooty Hill,22,20,82.0,97.0
+Trains,Roseville,7,21,81.0,101.0
+Trains,Roseville,8,67,66.0,90.0
+Trains,Roseville,9,93,66.0,86.0
+Trains,Roseville,10,67,74.0,89.0
+Trains,Roseville,11,63,75.0,88.0
+Trains,Roseville,12,64,78.0,91.0
+Trains,Roseville,13,40,77.0,86.0
+Trains,Roseville,14,55,79.0,89.0
+Trains,Roseville,15,79,79.0,93.0
+Trains,Roseville,16,91,81.0,88.0
+Trains,Roseville,17,86,79.0,86.0
+Trains,Roseville,18,76,77.0,84.0
+Trains,Roseville,19,46,73.0,86.0
+Trains,Roseville,20,61,74.0,87.0
+Trains,Roseville,21,54,74.0,87.0
+Trains,Roseville,22,16,69.0,87.0
+Trains,Schofields,8,11,92.0,97.0
+Trains,Schofields,9,16,92.0,99.0
+Trains,Schofields,10,16,92.0,106.0
+Trains,Schofields,11,16,88.0,99.0
+Trains,Schofields,12,15,87.0,98.0
+Trains,Schofields,13,10,97.0,107.0
+Trains,Schofields,14,12,99.0,212.0
+Trains,Schofields,15,15,96.0,123.0
+Trains,Schofields,16,15,93.0,110.0
+Trains,Schofields,17,15,88.0,108.0
+Trains,Schofields,18,14,90.0,109.0
+Trains,Schofields,19,12,92.0,102.0
+Trains,Schofields,20,16,91.0,98.0
+Trains,Schofields,21,15,94.0,101.0
+Trains,Schofields,22,10,90.0,126.0
+Trains,Sefton,8,19,85.0,105.0
+Trains,Sefton,9,16,74.0,78.0
+Trains,Sefton,10,16,77.0,106.0
+Trains,Sefton,11,16,77.0,98.0
+Trains,Sefton,12,16,80.0,107.0
+Trains,Sefton,13,11,76.0,118.0
+Trains,Sefton,14,13,81.0,118.0
+Trains,Sefton,15,16,84.0,119.0
+Trains,Sefton,16,16,78.0,82.0
+Trains,Sefton,17,22,77.0,101.0
+Trains,Sefton,18,23,77.0,80.0
+Trains,Sefton,19,13,84.0,110.0
+Trains,Sefton,20,16,78.0,84.0
+Trains,Sefton,21,16,78.0,108.0
+Trains,Seven Hills,7,23,104.0,130.0
+Trains,Seven Hills,8,69,107.0,153.0
+Trains,Seven Hills,9,74,100.0,120.0
+Trains,Seven Hills,10,68,100.0,119.0
+Trains,Seven Hills,11,64,99.0,119.0
+Trains,Seven Hills,12,63,98.0,126.0
+Trains,Seven Hills,13,39,103.0,127.0
+Trains,Seven Hills,14,52,99.0,121.0
+Trains,Seven Hills,15,75,104.0,120.0
+Trains,Seven Hills,16,81,100.0,120.0
+Trains,Seven Hills,17,88,100.0,126.0
+Trains,Seven Hills,18,78,96.0,117.0
+Trains,Seven Hills,19,56,96.0,119.0
+Trains,Seven Hills,20,67,91.0,112.0
+Trains,Seven Hills,21,61,99.0,115.0
+Trains,Seven Hills,22,32,95.0,147.0
+Trains,Shellharbour Junction,18,15,112.0,390.0
+Trains,Shellharbour Junction,20,16,121.0,287.0
+Trains,Springwood,8,12,124.0,167.0
+Trains,Springwood,10,15,131.0,156.0
+Trains,Springwood,14,10,118.0,144.0
+Trains,Springwood,15,11,158.0,171.0
+Trains,Springwood,16,12,122.0,154.0
+Trains,Springwood,17,20,146.0,244.0
+Trains,Springwood,18,16,124.0,152.0
+Trains,Springwood,19,11,119.0,126.0
+Trains,St James,7,30,69.0,81.0
+Trains,St James,8,88,67.0,78.0
+Trains,St James,9,102,65.0,79.0
+Trains,St James,10,94,66.0,78.0
+Trains,St James,11,95,68.0,77.0
+Trains,St James,12,94,66.0,81.0
+Trains,St James,13,61,69.0,80.0
+Trains,St James,14,75,71.0,82.0
+Trains,St James,15,93,70.0,81.0
+Trains,St James,16,104,70.0,82.0
+Trains,St James,17,109,70.0,82.0
+Trains,St James,18,89,71.0,81.0
+Trains,St James,19,69,66.0,82.0
+Trains,St James,20,94,66.0,82.0
+Trains,St James,21,88,66.0,79.0
+Trains,St James,22,43,67.0,88.0
+Trains,St Leonards,7,27,70.0,79.0
+Trains,St Leonards,8,89,70.0,79.0
+Trains,St Leonards,9,94,70.0,79.0
+Trains,St Leonards,10,68,68.0,77.0
+Trains,St Leonards,11,64,67.0,80.0
+Trains,St Leonards,12,63,70.0,79.0
+Trains,St Leonards,13,41,68.0,79.0
+Trains,St Leonards,14,47,70.0,83.0
+Trains,St Leonards,15,72,74.0,106.0
+Trains,St Leonards,16,109,71.0,99.0
+Trains,St Leonards,17,118,72.0,108.0
+Trains,St Leonards,18,88,70.0,117.0
+Trains,St Leonards,19,53,68.0,77.0
+Trains,St Leonards,20,61,66.0,73.0
+Trains,St Leonards,21,52,66.0,73.0
+Trains,St Leonards,22,14,68.0,74.0
+Trains,St Marys,7,12,106.0,128.0
+Trains,St Marys,8,27,108.0,166.0
+Trains,St Marys,9,32,112.0,172.0
+Trains,St Marys,10,32,111.0,123.0
+Trains,St Marys,11,32,104.0,132.0
+Trains,St Marys,12,31,104.0,127.0
+Trains,St Marys,13,21,105.0,150.0
+Trains,St Marys,14,26,106.0,116.0
+Trains,St Marys,15,31,113.0,132.0
+Trains,St Marys,16,31,115.0,152.0
+Trains,St Marys,17,33,114.0,187.0
+Trains,St Marys,18,41,111.0,164.0
+Trains,St Marys,19,27,114.0,171.0
+Trains,St Marys,20,31,108.0,165.0
+Trains,St Marys,21,33,104.0,112.0
+Trains,St Marys,22,17,103.0,150.0
+Trains,St Peters,7,14,89.0,102.0
+Trains,St Peters,8,31,88.0,102.0
+Trains,St Peters,9,32,72.0,82.0
+Trains,St Peters,10,32,75.0,117.0
+Trains,St Peters,11,32,72.0,86.0
+Trains,St Peters,12,32,74.0,88.0
+Trains,St Peters,13,20,75.0,90.0
+Trains,St Peters,14,24,78.0,89.0
+Trains,St Peters,15,31,73.0,81.0
+Trains,St Peters,16,38,70.0,86.0
+Trains,St Peters,17,25,81.0,88.0
+Trains,St Peters,18,28,82.0,99.0
+Trains,St Peters,19,20,75.0,93.0
+Trains,St Peters,20,32,74.0,86.0
+Trains,St Peters,21,32,76.0,92.0
+Trains,St Peters,22,22,74.0,85.0
+Trains,Stanmore,7,19,65.0,71.0
+Trains,Stanmore,8,44,63.0,92.0
+Trains,Stanmore,9,40,59.0,69.0
+Trains,Stanmore,10,32,58.0,83.0
+Trains,Stanmore,11,32,58.0,70.0
+Trains,Stanmore,12,30,62.0,87.0
+Trains,Stanmore,13,19,61.0,77.0
+Trains,Stanmore,14,26,60.0,88.0
+Trains,Stanmore,15,30,68.0,106.0
+Trains,Stanmore,16,37,65.0,75.0
+Trains,Stanmore,17,55,66.0,79.0
+Trains,Stanmore,18,49,62.0,71.0
+Trains,Stanmore,19,23,61.0,65.0
+Trains,Stanmore,20,31,61.0,73.0
+Trains,Stanmore,21,31,59.0,68.0
+Trains,Stanmore,22,22,60.0,72.0
+Trains,Strathfield,7,63,90.0,152.0
+Trains,Strathfield,8,212,95.0,163.0
+Trains,Strathfield,9,222,88.0,141.0
+Trains,Strathfield,10,185,84.0,121.0
+Trains,Strathfield,11,182,83.0,122.0
+Trains,Strathfield,12,174,84.0,115.0
+Trains,Strathfield,13,115,82.0,127.0
+Trains,Strathfield,14,147,87.0,141.0
+Trains,Strathfield,15,215,90.0,162.0
+Trains,Strathfield,16,263,86.0,157.0
+Trains,Strathfield,17,271,86.0,154.0
+Trains,Strathfield,18,237,85.0,145.0
+Trains,Strathfield,19,146,84.0,148.0
+Trains,Strathfield,20,178,82.0,116.0
+Trains,Strathfield,21,162,85.0,141.0
+Trains,Strathfield,22,87,83.0,165.0
+Trains,Strathfield,23,13,81.0,139.0
+Trains,Summer Hill,7,16,74.0,94.0
+Trains,Summer Hill,8,40,74.0,87.0
+Trains,Summer Hill,9,36,70.0,90.0
+Trains,Summer Hill,10,32,69.0,90.0
+Trains,Summer Hill,11,32,70.0,98.0
+Trains,Summer Hill,12,31,69.0,90.0
+Trains,Summer Hill,13,19,64.0,83.0
+Trains,Summer Hill,14,26,68.0,94.0
+Trains,Summer Hill,15,30,66.0,91.0
+Trains,Summer Hill,16,47,64.0,80.0
+Trains,Summer Hill,17,59,67.0,81.0
+Trains,Summer Hill,18,50,74.0,99.0
+Trains,Summer Hill,19,24,76.0,89.0
+Trains,Summer Hill,20,31,62.0,83.0
+Trains,Summer Hill,21,28,62.0,91.0
+Trains,Summer Hill,22,25,65.0,93.0
+Trains,Sutherland,7,17,106.0,131.0
+Trains,Sutherland,8,56,104.0,138.0
+Trains,Sutherland,9,56,108.0,153.0
+Trains,Sutherland,10,68,105.0,146.0
+Trains,Sutherland,11,55,109.0,197.0
+Trains,Sutherland,12,53,102.0,141.0
+Trains,Sutherland,13,37,117.0,172.0
+Trains,Sutherland,14,44,112.0,175.0
+Trains,Sutherland,15,54,112.0,150.0
+Trains,Sutherland,16,63,109.0,153.0
+Trains,Sutherland,17,64,112.0,149.0
+Trains,Sutherland,18,66,102.0,130.0
+Trains,Sutherland,19,51,104.0,145.0
+Trains,Sutherland,20,60,106.0,138.0
+Trains,Sutherland,21,53,118.0,191.0
+Trains,Sutherland,22,26,110.0,218.0
+Trains,Tascott,15,12,91.0,123.0
+Trains,Tascott,16,12,121.0,127.0
+Trains,Tascott,17,12,115.0,126.0
+Trains,Tascott,18,11,113.0,128.0
+Trains,Thornleigh,7,10,83.0,91.0
+Trains,Thornleigh,8,19,81.0,101.0
+Trains,Thornleigh,9,32,81.0,96.0
+Trains,Thornleigh,10,32,82.0,120.0
+Trains,Thornleigh,11,32,80.0,101.0
+Trains,Thornleigh,12,30,78.0,89.0
+Trains,Thornleigh,13,21,77.0,89.0
+Trains,Thornleigh,14,24,79.0,88.0
+Trains,Thornleigh,15,33,77.0,92.0
+Trains,Thornleigh,16,25,79.0,88.0
+Trains,Thornleigh,17,28,76.0,79.0
+Trains,Thornleigh,18,30,74.0,79.0
+Trains,Thornleigh,19,25,78.0,87.0
+Trains,Thornleigh,20,32,78.0,89.0
+Trains,Thornleigh,21,29,79.0,87.0
+Trains,Thornleigh,22,18,80.0,88.0
+Trains,Toongabbie,7,12,105.0,123.0
+Trains,Toongabbie,8,38,112.0,133.0
+Trains,Toongabbie,9,44,105.0,136.0
+Trains,Toongabbie,10,36,103.0,115.0
+Trains,Toongabbie,11,32,108.0,127.0
+Trains,Toongabbie,12,32,105.0,123.0
+Trains,Toongabbie,13,19,107.0,122.0
+Trains,Toongabbie,14,27,105.0,136.0
+Trains,Toongabbie,15,44,107.0,121.0
+Trains,Toongabbie,16,53,103.0,138.0
+Trains,Toongabbie,17,55,103.0,114.0
+Trains,Toongabbie,18,35,101.0,134.0
+Trains,Toongabbie,19,33,102.0,117.0
+Trains,Toongabbie,20,36,100.0,104.0
+Trains,Toongabbie,21,35,105.0,118.0
+Trains,Toongabbie,22,20,104.0,111.0
+Trains,Town Hall,7,87,85.0,130.0
+Trains,Town Hall,8,284,88.0,114.0
+Trains,Town Hall,9,331,81.0,124.0
+Trains,Town Hall,10,239,89.0,130.0
+Trains,Town Hall,11,222,88.0,137.0
+Trains,Town Hall,12,217,89.0,141.0
+Trains,Town Hall,13,135,93.0,147.0
+Trains,Town Hall,14,189,91.0,133.0
+Trains,Town Hall,15,267,86.0,122.0
+Trains,Town Hall,16,327,85.0,112.0
+Trains,Town Hall,17,343,87.0,119.0
+Trains,Town Hall,18,298,91.0,130.0
+Trains,Town Hall,19,191,91.0,138.0
+Trains,Town Hall,20,219,86.0,133.0
+Trains,Town Hall,21,197,89.0,140.0
+Trains,Town Hall,22,75,91.0,132.0
+Trains,Town Hall,23,12,72.0,102.0
+Trains,Tuggerah,9,20,96.0,152.0
+Trains,Tuggerah,10,16,96.0,114.0
+Trains,Tuggerah,11,12,90.0,104.0
+Trains,Tuggerah,12,15,95.0,104.0
+Trains,Tuggerah,13,10,104.0,179.0
+Trains,Tuggerah,14,13,95.0,185.0
+Trains,Tuggerah,15,16,96.0,118.0
+Trains,Tuggerah,16,12,97.0,156.0
+Trains,Tuggerah,17,24,92.0,103.0
+Trains,Tuggerah,18,38,88.0,121.0
+Trains,Tuggerah,19,27,86.0,137.0
+Trains,Tuggerah,20,15,93.0,159.0
+Trains,Tuggerah,21,10,90.0,188.0
+Trains,Turramurra,7,15,98.0,118.0
+Trains,Turramurra,8,47,94.0,104.0
+Trains,Turramurra,9,66,90.0,100.0
+Trains,Turramurra,10,39,90.0,98.0
+Trains,Turramurra,11,32,89.0,97.0
+Trains,Turramurra,12,32,90.0,113.0
+Trains,Turramurra,13,20,92.0,102.0
+Trains,Turramurra,14,28,92.0,104.0
+Trains,Turramurra,15,49,96.0,114.0
+Trains,Turramurra,16,68,92.0,100.0
+Trains,Turramurra,17,68,90.0,101.0
+Trains,Turramurra,18,56,90.0,102.0
+Trains,Turramurra,19,29,90.0,101.0
+Trains,Turramurra,20,32,88.0,97.0
+Trains,Turramurra,21,25,90.0,111.0
+Trains,Turramurra,22,11,86.0,97.0
+Trains,Unanderra,18,16,62.0,284.0
+Trains,Unanderra,19,12,70.0,86.0
+Trains,Valley Heights,8,12,108.0,115.0
+Trains,Valley Heights,9,16,108.0,128.0
+Trains,Valley Heights,14,11,104.0,111.0
+Trains,Valley Heights,15,15,114.0,129.0
+Trains,Valley Heights,16,16,102.0,114.0
+Trains,Valley Heights,17,16,78.0,117.0
+Trains,Valley Heights,18,10,46.0,118.0
+Trains,Valley Heights,19,10,98.0,125.0
+Trains,Villawood,8,17,118.0,121.0
+Trains,Villawood,9,15,119.0,122.0
+Trains,Villawood,10,16,116.0,122.0
+Trains,Villawood,11,16,118.0,122.0
+Trains,Villawood,12,16,120.0,128.0
+Trains,Villawood,13,10,111.0,122.0
+Trains,Villawood,14,10,116.0,156.0
+Trains,Villawood,15,16,112.0,120.0
+Trains,Villawood,16,16,116.0,121.0
+Trains,Villawood,17,21,108.0,126.0
+Trains,Villawood,18,24,110.0,119.0
+Trains,Villawood,19,13,115.0,119.0
+Trains,Villawood,20,16,116.0,120.0
+Trains,Villawood,21,15,112.0,129.0
+Trains,Villawood,22,13,102.0,116.0
+Trains,Vineyard,8,11,132.0,200.0
+Trains,Vineyard,9,16,154.0,190.0
+Trains,Vineyard,10,16,154.0,198.0
+Trains,Vineyard,11,16,151.0,192.0
+Trains,Vineyard,12,15,169.0,179.0
+Trains,Vineyard,13,11,157.0,187.0
+Trains,Vineyard,14,14,164.0,250.0
+Trains,Vineyard,15,15,138.0,208.0
+Trains,Vineyard,16,15,132.0,207.0
+Trains,Vineyard,17,16,156.0,192.0
+Trains,Vineyard,18,14,150.0,193.0
+Trains,Vineyard,19,14,138.0,181.0
+Trains,Vineyard,20,16,159.0,202.0
+Trains,Vineyard,21,14,156.0,198.0
+Trains,Wahroonga,7,17,86.0,104.0
+Trains,Wahroonga,8,45,80.0,95.0
+Trains,Wahroonga,9,46,76.0,90.0
+Trains,Wahroonga,10,39,79.0,97.0
+Trains,Wahroonga,11,32,79.0,96.0
+Trains,Wahroonga,12,32,78.0,88.0
+Trains,Wahroonga,13,19,76.0,91.0
+Trains,Wahroonga,14,27,81.0,93.0
+Trains,Wahroonga,15,50,84.0,101.0
+Trains,Wahroonga,16,68,74.0,93.0
+Trains,Wahroonga,17,70,76.0,89.0
+Trains,Wahroonga,18,54,78.0,88.0
+Trains,Wahroonga,19,25,79.0,87.0
+Trains,Wahroonga,20,31,77.0,84.0
+Trains,Wahroonga,21,25,76.0,88.0
+Trains,Wahroonga,22,10,76.0,83.0
+Trains,Waitara,7,16,78.0,82.0
+Trains,Waitara,8,50,75.0,83.0
+Trains,Waitara,9,54,73.0,83.0
+Trains,Waitara,10,36,72.0,80.0
+Trains,Waitara,11,32,71.0,79.0
+Trains,Waitara,12,31,72.0,82.0
+Trains,Waitara,13,20,73.0,80.0
+Trains,Waitara,14,27,75.0,84.0
+Trains,Waitara,15,46,80.0,94.0
+Trains,Waitara,16,68,74.0,79.0
+Trains,Waitara,17,72,74.0,81.0
+Trains,Waitara,18,48,72.0,79.0
+Trains,Waitara,19,27,73.0,81.0
+Trains,Waitara,20,31,71.0,82.0
+Trains,Waitara,21,21,71.0,77.0
+Trains,Warnervale,15,12,132.0,168.0
+Trains,Warnervale,16,12,123.0,138.0
+Trains,Warnervale,18,19,129.0,153.0
+Trains,Warrawee,7,17,96.0,122.0
+Trains,Warrawee,8,41,91.0,112.0
+Trains,Warrawee,9,50,84.0,108.0
+Trains,Warrawee,10,39,86.0,114.0
+Trains,Warrawee,11,32,84.0,111.0
+Trains,Warrawee,12,32,84.0,109.0
+Trains,Warrawee,13,20,88.0,112.0
+Trains,Warrawee,14,28,86.0,118.0
+Trains,Warrawee,15,50,88.0,114.0
+Trains,Warrawee,16,72,84.0,108.0
+Trains,Warrawee,17,68,84.0,105.0
+Trains,Warrawee,18,53,84.0,110.0
+Trains,Warrawee,19,28,86.0,110.0
+Trains,Warrawee,20,31,85.0,102.0
+Trains,Warrawee,21,26,81.0,108.0
+Trains,Warrawee,22,11,87.0,114.0
+Trains,Warrimoo,8,11,110.0,120.0
+Trains,Warrimoo,9,16,103.0,114.0
+Trains,Warrimoo,14,11,92.0,109.0
+Trains,Warrimoo,15,15,102.0,110.0
+Trains,Warrimoo,16,16,98.0,112.0
+Trains,Warrimoo,17,15,100.0,112.0
+Trains,Warrimoo,18,11,86.0,112.0
+Trains,Warwick Farm,7,24,85.0,132.0
+Trains,Warwick Farm,8,55,102.0,131.0
+Trains,Warwick Farm,9,68,102.0,132.0
+Trains,Warwick Farm,10,64,102.0,126.0
+Trains,Warwick Farm,11,63,106.0,133.0
+Trains,Warwick Farm,12,62,103.0,127.0
+Trains,Warwick Farm,13,39,112.0,149.0
+Trains,Warwick Farm,14,49,107.0,142.0
+Trains,Warwick Farm,15,60,110.0,129.0
+Trains,Warwick Farm,16,62,108.0,126.0
+Trains,Warwick Farm,17,69,110.0,136.0
+Trains,Warwick Farm,18,82,108.0,133.0
+Trains,Warwick Farm,19,59,106.0,136.0
+Trains,Warwick Farm,20,59,105.0,121.0
+Trains,Warwick Farm,21,52,108.0,117.0
+Trains,Warwick Farm,22,30,104.0,117.0
+Trains,Waverton,7,28,63.0,71.0
+Trains,Waverton,8,86,64.0,83.0
+Trains,Waverton,9,90,64.0,80.0
+Trains,Waverton,10,68,62.0,84.0
+Trains,Waverton,11,64,64.0,78.0
+Trains,Waverton,12,63,62.0,81.0
+Trains,Waverton,13,40,64.0,73.0
+Trains,Waverton,14,45,65.0,85.0
+Trains,Waverton,15,80,64.0,82.0
+Trains,Waverton,16,108,63.0,83.0
+Trains,Waverton,17,118,64.0,81.0
+Trains,Waverton,18,82,64.0,98.0
+Trains,Waverton,19,51,62.0,78.0
+Trains,Waverton,20,63,61.0,79.0
+Trains,Waverton,21,55,62.0,77.0
+Trains,Waverton,22,15,62.0,72.0
+Trains,Wentworth Falls,10,16,92.0,100.0
+Trains,Wentworth Falls,15,14,93.0,109.0
+Trains,Wentworth Falls,16,12,86.0,98.0
+Trains,Wentworth Falls,17,11,94.0,103.0
+Trains,Wentworth Falls,18,18,87.0,105.0
+Trains,Wentworthville,8,46,94.0,106.0
+Trains,Wentworthville,9,44,96.0,108.0
+Trains,Wentworthville,10,32,94.0,101.0
+Trains,Wentworthville,11,32,94.0,105.0
+Trains,Wentworthville,12,31,94.0,105.0
+Trains,Wentworthville,13,20,98.0,103.0
+Trains,Wentworthville,14,26,98.0,106.0
+Trains,Wentworthville,15,39,98.0,105.0
+Trains,Wentworthville,16,55,94.0,110.0
+Trains,Wentworthville,17,54,98.0,111.0
+Trains,Wentworthville,18,34,98.0,110.0
+Trains,Wentworthville,19,36,96.0,107.0
+Trains,Wentworthville,20,35,94.0,103.0
+Trains,Wentworthville,21,32,94.0,108.0
+Trains,Wentworthville,22,21,96.0,104.0
+Trains,Werrington,7,13,97.0,108.0
+Trains,Werrington,8,28,96.0,108.0
+Trains,Werrington,9,32,99.0,106.0
+Trains,Werrington,10,32,96.0,108.0
+Trains,Werrington,11,31,92.0,105.0
+Trains,Werrington,12,30,98.0,110.0
+Trains,Werrington,13,21,97.0,106.0
+Trains,Werrington,14,28,97.0,110.0
+Trains,Werrington,15,31,102.0,117.0
+Trains,Werrington,16,31,102.0,113.0
+Trains,Werrington,17,32,106.0,126.0
+Trains,Werrington,18,39,106.0,128.0
+Trains,Werrington,19,27,101.0,119.0
+Trains,Werrington,20,30,104.0,130.0
+Trains,Werrington,21,30,94.0,109.0
+Trains,Werrington,22,18,96.0,108.0
+Trains,West Ryde,7,13,76.0,93.0
+Trains,West Ryde,8,42,73.0,101.0
+Trains,West Ryde,9,36,77.0,123.0
+Trains,West Ryde,10,31,79.0,140.0
+Trains,West Ryde,11,32,75.0,126.0
+Trains,West Ryde,12,30,77.0,95.0
+Trains,West Ryde,13,20,74.0,83.0
+Trains,West Ryde,14,26,78.0,160.0
+Trains,West Ryde,15,32,81.0,113.0
+Trains,West Ryde,16,53,78.0,108.0
+Trains,West Ryde,17,58,74.0,96.0
+Trains,West Ryde,18,51,74.0,93.0
+Trains,West Ryde,19,26,78.0,115.0
+Trains,West Ryde,20,32,74.0,93.0
+Trains,West Ryde,21,32,73.0,153.0
+Trains,West Ryde,22,15,73.0,106.0
+Trains,Westmead,7,15,92.0,104.0
+Trains,Westmead,8,58,93.0,122.0
+Trains,Westmead,9,72,91.0,115.0
+Trains,Westmead,10,70,88.0,110.0
+Trains,Westmead,11,64,87.0,101.0
+Trains,Westmead,12,63,89.0,109.0
+Trains,Westmead,13,41,89.0,115.0
+Trains,Westmead,14,55,91.0,108.0
+Trains,Westmead,15,66,92.0,116.0
+Trains,Westmead,16,76,90.0,116.0
+Trains,Westmead,17,73,94.0,108.0
+Trains,Westmead,18,49,90.0,106.0
+Trains,Westmead,19,62,87.0,106.0
+Trains,Westmead,20,69,88.0,103.0
+Trains,Westmead,21,58,86.0,111.0
+Trains,Westmead,22,33,87.0,102.0
+Trains,Windsor,8,13,167.0,181.0
+Trains,Windsor,9,16,174.0,192.0
+Trains,Windsor,10,16,173.0,192.0
+Trains,Windsor,11,16,169.0,181.0
+Trains,Windsor,12,14,174.0,188.0
+Trains,Windsor,14,12,178.0,207.0
+Trains,Windsor,15,15,177.0,207.0
+Trains,Windsor,16,15,172.0,182.0
+Trains,Windsor,17,15,163.0,176.0
+Trains,Windsor,18,14,168.0,182.0
+Trains,Windsor,19,14,173.0,262.0
+Trains,Windsor,20,16,171.0,184.0
+Trains,Windsor,21,14,170.0,181.0
+Trains,Windsor,22,10,162.0,174.0
+Trains,Wollstonecraft,7,30,65.0,72.0
+Trains,Wollstonecraft,8,85,66.0,73.0
+Trains,Wollstonecraft,9,92,65.0,73.0
+Trains,Wollstonecraft,10,68,66.0,72.0
+Trains,Wollstonecraft,11,64,68.0,77.0
+Trains,Wollstonecraft,12,64,66.0,72.0
+Trains,Wollstonecraft,13,39,67.0,71.0
+Trains,Wollstonecraft,14,50,67.0,74.0
+Trains,Wollstonecraft,15,73,67.0,74.0
+Trains,Wollstonecraft,16,109,66.0,72.0
+Trains,Wollstonecraft,17,117,67.0,74.0
+Trains,Wollstonecraft,18,88,67.0,73.0
+Trains,Wollstonecraft,19,53,64.0,70.0
+Trains,Wollstonecraft,20,60,64.0,68.0
+Trains,Wollstonecraft,21,52,65.0,72.0
+Trains,Wollstonecraft,22,14,65.0,69.0
+Trains,Wondabyne,17,15,69.0,113.0
+Trains,Woodford,8,11,150.0,185.0
+Trains,Woodford,9,12,161.0,192.0
+Trains,Woodford,16,16,142.0,186.0
+Trains,Woodford,17,11,162.0,210.0
+Trains,Woodford,19,12,158.0,170.0
+Trains,Woolooware,7,10,88.0,110.0
+Trains,Woolooware,8,29,84.0,101.0
+Trains,Woolooware,9,32,92.0,115.0
+Trains,Woolooware,10,31,91.0,112.0
+Trains,Woolooware,11,30,88.0,126.0
+Trains,Woolooware,12,30,89.0,104.0
+Trains,Woolooware,13,19,88.0,103.0
+Trains,Woolooware,14,24,89.0,136.0
+Trains,Woolooware,15,29,91.0,109.0
+Trains,Woolooware,16,32,90.0,104.0
+Trains,Woolooware,17,32,90.0,101.0
+Trains,Woolooware,18,36,91.0,102.0
+Trains,Woolooware,19,27,88.0,108.0
+Trains,Woolooware,20,32,91.0,106.0
+Trains,Woolooware,21,28,89.0,103.0
+Trains,Woolooware,22,17,89.0,96.0
+Trains,Woy Woy,8,12,148.0,205.0
+Trains,Woy Woy,9,16,134.0,188.0
+Trains,Woy Woy,10,16,134.0,182.0
+Trains,Woy Woy,11,12,143.0,177.0
+Trains,Woy Woy,12,14,149.0,233.0
+Trains,Woy Woy,13,11,149.0,163.0
+Trains,Woy Woy,14,14,148.0,198.0
+Trains,Woy Woy,15,16,172.0,247.0
+Trains,Woy Woy,16,24,150.0,220.0
+Trains,Woy Woy,17,23,139.0,196.0
+Trains,Woy Woy,18,35,135.0,224.0
+Trains,Woy Woy,19,14,128.0,184.0
+Trains,Woy Woy,20,14,168.0,265.0
+Trains,Woy Woy,21,11,131.0,233.0
+Trains,Wyee,16,11,110.0,158.0
+Trains,Wyee,17,12,104.0,110.0
+Trains,Wynyard,7,57,80.0,102.0
+Trains,Wynyard,8,187,86.0,112.0
+Trains,Wynyard,9,210,79.0,107.0
+Trains,Wynyard,10,180,82.0,109.0
+Trains,Wynyard,11,175,77.0,105.0
+Trains,Wynyard,12,175,81.0,108.0
+Trains,Wynyard,13,110,78.0,111.0
+Trains,Wynyard,14,145,80.0,113.0
+Trains,Wynyard,15,181,85.0,111.0
+Trains,Wynyard,16,220,82.0,103.0
+Trains,Wynyard,17,228,87.0,112.0
+Trains,Wynyard,18,186,86.0,110.0
+Trains,Wynyard,19,137,86.0,109.0
+Trains,Wynyard,20,171,81.0,104.0
+Trains,Wynyard,21,152,73.0,109.0
+Trains,Wynyard,22,57,79.0,122.0
+Trains,Wyong,9,20,122.0,172.0
+Trains,Wyong,10,15,102.0,146.0
+Trains,Wyong,11,12,110.0,176.0
+Trains,Wyong,12,14,100.0,154.0
+Trains,Wyong,13,10,156.0,298.0
+Trains,Wyong,14,12,113.0,128.0
+Trains,Wyong,15,13,124.0,165.0
+Trains,Wyong,16,15,121.0,178.0
+Trains,Wyong,17,17,111.0,150.0
+Trains,Wyong,18,21,142.0,181.0
+Trains,Wyong,20,11,105.0,137.0
+Trains,Yagoona,7,10,98.0,111.0
+Trains,Yagoona,8,22,96.0,108.0
+Trains,Yagoona,9,28,96.0,115.0
+Trains,Yagoona,10,32,97.0,117.0
+Trains,Yagoona,11,32,98.0,113.0
+Trains,Yagoona,12,32,96.0,111.0
+Trains,Yagoona,13,20,99.0,119.0
+Trains,Yagoona,14,24,93.0,112.0
+Trains,Yagoona,15,32,100.0,112.0
+Trains,Yagoona,16,32,96.0,110.0
+Trains,Yagoona,17,24,100.0,112.0
+Trains,Yagoona,18,33,91.0,116.0
+Trains,Yagoona,19,25,101.0,118.0
+Trains,Yagoona,20,30,96.0,122.0
+Trains,Yagoona,21,26,101.0,119.0
+Trains,Yagoona,22,11,98.0,110.0
+Trains,Yennora,7,16,91.0,148.0
+Trains,Yennora,8,39,93.0,133.0
+Trains,Yennora,9,48,104.0,125.0
+Trains,Yennora,10,48,86.0,113.0
+Trains,Yennora,11,48,86.0,113.0
+Trains,Yennora,12,46,94.0,138.0
+Trains,Yennora,13,31,87.0,108.0
+Trains,Yennora,14,40,90.0,111.0
+Trains,Yennora,15,47,91.0,132.0
+Trains,Yennora,16,46,91.0,158.0
+Trains,Yennora,17,49,95.0,133.0
+Trains,Yennora,18,60,109.0,127.0
+Trains,Yennora,19,45,93.0,127.0
+Trains,Yennora,20,47,90.0,107.0
+Trains,Yennora,21,38,88.0,111.0
+Trains,Yennora,22,21,93.0,127.0

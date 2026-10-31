@@ -2,6 +2,29 @@
 
 A running log of design decisions and the reasons for them. Newest first.
 
+## 2026-10-30: Operations analyses from the collected realtime data only
+
+Seven dashboard pages built only from data already collected (no new sources): missed connections,
+where delays start, slow stretches, bunching and gaps, dwell times, crowding and car park fill
+(`python -m analysis.operations`). All are previews until a few weeks of data exist.
+
+- **Bus times.** Bus arrivals are taken at stops within 250 m of a rail station only, the same way as
+  trains (last prediction before the stop drops out, trusted only if the next snapshot came within 3
+  minutes). They are the operator's own estimates, not GPS-checked like trains.
+- **Connections.** A planned connection is the first departure on each other line and direction the
+  timetable lets you catch (3 min train-to-train; 2 min + walk at 1.2 m/s x 1.3 detour for buses;
+  planned waits over 20 min aren't connections). Counted per connection offered, not per passenger.
+  Extra waits over an hour are dropped as gaps in the data.
+- **Dwell.** The two position feeds differ: Metro reports a STOPPED_AT status every ~30 s; Sydney Trains
+  positions snap to signalling locations, with platforms as their own locations ("Ourimbah 2 Loc"). Each
+  gives a "platform time", compared within a mode and against each station's own midday value.
+- **Occupancy.** Metro and buses report it on every fix; Sydney Trains on about half. `reliability.py`
+  now stores it as missing when not reported (it previously read 0, "empty"). No feed reports levels
+  above standing room only, or per-carriage loads.
+- **Car parks.** Full = 95% of spaces, interpolated between 15-minute readings. Train service compared
+  is the scheduled 6 to 10am departures on a typical weekday from the latest timetable, because the
+  extracted Sydney Trains timetable only covers a few days.
+
 ## 2026-10-26: NSW TrainLink added; Newcastle and the Hunter as their own region
 
 **Timetable.** The Sydney Trains GTFS already carries every NSW TrainLink rail trip (agency

@@ -169,10 +169,13 @@ python -m analysis.equity_context
 python -m analysis.pois
 python -m analysis.opportunity_access
 python -m analysis.excess_wait
+python -m analysis.operations
 python -m analysis.region_hunter
 python -m analysis.visuals
 python -m analysis.export_dashboard
 ```
+
+`analysis.operations` rebuilds the operations pages (missed connections, where delays start, slow stretches, bunching and gaps, dwell times, crowding, car parks) from the realtime data collected so far; re-run `analysis.reliability` then `analysis.operations` as more days come in.
 
 The walking-distance and destination steps need the OpenStreetMap Australia extract (about 1 GB) first. See the docstring in `analysis/walk_access.py`.
 

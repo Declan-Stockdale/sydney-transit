@@ -184,7 +184,11 @@ def iter_vp_snapshots(feed: str, dates):
 
 
 def vehicle_points(feed: str, dates) -> pd.DataFrame:
-    """Every GPS fix of every train: trip, time, position (metres, EPSG:7856), occupancy."""
+    """Every GPS fix of every train: trip, time, position (metres, EPSG:7856), occupancy.
+
+    Occupancy is the GTFS-realtime OccupancyStatus number (1 many seats, 2 few seats, 3 standing room
+    only, ...), NaN when the fix doesn't report it: Sydney Trains leaves it out on about half its fixes,
+    which would otherwise read as 0 = "empty"."""
     rows = []
     for raw in iter_vp_snapshots(feed, dates):
         msg = gtfs_realtime_pb2.FeedMessage()
@@ -192,7 +196,8 @@ def vehicle_points(feed: str, dates) -> pd.DataFrame:
         for e in msg.entity:
             v = e.vehicle
             if e.HasField("vehicle") and v.HasField("position") and v.timestamp:
-                rows.append((v.trip.trip_id, v.trip.route_id, v.timestamp, v.position.longitude, v.position.latitude, v.occupancy_status))
+                occ = v.occupancy_status if v.HasField("occupancy_status") else np.nan
+                rows.append((v.trip.trip_id, v.trip.route_id, v.timestamp, v.position.longitude, v.position.latitude, occ))
     vp = pd.DataFrame(rows, columns=["trip_id", "route_id", "vp_ts", "lon", "lat", "occupancy"]).drop_duplicates(["trip_id", "vp_ts"])
     vp["x"], vp["y"] = TO_METRES.transform(vp["lon"].to_numpy(), vp["lat"].to_numpy())
     return vp
@@ -217,10 +222,13 @@ def gps_observed(obs: pd.DataFrame, vp: pd.DataFrame, feed: str) -> pd.DataFrame
     the first fix near it. (Using the closest fix instead misreads trains that
     sit at a terminus, e.g. a train waiting at Central for half an hour.) Fixes
     come every ~30 s, so this is an independent measurement, accurate to about
-    half a minute. Adds gps_time, gps_dist_m and occupancy at that moment.
+    half a minute. Adds gps_time, gps_dist_m and occupancy at that moment, plus
+    gps_first_time and gps_last_time (first and last fix near the station, for
+    arrival times and dwell) and gps_fixes (how many fixes were near it).
     """
     if vp.empty or obs.empty:
-        return obs.assign(gps_time=np.nan, gps_dist_m=np.nan, occupancy=np.nan)
+        return obs.assign(gps_time=np.nan, gps_dist_m=np.nan, occupancy=np.nan, gps_first_time=np.nan,
+                          gps_last_time=np.nan, gps_fixes=np.nan)
     parts = []
     for sd, part in obs.groupby("service_date"):
         pts = station_points(feed, sd)
@@ -243,6 +251,9 @@ def gps_observed(obs: pd.DataFrame, vp: pd.DataFrame, feed: str) -> pd.DataFrame
         p["gps_time"] = best["vp_ts"]
         p["gps_dist_m"] = best["dist"].round(0)
         p["occupancy"] = best["occupancy"]
+        p["gps_first_time"] = first["vp_ts"]
+        p["gps_last_time"] = last["vp_ts"]
+        p["gps_fixes"] = pairs.groupby("index").size()
         parts.append(p.drop(columns=["sx", "sy"]))
     return pd.concat(parts, ignore_index=True)
 

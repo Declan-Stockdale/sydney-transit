@@ -1,0 +1,741 @@
+mode,line,station,gaps,pct_bunched,pct_big_gap,regularity,sched_gap_min
+Bus,100,Wynyard,1169,28.6,25.6,1.58,6.0
+Bus,11,Hamilton,310,12.6,8.7,0.41,14.0
+Bus,11,Newcastle Interchange,269,7.8,6.7,0.4,14.9
+Bus,114,Crows Nest,280,16.4,12.5,0.74,10.0
+Bus,114,St Leonards,170,17.1,12.9,0.76,10.0
+Bus,115,Chatswood,106,2.8,4.7,0.26,10.0
+Bus,115,Crows Nest,371,12.9,15.6,0.49,10.0
+Bus,115,North Sydney,366,16.1,15.8,0.48,10.0
+Bus,115,Victoria Cross,252,16.7,16.3,0.49,10.0
+Bus,12,Hamilton,248,6.5,5.2,0.33,14.0
+Bus,12,Newcastle Interchange,295,5.1,2.7,0.3,15.0
+Bus,120,Chatswood,224,6.7,5.8,0.37,10.0
+Bus,120,Wynyard,754,19.5,18.0,0.77,10.0
+Bus,13,Cardiff,424,5.9,3.3,0.31,15.0
+Bus,13,Newcastle Interchange,322,6.2,4.0,0.31,15.0
+Bus,14,Adamstown,381,4.5,4.7,0.37,14.7
+Bus,144,Chatswood,182,7.7,6.6,0.42,10.0
+Bus,144,Crows Nest,990,15.7,15.2,0.61,10.0
+Bus,144,St Leonards,390,18.5,14.9,0.64,10.0
+Bus,14X,Tuggerah,68,23.5,14.7,0.68,9.0
+Bus,150X,North Sydney,30,50.0,33.3,0.86,9.0
+Bus,154X,Milsons Point,111,15.3,14.4,0.84,10.0
+Bus,154X,North Sydney,108,18.5,24.1,0.79,9.0
+Bus,154X,Victoria Cross,105,14.3,16.2,0.81,10.0
+Bus,160X,Chatswood,214,13.1,12.6,0.57,10.0
+Bus,164,Maitland,39,0.0,5.1,0.19,14.9
+Bus,165X,Wynyard,24,20.8,20.8,0.87,9.0
+Bus,17,Gosford,20,0.0,0.0,0.19,4.0
+Bus,170X,Wynyard,29,17.2,3.4,0.49,10.0
+Bus,172X,Wynyard,26,0.0,15.4,0.52,10.0
+Bus,17X,Gosford,123,2.4,3.3,0.27,15.0
+Bus,180X,Wynyard,33,15.2,12.1,0.51,10.0
+Bus,181,Maitland,40,42.5,25.0,0.71,6.0
+Bus,181,Metford,20,35.0,0.0,0.42,9.5
+Bus,182,Victoria Street,22,18.2,31.8,0.76,5.0
+Bus,183,Maitland,42,0.0,21.4,0.39,13.0
+Bus,188,Victoria Street,39,5.1,0.0,0.27,14.0
+Bus,19,Tuggerah,28,35.7,28.6,1.92,4.0
+Bus,197,Gordon,280,27.9,25.0,1.04,5.0
+Bus,197,Macquarie University,96,20.8,33.3,1.79,13.0
+Bus,207,North Sydney,22,4.5,9.1,0.43,10.0
+Bus,207,Victoria Cross,23,4.3,8.7,0.35,10.0
+Bus,209,Milsons Point,32,15.6,9.4,0.61,15.0
+Bus,209,North Sydney,44,40.9,18.2,1.81,7.0
+Bus,209,Victoria Cross,23,26.1,21.7,1.59,8.0
+Bus,230,Milsons Point,438,8.2,8.2,0.45,15.0
+Bus,230,North Sydney,543,12.2,10.9,0.47,15.0
+Bus,230,Victoria Cross,446,11.7,10.8,0.53,15.0
+Bus,25,Tuggerah,32,21.9,25.0,3.82,3.0
+Bus,26,Tuggerah,47,10.6,25.5,0.73,6.0
+Bus,265,Wollstonecraft,44,22.7,11.4,0.84,8.0
+Bus,270,Wynyard,41,17.1,17.1,0.53,10.0
+Bus,271,Fassifern,33,9.1,15.2,0.53,12.0
+Bus,271,Wynyard,25,8.0,8.0,0.36,15.0
+Bus,28,Broadmeadow,21,28.6,23.8,1.1,15.0
+Bus,280,Morisset,23,17.4,0.0,0.4,12.0
+Bus,285,Wynyard,60,8.3,6.7,0.33,15.0
+Bus,288,Macquarie University,357,27.7,25.2,1.26,10.0
+Bus,288,Wynyard,237,10.1,8.4,0.48,10.0
+Bus,291,Macquarie University,68,17.6,35.3,1.18,7.0
+Bus,292,Macquarie Park,49,12.2,16.3,0.54,14.0
+Bus,292,Macquarie University,235,18.7,28.5,1.2,8.0
+Bus,292,Wynyard,224,9.8,12.9,0.69,10.0
+Bus,293,Wynyard,42,7.1,7.1,0.42,10.0
+Bus,295,Epping,40,5.0,12.5,0.5,15.0
+Bus,304,Circular Quay,267,6.4,4.9,0.55,10.0
+Bus,304,Gadigal,266,10.2,8.6,0.66,10.0
+Bus,304,Martin Place,526,16.3,15.8,0.74,10.0
+Bus,304,Museum,526,23.6,22.8,0.82,10.0
+Bus,304,St James,260,23.8,21.9,0.83,10.0
+Bus,306,Green Square,227,15.4,13.7,0.57,11.0
+Bus,306,Mascot,54,16.7,20.4,0.57,11.0
+Bus,306,Redfern,64,4.7,6.2,0.41,11.0
+Bus,306,Waterloo,244,14.8,13.9,0.6,11.0
+Bus,308,Central,45,4.4,11.1,0.42,15.0
+Bus,308,Redfern,52,5.8,9.6,0.43,15.0
+Bus,308,St Peters,62,6.5,9.7,0.37,15.0
+Bus,308,Waterloo,37,13.5,10.8,0.45,15.0
+Bus,309,Green Square,1078,20.3,18.9,0.68,10.0
+Bus,309,Redfern,260,7.7,7.7,0.47,10.0
+Bus,309,Waterloo,1085,19.6,18.3,0.64,10.0
+Bus,311,Barangaroo,42,19.0,4.8,0.38,15.0
+Bus,311,Gadigal,26,26.9,7.7,0.69,15.0
+Bus,311,Kings Cross,46,10.9,8.7,0.36,15.0
+Bus,311,Town Hall,25,24.0,8.0,0.68,15.0
+Bus,311,Wynyard,29,24.1,3.4,0.43,15.0
+Bus,313,Bondi Junction,150,8.0,5.3,0.37,10.0
+Bus,320,Central,236,4.7,4.7,0.33,10.0
+Bus,324,Barangaroo,54,29.6,24.1,0.67,10.0
+Bus,324,Edgecliff,78,26.9,19.2,0.67,10.0
+Bus,324,Gadigal,62,24.2,16.1,0.61,10.0
+Bus,324,Kings Cross,83,24.1,15.7,0.65,10.0
+Bus,324,Town Hall,55,25.5,14.5,0.64,10.0
+Bus,324,Wynyard,52,26.9,17.3,0.64,10.0
+Bus,333,Bondi Junction,3127,27.4,22.4,0.99,6.0
+Bus,333,Circular Quay,466,13.7,13.1,0.83,5.0
+Bus,333,Gadigal,458,20.5,19.4,0.92,5.0
+Bus,333,Martin Place,890,25.3,22.0,0.98,6.0
+Bus,333,Museum,883,26.7,24.2,1.0,6.0
+Bus,333,St James,423,32.2,27.2,1.09,6.0
+Bus,339X,Martin Place,61,16.4,14.8,0.81,10.0
+Bus,339X,Museum,31,9.7,9.7,0.42,10.0
+Bus,339X,St James,65,20.0,15.4,0.83,10.0
+Bus,343,Central,285,11.6,12.3,0.54,10.0
+Bus,343,Circular Quay,276,6.2,6.2,0.43,10.0
+Bus,343,Gadigal,278,8.3,8.6,0.49,10.0
+Bus,343,Martin Place,513,13.6,12.3,0.54,10.0
+Bus,343,Museum,471,19.7,18.9,0.59,10.0
+Bus,343,St James,234,22.2,17.9,0.61,10.0
+Bus,348,Green Square,57,7.0,7.0,0.37,15.0
+Bus,350,Bondi Junction,670,17.8,15.2,0.68,10.0
+Bus,350,Domestic Airport,230,10.9,10.4,0.72,10.0
+Bus,350,Mascot,466,23.0,20.0,0.82,10.0
+Bus,358,Mascot,523,21.2,17.4,0.69,10.0
+Bus,358,Sydenham,116,6.0,7.8,0.55,10.0
+Bus,360,Bondi Junction,151,11.3,8.6,0.4,10.0
+Bus,370,Green Square,1002,19.8,17.0,0.77,10.0
+Bus,370,Newtown,664,14.6,13.3,0.52,10.0
+Bus,370,St Peters,671,17.0,13.9,0.52,10.0
+Bus,373,Museum,237,12.7,9.7,0.41,10.0
+Bus,373X,Martin Place,117,16.2,17.1,0.61,9.0
+Bus,373X,Museum,73,13.7,12.3,0.58,10.0
+Bus,373X,St James,118,16.9,16.1,0.63,8.0
+Bus,374,Central,138,6.5,6.5,0.39,10.0
+Bus,374X,Martin Place,32,15.6,9.4,0.54,10.0
+Bus,374X,St James,33,12.1,6.1,0.51,10.0
+Bus,377X,Martin Place,41,17.1,7.3,0.65,10.0
+Bus,377X,Museum,30,16.7,10.0,0.74,10.0
+Bus,377X,St James,40,20.0,10.0,0.66,10.0
+Bus,379,Bondi Junction,1686,11.2,10.7,0.55,10.0
+Bus,380,Bondi Junction,238,15.1,16.0,0.58,10.0
+Bus,381,Bondi Junction,279,14.7,11.5,0.51,11.0
+Bus,386,Bondi Junction,30,6.7,3.3,0.28,14.5
+Bus,387,Bondi Junction,38,10.5,5.3,0.4,13.5
+Bus,389,Bondi Junction,702,11.0,11.3,0.47,10.0
+Bus,389,Gadigal,472,14.4,12.7,0.55,10.0
+Bus,389,Town Hall,473,15.0,13.1,0.55,10.0
+Bus,390X,Bondi Junction,870,18.3,15.2,0.68,8.0
+Bus,392,Redfern,242,5.4,5.8,0.45,10.0
+Bus,392,Waterloo,748,15.1,12.4,0.63,10.0
+Bus,392X,Gadigal,61,21.3,18.0,0.59,10.0
+Bus,392X,Martin Place,60,20.0,23.3,0.6,10.0
+Bus,392X,Museum,59,20.3,22.0,0.6,10.0
+Bus,394X,Gadigal,69,21.7,18.8,0.73,10.0
+Bus,394X,Martin Place,73,19.2,17.8,0.74,10.0
+Bus,394X,Museum,70,24.3,18.6,0.74,10.0
+Bus,396,Circular Quay,240,10.4,10.0,0.49,10.0
+Bus,396,Gadigal,245,13.9,11.8,0.55,10.0
+Bus,396,Martin Place,482,17.2,13.5,0.59,10.0
+Bus,396,Museum,485,17.3,12.8,0.6,10.0
+Bus,396,St James,227,23.3,15.9,0.67,10.0
+Bus,396X,Martin Place,29,17.2,17.2,0.64,10.0
+Bus,396X,St James,34,20.6,17.6,0.65,10.0
+Bus,408,Strathfield,21,42.9,0.0,0.35,9.0
+Bus,410,Bexley North,287,13.9,11.8,0.66,12.0
+Bus,410,Burwood,601,14.6,13.3,0.64,12.0
+Bus,410,Campsie,281,15.3,13.5,0.66,12.0
+Bus,410,Hurstville,313,7.3,7.0,0.5,12.0
+Bus,410,Macquarie Park,290,14.5,11.0,0.53,13.0
+Bus,410,Macquarie University,286,14.3,12.6,0.57,12.0
+Bus,410,Rhodes,412,11.2,11.7,0.45,14.0
+Bus,412,Campsie,32,12.5,9.4,0.57,15.0
+Bus,412,Central,206,11.2,11.2,0.51,15.0
+Bus,412,Dulwich Hill,263,13.7,12.5,0.54,15.0
+Bus,412,Martin Place,131,6.1,3.1,0.32,15.0
+Bus,412,Museum,326,13.8,16.3,0.56,15.0
+Bus,412,Petersham,213,12.2,14.6,0.53,15.0
+Bus,412,St James,213,12.7,13.1,0.52,15.0
+Bus,412,Stanmore,202,11.9,13.9,0.53,15.0
+Bus,413,Central,52,7.7,13.5,0.51,14.0
+Bus,413,Lewisham,42,2.4,7.1,0.51,13.0
+Bus,415,Belmore,110,10.9,5.5,0.47,15.0
+Bus,415,Campsie,47,8.5,6.4,0.4,15.0
+Bus,415,Strathfield,112,29.5,20.5,1.12,10.0
+Bus,418,Ashfield,194,14.9,15.5,0.56,10.0
+Bus,418,Burwood,132,16.7,11.4,0.56,10.0
+Bus,418,Hurlstone Park,151,16.6,13.9,0.53,10.0
+Bus,418,Sydenham,67,9.0,7.5,0.49,10.0
+Bus,420,Banksia,241,5.8,7.1,0.35,15.0
+Bus,420,Bexley North,227,6.6,8.4,0.37,15.0
+Bus,420,Burwood,229,7.0,8.3,0.4,15.0
+Bus,420,Campsie,237,6.8,7.2,0.39,15.0
+Bus,420,Domestic Airport,311,28.0,27.0,1.44,8.0
+Bus,420,International Airport,309,28.2,27.2,1.76,8.0
+Bus,420,Mascot,130,0.8,3.1,0.33,15.0
+Bus,420,Rockdale,237,7.2,7.6,0.37,15.0
+Bus,422,Central,117,12.0,11.1,0.41,15.0
+Bus,422,Newtown,373,4.8,3.8,0.29,15.0
+Bus,422,St Peters,242,5.8,5.0,0.33,15.0
+Bus,423,Central,306,32.0,28.8,1.06,10.0
+Bus,423,Marrickville,472,26.3,21.2,0.78,10.0
+Bus,423,Martin Place,253,16.2,17.8,0.84,10.0
+Bus,423,Museum,751,26.4,23.3,0.97,10.0
+Bus,423,Newtown,781,22.5,21.0,0.93,10.0
+Bus,423,St James,502,23.1,22.7,0.94,10.0
+Bus,426,Martin Place,34,14.7,14.7,0.54,15.0
+Bus,426,Museum,71,7.0,12.7,0.48,13.0
+Bus,426,Newtown,53,5.7,1.9,0.4,15.0
+Bus,426,St James,53,9.4,13.2,0.51,15.0
+Bus,428,Canterbury,111,9.9,10.8,0.53,15.0
+Bus,428,Central,131,18.3,17.6,0.68,15.0
+Bus,428,Martin Place,135,11.9,11.9,0.53,15.0
+Bus,428,Museum,403,16.1,16.9,0.65,15.0
+Bus,428,Newtown,414,12.1,12.6,0.51,15.0
+Bus,428,St James,267,14.6,15.7,0.63,15.0
+Bus,431,Central,191,7.3,5.8,0.37,10.0
+Bus,431,Martin Place,100,8.0,5.0,0.37,10.0
+Bus,431,Museum,282,8.5,10.3,0.4,10.0
+Bus,431,St James,188,6.9,9.6,0.4,10.0
+Bus,433,Central,449,9.4,9.1,0.4,10.0
+Bus,437,Town Hall,51,9.8,2.0,0.39,10.0
+Bus,438X,Central,514,15.0,14.2,0.63,10.0
+Bus,438X,Martin Place,252,7.1,9.5,0.52,10.0
+Bus,438X,Museum,774,18.0,16.4,0.66,10.0
+Bus,438X,St James,511,15.1,14.5,0.62,10.0
+Bus,440,Bondi Junction,566,9.0,9.4,0.39,10.0
+Bus,440,Central,578,14.0,13.8,0.6,10.0
+Bus,440,Museum,191,9.4,9.4,0.43,10.0
+Bus,442,Town Hall,283,15.9,14.1,0.74,10.0
+Bus,445,Campsie,118,5.9,7.6,0.37,15.0
+Bus,445,Canterbury,336,7.4,8.6,0.4,15.0
+Bus,445,Petersham,510,6.9,7.8,0.39,15.0
+Bus,450,Beverly Hills,94,14.9,13.8,0.57,14.0
+Bus,450,Hurstville,48,16.7,16.7,0.46,14.0
+Bus,450,Lakemba,46,17.4,4.3,0.35,15.0
+Bus,461X,Burwood,311,10.3,10.3,0.51,14.0
+Bus,461X,Central,338,8.9,10.7,0.59,14.0
+Bus,461X,Gadigal,311,11.6,12.5,0.55,13.0
+Bus,461X,Museum,335,10.1,11.3,0.54,13.0
+Bus,464,Ashfield,600,5.3,6.2,0.32,15.0
+Bus,464,Burwood,444,10.6,11.5,0.42,15.0
+Bus,47,Tuggerah,25,12.0,28.0,0.52,6.0
+Bus,470,Central,485,12.4,11.5,0.52,10.0
+Bus,470,Martin Place,244,7.8,7.0,0.41,10.0
+Bus,470,Museum,732,14.8,13.7,0.58,10.0
+Bus,470,St James,488,13.3,12.3,0.55,10.0
+Bus,473,Arncliffe,51,11.8,11.8,0.63,9.0
+Bus,476,Kogarah,66,16.7,13.6,0.52,10.0
+Bus,476,Rockdale,29,6.9,3.4,0.3,10.0
+Bus,477,Kogarah,23,8.7,8.7,0.49,14.0
+Bus,478,Rockdale,319,4.7,4.7,0.3,15.0
+Bus,479,Rockdale,39,5.1,17.9,0.34,15.0
+Bus,492,Kingsgrove,118,8.5,17.8,0.53,14.0
+Bus,492,Rockdale,37,8.1,10.8,0.41,15.0
+Bus,501,Central,347,10.7,10.1,0.49,15.0
+Bus,501,West Ryde,246,4.1,3.3,0.24,15.0
+Bus,504,Gadigal,385,11.9,9.9,0.53,10.0
+Bus,504,St James,150,3.3,4.0,0.32,10.0
+Bus,504,Town Hall,590,13.2,12.9,0.55,10.0
+Bus,506,Gadigal,113,19.5,23.0,0.95,10.0
+Bus,506,Macquarie University,78,23.1,16.7,3.32,12.0
+Bus,506,St James,58,13.8,12.1,0.98,9.0
+Bus,506,Town Hall,159,22.6,20.8,0.93,10.0
+Bus,507,Gadigal,66,12.1,10.6,0.43,10.0
+Bus,507,Meadowbank,30,13.3,13.3,0.55,10.0
+Bus,507,Town Hall,52,17.3,17.3,0.51,10.0
+Bus,515,Eastwood,31,0.0,0.0,0.1,15.0
+Bus,518,Macquarie University,280,21.8,21.1,0.73,13.0
+Bus,518,Meadowbank,36,5.6,5.6,0.41,15.0
+Bus,52,Gadigal,569,3.9,3.5,0.29,10.0
+Bus,52,Parramatta,237,0.0,0.4,0.05,10.0
+Bus,52,Town Hall,897,18.1,17.2,0.79,10.0
+Bus,52,West Ryde,498,10.4,11.6,0.47,10.0
+Bus,526,Homebush,235,7.2,6.4,0.32,10.0
+Bus,526,Olympic Park,922,11.1,10.2,0.42,10.0
+Bus,526,Rhodes,464,11.9,9.5,0.44,10.0
+Bus,526,Strathfield,244,5.7,6.1,0.29,10.0
+Bus,533,Chatswood,21,19.0,9.5,0.39,15.0
+Bus,533,Olympic Park,57,5.3,7.0,0.33,15.0
+Bus,533,Rhodes,111,11.7,10.8,0.46,15.0
+Bus,544,Eastwood,32,37.5,6.2,0.68,11.0
+Bus,545,Eastwood,622,19.0,19.9,1.39,10.0
+Bus,545,Macquarie Park,610,4.9,5.2,0.29,13.5
+Bus,545,Macquarie University,929,12.3,9.3,0.77,10.0
+Bus,545,Parramatta,158,4.4,5.1,0.29,13.0
+Bus,549,Epping,47,8.5,10.6,0.61,12.0
+Bus,550,Epping,463,12.7,13.4,0.54,12.0
+Bus,550,Macquarie Park,472,12.3,11.0,0.56,12.0
+Bus,550,Macquarie University,1004,21.7,17.8,1.25,10.0
+Bus,550,Parramatta,159,6.3,7.5,0.41,10.0
+Bus,55A,Fairy Meadow,191,23.6,16.8,0.68,10.0
+Bus,55A,Wollongong,184,17.9,15.8,0.64,10.0
+Bus,55C,Fairy Meadow,181,15.5,11.6,0.49,10.0
+Bus,55C,Wollongong,183,16.9,14.2,0.51,10.0
+Bus,565,Macquarie University,26,7.7,38.5,0.57,13.0
+Bus,572,Macquarie University,95,7.4,7.4,0.37,14.0
+Bus,575,Macquarie University,80,13.8,18.8,0.59,13.0
+Bus,596,Hornsby,93,5.4,12.9,0.81,14.0
+Bus,600,Castle Hill,375,8.3,7.5,0.37,11.0
+Bus,600,Parramatta,154,0.0,0.0,0.01,12.0
+Bus,600,Pennant Hills,144,0.0,0.0,0.0,11.0
+Bus,601,Hills Showground,244,7.0,6.1,0.34,15.0
+Bus,601,Parramatta,80,0.0,0.0,0.0,14.4
+Bus,601,Rouse Hill,80,0.0,0.0,0.02,14.1
+Bus,603,Kellyville,30,0.0,3.3,0.2,15.0
+Bus,604,Hills Showground,41,12.2,14.6,0.42,13.0
+Bus,605,Rouse Hill,67,4.5,3.0,0.22,10.0
+Bus,607X,Bella Vista,136,11.8,13.2,0.55,10.0
+Bus,607X,Town Hall,86,4.7,2.3,0.26,10.0
+Bus,607X,Wynyard,131,13.0,13.0,0.47,10.0
+Bus,610X,Castle Hill,246,4.1,3.3,0.28,10.0
+Bus,610X,Town Hall,269,6.7,7.1,0.37,10.0
+Bus,610X,Wynyard,529,9.6,8.7,0.45,10.0
+Bus,611,Blacktown,149,2.7,2.0,0.4,10.0
+Bus,611,Macquarie Park,669,7.5,6.3,0.44,10.0
+Bus,611,Macquarie University,426,13.6,10.3,0.51,10.0
+Bus,611,Seven Hills,401,15.7,15.5,1.0,10.0
+Bus,612X,Crows Nest,80,13.8,11.2,0.62,10.0
+Bus,612X,North Sydney,49,4.1,4.1,0.2,10.0
+Bus,612X,St Leonards,81,12.3,11.1,0.6,10.0
+Bus,614X,Wynyard,24,0.0,4.2,0.22,15.0
+Bus,615X,Wynyard,54,16.7,13.0,0.57,10.0
+Bus,616X,Wynyard,86,17.4,19.8,0.68,7.0
+Bus,617,Kellyville,30,6.7,3.3,0.33,12.5
+Bus,620X,Town Hall,43,11.6,7.0,0.44,10.0
+Bus,620X,Wynyard,21,0.0,0.0,0.22,13.0
+Bus,626,Cherrybrook,51,2.0,2.0,0.25,12.0
+Bus,633,Castle Hill,35,5.7,2.9,0.29,15.0
+Bus,633,Hills Showground,29,3.4,6.9,0.27,14.0
+Bus,633w,West Ryde,24,25.0,25.0,2.2,4.0
+Bus,635,Cherrybrook,30,0.0,3.3,0.21,15.0
+Bus,642X,Cherrybrook,47,25.5,14.9,0.63,10.0
+Bus,642X,Town Hall,65,24.6,16.9,0.6,10.0
+Bus,642X,Wynyard,42,14.3,11.9,0.45,10.0
+Bus,643,Rouse Hill,47,2.1,0.0,0.24,15.0
+Bus,651,Beecroft,89,19.1,28.1,1.48,5.0
+Bus,660,Norwest,47,12.8,12.8,0.44,11.0
+Bus,662,Norwest,41,7.3,0.0,0.3,14.0
+Bus,663,Parramatta,48,4.2,6.2,0.34,10.0
+Bus,663,Rouse Hill,21,0.0,0.0,0.19,15.0
+Bus,663,Westmead,85,7.1,9.4,0.38,10.0
+Bus,664,Norwest,83,13.3,10.8,0.59,10.0
+Bus,664,Parramatta,26,3.8,7.7,0.29,10.0
+Bus,664,Rouse Hill,21,4.8,9.5,0.31,15.0
+Bus,664,Westmead,68,13.2,4.4,0.5,10.0
+Bus,665,Kellyville,444,7.9,6.8,0.38,10.0
+Bus,665,Parramatta,215,0.5,0.5,0.34,9.4
+Bus,665,Rouse Hill,208,0.5,0.5,0.09,10.0
+Bus,665,Westmead,450,8.2,6.9,0.44,10.0
+Bus,686G,Katoomba,24,16.7,4.2,0.45,10.0
+Bus,700,Blacktown,36,0.0,0.0,0.15,15.0
+Bus,700,Parramatta,51,2.0,3.9,0.24,15.0
+Bus,705,Pendle Hill,160,38.8,14.4,1.29,7.0
+Bus,711,Wentworthville,105,11.4,9.5,0.49,11.0
+Bus,729,Blacktown,33,3.0,3.0,0.26,15.0
+Bus,732,Quakers Hill,193,28.0,19.2,1.85,4.0
+Bus,732,Rouse Hill,30,6.7,6.7,0.31,15.0
+Bus,732,Tallawong,57,10.5,14.0,0.4,15.0
+Bus,734,Schofields,83,39.8,28.9,1.72,1.0
+Bus,740,Rouse Hill,20,5.0,10.0,0.44,15.0
+Bus,748,Schofields,275,20.7,17.5,0.93,8.0
+Bus,748,Tallawong,103,3.9,6.8,0.3,15.0
+Bus,752,Quakers Hill,216,14.4,18.5,0.71,9.0
+Bus,754,Blacktown,43,7.0,0.0,0.3,15.0
+Bus,754,Mount Druitt,33,18.2,21.2,0.57,15.0
+Bus,758,Mount Druitt,37,5.4,2.7,0.23,15.0
+Bus,770,St Marys,156,37.8,16.0,1.45,10.0
+Bus,774,St Marys,154,21.4,10.4,0.74,10.0
+Bus,775,Mount Druitt,22,0.0,0.0,0.2,15.0
+Bus,775,St Marys,200,35.0,34.5,1.72,5.0
+Bus,776,Mount Druitt,30,0.0,3.3,0.26,15.0
+Bus,776,St Marys,209,29.2,35.4,2.42,5.0
+Bus,780,Mount Druitt,52,7.7,3.8,0.4,10.0
+Bus,780,Penrith,44,11.4,6.8,0.37,14.0
+Bus,782,Werrington,20,5.0,20.0,0.65,9.0
+Bus,79,Wyong,52,23.1,21.2,2.12,4.0
+Bus,791,Penrith,29,17.2,17.2,0.52,15.0
+Bus,80,Liverpool,206,1.0,1.5,0.16,10.0
+Bus,80,Parramatta,260,0.8,0.8,0.36,9.0
+Bus,80,Wyong,43,9.3,18.6,1.27,14.0
+Bus,800,Blacktown,25,0.0,0.0,0.2,15.0
+Bus,800,Fairfield,45,2.2,0.0,0.19,15.0
+Bus,802,Merrylands,75,14.7,8.0,0.46,15.0
+Bus,802,Parramatta,30,6.7,6.7,0.43,15.0
+Bus,804,Fairfield,73,12.3,21.9,0.73,15.0
+Bus,804,Liverpool,41,7.3,4.9,0.59,15.0
+Bus,804,Merrylands,127,14.2,13.4,0.74,15.0
+Bus,804,Parramatta,28,3.6,7.1,0.43,15.0
+Bus,806,Merrylands,59,13.6,8.5,0.44,15.0
+Bus,806,Parramatta,25,8.0,8.0,0.36,15.0
+Bus,81,Wyong,50,26.0,24.0,0.79,7.0
+Bus,810,Parramatta,35,11.4,17.1,0.58,10.0
+Bus,817,Cabramatta,33,3.0,3.0,0.27,14.0
+Bus,817,Canley Vale,56,17.9,7.1,0.38,13.0
+Bus,817,Fairfield,31,6.5,3.2,0.57,15.0
+Bus,841,Leppington,36,19.4,5.6,0.42,15.0
+Bus,859,Edmondson Park,54,3.7,5.6,0.32,15.0
+Bus,869,Edmondson Park,49,22.4,28.6,0.81,13.0
+Bus,880,Campbelltown,54,22.2,7.4,0.54,15.0
+Bus,880,Macarthur,40,37.5,10.0,0.63,14.0
+Bus,880,Minto,34,2.9,5.9,0.36,9.0
+Bus,888,Campbelltown,114,6.1,7.0,0.35,15.0
+Bus,888,Macarthur,326,9.5,10.1,0.6,15.0
+Bus,895,Campbelltown,38,21.1,10.5,0.55,15.0
+Bus,895,Macarthur,96,31.2,14.6,0.7,15.0
+Bus,896,Campbelltown,27,11.1,7.4,0.4,15.0
+Bus,896,Macarthur,54,11.1,9.3,0.4,15.0
+Bus,90,Austinmer,63,7.9,7.9,0.48,14.0
+Bus,90,Bulli,66,4.5,4.5,0.51,15.0
+Bus,90,North Wollongong,82,1.2,6.1,0.35,15.0
+Bus,90,Thirroul,141,5.0,3.5,0.46,15.0
+Bus,905,Bankstown,175,12.6,16.0,0.61,15.0
+Bus,905,Fairfield,25,4.0,8.0,0.31,15.0
+Bus,905,Villawood,135,33.3,26.7,1.78,5.0
+Bus,906,Guildford,24,41.7,33.3,2.36,4.5
+Bus,910,Bankstown,184,21.2,15.8,0.59,10.0
+Bus,910,Chester Hill,353,21.2,15.3,0.56,10.0
+Bus,910,Granville,191,27.7,22.5,0.75,10.0
+Bus,910,Parramatta,56,3.6,1.8,0.27,10.5
+Bus,910,Yagoona,177,23.2,20.3,0.64,10.0
+Bus,920,Bankstown,74,16.2,13.5,0.47,10.0
+Bus,920,Lidcombe,80,17.5,13.8,0.51,10.0
+Bus,920,Parramatta,47,6.4,6.4,0.3,10.0
+Bus,941,Hurstville,36,13.9,8.3,0.52,13.5
+Bus,941,Narwee,108,3.7,8.3,0.59,14.0
+Bus,941,Penshurst,53,5.7,9.4,0.53,14.0
+Bus,941,Punchbowl,60,10.0,10.0,0.37,15.0
+Bus,945,Bankstown,115,6.1,4.3,0.35,15.0
+Bus,945,Hurstville,62,11.3,8.1,0.44,14.0
+Bus,945,Mortdale,255,20.4,16.5,0.9,13.0
+Bus,945,Penshurst,87,10.3,9.2,0.46,14.0
+Bus,945,Riverwood,131,9.9,3.8,0.42,15.0
+Bus,947,Allawah,21,42.9,9.5,0.68,5.0
+Bus,949,Hurstville,23,8.7,4.3,0.37,14.0
+Bus,950,Bankstown,38,2.6,0.0,0.19,15.0
+Bus,950,Hurstville,44,6.8,11.4,0.44,14.0
+Bus,950,Padstow,67,10.4,9.0,0.36,15.0
+Bus,960,Bankstown,23,8.7,26.1,0.98,10.0
+Bus,960,Padstow,36,16.7,11.1,0.45,10.0
+Bus,961,Sutherland,38,13.2,5.3,0.38,10.0
+Bus,962,Gymea,25,8.0,8.0,0.35,15.0
+Bus,962,Miranda,25,8.0,4.0,0.31,15.0
+Bus,962,Sutherland,241,22.0,28.2,0.87,10.0
+Bus,967,Jannali,24,37.5,25.0,1.01,10.0
+Bus,969,Caringbah,90,6.7,12.2,0.45,13.0
+Bus,970,Hurstville,24,16.7,12.5,0.43,15.0
+Bus,970,Miranda,26,7.7,7.7,0.46,15.0
+Bus,971,Hurstville,35,5.7,14.3,0.41,15.0
+Bus,971,Miranda,40,25.0,0.0,0.43,15.0
+Bus,B1,Wynyard,414,1.0,0.7,0.27,6.0
+Bus,M90,Bankstown,352,22.4,21.9,0.84,10.0
+Bus,M90,Liverpool,143,18.9,11.2,0.68,12.0
+Bus,M90,Strathfield,92,9.8,10.9,0.44,10.0
+Bus,SW1,Bankstown,360,6.4,6.4,0.51,7.0
+Bus,SW1,Belmore,815,17.4,16.8,1.61,6.0
+Bus,SW1,Campsie,819,15.9,17.0,1.5,6.0
+Bus,SW1,Canterbury,821,17.8,18.4,1.48,6.0
+Bus,SW1,Dulwich Hill,831,18.8,19.0,1.5,6.0
+Bus,SW1,Hurlstone Park,826,16.7,17.1,1.49,6.0
+Bus,SW1,Lakemba,815,17.8,16.8,1.61,6.0
+Bus,SW1,Marrickville,825,18.7,17.6,1.51,6.0
+Bus,SW1,Punchbowl,803,19.3,18.2,1.44,6.0
+Bus,SW1,Sydenham,424,7.5,6.8,0.98,5.0
+Bus,SW1,Wiley Park,809,18.3,16.8,1.47,6.0
+Bus,SW2,Bankstown,362,1.1,1.1,0.17,7.0
+Bus,SW2,Belmore,769,18.5,17.4,0.75,7.0
+Bus,SW2,Lakemba,769,17.4,16.4,0.74,7.0
+Bus,SW2,Punchbowl,765,17.3,17.0,0.78,7.0
+Bus,SW2,Sydenham,407,0.0,0.0,0.02,4.0
+Bus,SW2,Wiley Park,769,16.0,15.5,0.75,7.0
+Bus,SW3,Campsie,291,5.2,6.2,0.52,9.0
+Bus,SW3,Canterbury,667,13.2,13.2,0.84,8.0
+Bus,SW3,Sydenham,374,3.7,3.5,0.44,5.0
+Metro,M1,Bankstown,58,0.0,0.0,0.01,4.0
+Metro,M1,Barangaroo,1321,1.4,3.1,0.27,4.0
+Metro,M1,Bella Vista,1332,2.1,2.7,0.24,4.0
+Metro,M1,Belmore,116,0.0,0.0,0.09,4.0
+Metro,M1,Campsie,116,0.0,0.0,0.07,4.0
+Metro,M1,Canterbury,116,0.0,0.0,0.08,4.0
+Metro,M1,Castle Hill,1334,2.1,2.9,0.25,4.0
+Metro,M1,Central,1320,1.7,3.0,0.23,4.0
+Metro,M1,Chatswood,1323,1.4,3.1,0.25,4.0
+Metro,M1,Cherrybrook,1335,2.0,2.9,0.25,4.0
+Metro,M1,Crows Nest,1323,1.3,3.0,0.26,4.0
+Metro,M1,Dulwich Hill,116,0.0,0.0,0.09,4.0
+Metro,M1,Epping,1336,2.3,2.8,0.26,4.0
+Metro,M1,Gadigal,1320,2.1,2.8,0.24,4.0
+Metro,M1,Hills Showground,1332,2.0,2.9,0.25,4.0
+Metro,M1,Hurlstone Park,116,0.0,0.0,0.08,4.0
+Metro,M1,Kellyville,1332,2.3,2.7,0.25,4.0
+Metro,M1,Lakemba,116,0.0,0.0,0.09,4.0
+Metro,M1,Macquarie Park,1325,1.4,2.9,0.25,4.0
+Metro,M1,Macquarie University,1337,2.2,2.8,0.25,4.0
+Metro,M1,Marrickville,116,0.0,0.0,0.07,4.0
+Metro,M1,Martin Place,1321,1.7,2.9,0.28,4.0
+Metro,M1,North Ryde,1321,1.4,2.9,0.25,4.0
+Metro,M1,Norwest,1332,2.0,2.7,0.24,4.0
+Metro,M1,Punchbowl,116,0.0,0.0,0.09,4.0
+Metro,M1,Rouse Hill,1328,2.0,2.6,0.25,4.0
+Metro,M1,Sydenham,734,1.8,2.0,0.2,4.0
+Metro,M1,Tallawong,648,3.7,3.5,0.24,4.0
+Metro,M1,Victoria Cross,1322,1.4,3.0,0.27,4.0
+Metro,M1,Waterloo,1153,1.6,2.5,0.24,4.0
+Metro,M1,Wiley Park,116,0.0,0.0,0.08,4.0
+TrainLink,HUN,Warabrook,20,0.0,5.0,0.26,13.0
+TrainLink,HUN,Waratah,20,0.0,10.0,0.33,13.0
+Trains,BMT,Blacktown,21,0.0,0.0,0.11,14.8
+Trains,BMT,Glenbrook,20,0.0,0.0,0.19,14.7
+Trains,BMT,Parramatta,34,0.0,2.9,0.18,15.0
+Trains,BMT,Strathfield,23,0.0,0.0,0.15,15.0
+Trains,CCN,Artarmon,21,0.0,0.0,0.11,15.0
+Trains,CCN,Central,35,0.0,2.9,0.44,15.0
+Trains,CCN,Epping,52,3.8,1.9,0.21,15.0
+Trains,CCN,Hamilton,38,5.3,2.6,0.27,10.0
+Trains,CCN,Hornsby,47,4.3,4.3,0.25,15.0
+Trains,CCN,Lisarow,22,0.0,4.5,0.76,11.2
+Trains,CCN,Milsons Point,22,0.0,4.5,0.27,15.0
+Trains,CCN,Narara,22,0.0,4.5,0.76,11.2
+Trains,CCN,Newcastle Interchange,21,4.8,14.3,0.83,10.0
+Trains,CCN,Niagara Park,22,0.0,4.5,0.76,11.2
+Trains,CCN,North Sydney,22,0.0,4.5,0.27,15.0
+Trains,CCN,Ourimbah,22,0.0,9.1,0.78,11.3
+Trains,CCN,St Leonards,21,0.0,0.0,0.12,15.0
+Trains,CCN,Strathfield,48,0.0,0.0,0.13,15.0
+Trains,CCN,Town Hall,25,0.0,4.0,0.25,15.0
+Trains,CCN,Tuggerah,52,3.8,5.8,0.3,10.0
+Trains,CCN,Waverton,23,0.0,0.0,0.11,15.0
+Trains,CCN,Wollstonecraft,22,0.0,0.0,0.09,15.0
+Trains,CCN,Woy Woy,24,0.0,4.2,0.24,9.0
+Trains,CCN,Wynyard,24,0.0,4.2,0.26,15.0
+Trains,CCN,Wyong,25,0.0,24.0,0.34,8.0
+Trains,SCO,Central,23,8.7,0.0,0.32,10.0
+Trains,SCO,Coniston,25,4.0,4.0,0.24,12.5
+Trains,SCO,North Wollongong,36,0.0,11.1,0.38,12.0
+Trains,SCO,Redfern,22,4.5,0.0,0.25,10.0
+Trains,SCO,Wollongong,34,2.9,11.8,1.06,10.7
+Trains,T1,Artarmon,581,0.9,2.2,0.39,11.0
+Trains,T1,Asquith,125,0.0,0.0,0.11,15.0
+Trains,T1,Berowra,68,2.9,2.9,0.21,15.0
+Trains,T1,Blacktown,592,7.8,4.6,0.5,14.0
+Trains,T1,Central,777,1.9,2.2,0.29,6.0
+Trains,T1,Chatswood,574,0.9,5.6,0.23,12.0
+Trains,T1,Doonside,398,0.0,1.8,0.18,15.0
+Trains,T1,Gordon,577,0.7,2.4,0.2,11.0
+Trains,T1,Hornsby,309,13.6,9.7,0.53,11.0
+Trains,T1,Killara,533,0.9,2.6,0.18,12.0
+Trains,T1,Kingswood,344,0.3,0.9,0.18,15.0
+Trains,T1,Lidcombe,551,0.9,3.8,0.42,11.0
+Trains,T1,Lindfield,535,0.7,2.2,0.19,12.0
+Trains,T1,Marayong,158,3.2,2.5,0.3,15.0
+Trains,T1,Milsons Point,761,2.4,4.5,0.32,6.0
+Trains,T1,Mount Colah,129,0.0,0.0,0.12,15.0
+Trains,T1,Mount Druitt,376,0.0,1.3,0.16,15.0
+Trains,T1,Mount Kuring-gai,128,0.0,0.0,0.11,15.0
+Trains,T1,North Sydney,673,2.7,3.4,0.7,11.0
+Trains,T1,Parramatta,660,1.1,2.6,0.23,12.0
+Trains,T1,Pendle Hill,178,0.6,1.7,0.19,15.0
+Trains,T1,Penrith,110,7.3,6.4,0.45,14.0
+Trains,T1,Pymble,568,0.5,1.4,0.17,10.0
+Trains,T1,Quakers Hill,158,3.2,1.9,0.3,15.0
+Trains,T1,Redfern,780,2.9,3.1,0.44,6.0
+Trains,T1,Rooty Hill,374,0.3,1.1,0.16,15.0
+Trains,T1,Roseville,530,1.5,3.6,0.22,12.0
+Trains,T1,Schofields,35,0.0,5.7,0.21,15.0
+Trains,T1,Seven Hills,625,3.8,7.8,0.42,13.8
+Trains,T1,St Leonards,580,1.4,2.1,0.4,11.0
+Trains,T1,St Marys,353,0.0,2.0,0.18,15.0
+Trains,T1,Strathfield,757,2.8,4.0,0.39,9.2
+Trains,T1,Toongabbie,178,1.7,1.1,0.21,15.0
+Trains,T1,Town Hall,756,4.4,6.2,0.34,6.0
+Trains,T1,Turramurra,586,0.5,1.5,0.17,11.0
+Trains,T1,Wahroonga,565,0.7,1.2,0.16,10.0
+Trains,T1,Waitara,563,1.2,2.0,0.19,10.0
+Trains,T1,Warrawee,567,0.7,1.2,0.17,10.0
+Trains,T1,Waverton,583,0.9,2.4,0.25,11.0
+Trains,T1,Wentworthville,180,0.6,1.1,0.19,15.0
+Trains,T1,Werrington,350,0.6,1.1,0.16,15.0
+Trains,T1,Westmead,579,2.1,4.5,0.3,13.0
+Trains,T1,Wollstonecraft,583,1.7,3.6,0.26,11.0
+Trains,T1,Wynyard,754,3.2,4.9,0.34,6.0
+Trains,T2,Ashfield,798,0.3,0.4,0.13,15.0
+Trains,T2,Auburn,756,0.1,3.3,0.26,10.4
+Trains,T2,Burwood,815,0.1,1.8,0.19,11.2
+Trains,T2,Cabramatta,403,0.0,0.0,0.1,15.0
+Trains,T2,Canley Vale,401,0.0,0.2,0.11,15.0
+Trains,T2,Casula,395,0.0,0.0,0.1,15.0
+Trains,T2,Central,1093,2.1,2.7,0.21,6.0
+Trains,T2,Circular Quay,563,0.9,2.1,0.22,6.0
+Trains,T2,Clyde,717,0.3,5.6,0.33,10.8
+Trains,T2,Croydon,409,0.0,0.5,0.14,15.0
+Trains,T2,Edmondson Park,360,0.0,0.0,0.07,15.0
+Trains,T2,Fairfield,400,0.0,0.0,0.11,15.0
+Trains,T2,Flemington,719,2.2,4.2,0.25,12.1
+Trains,T2,Glenfield,390,0.0,0.0,0.11,15.0
+Trains,T2,Granville,687,0.4,3.8,0.23,12.0
+Trains,T2,Guildford,393,0.3,0.3,0.1,15.0
+Trains,T2,Harris Park,246,0.0,0.0,0.08,15.0
+Trains,T2,Homebush,289,0.0,0.0,0.11,15.0
+Trains,T2,Leppington,162,3.7,3.1,0.28,15.0
+Trains,T2,Lewisham,434,0.0,0.2,0.14,15.0
+Trains,T2,Lidcombe,759,0.1,2.9,0.26,7.0
+Trains,T2,Liverpool,389,0.0,0.0,0.1,15.0
+Trains,T2,Macdonaldtown,390,0.0,0.0,0.1,15.0
+Trains,T2,Merrylands,400,0.2,0.5,0.11,15.0
+Trains,T2,Museum,558,1.8,2.9,0.25,6.0
+Trains,T2,Newtown,789,0.0,0.0,0.11,15.0
+Trains,T2,Parramatta,125,4.8,5.6,0.19,15.0
+Trains,T2,Petersham,418,0.0,0.0,0.1,15.0
+Trains,T2,Redfern,939,2.6,3.8,0.25,9.0
+Trains,T2,St James,561,0.5,2.0,0.2,6.0
+Trains,T2,Stanmore,429,0.0,0.2,0.11,15.0
+Trains,T2,Strathfield,797,0.4,1.8,0.2,11.1
+Trains,T2,Summer Hill,433,0.2,0.7,0.13,15.0
+Trains,T2,Town Hall,556,1.4,4.0,0.23,6.0
+Trains,T2,Warwick Farm,395,0.0,0.0,0.1,15.0
+Trains,T2,Wynyard,565,1.4,3.2,0.22,6.0
+Trains,T2,Yennora,393,0.3,0.3,0.11,15.0
+Trains,T3,Ashfield,44,0.0,0.0,0.11,15.0
+Trains,T3,Berala,50,0.0,0.0,0.09,15.0
+Trains,T3,Burwood,45,0.0,0.0,0.1,15.0
+Trains,T3,Cabramatta,52,0.0,0.0,0.1,15.0
+Trains,T3,Carramar,49,0.0,0.0,0.12,15.0
+Trains,T3,Central,70,0.0,0.0,0.08,15.0
+Trains,T3,Chester Hill,49,0.0,0.0,0.09,15.0
+Trains,T3,Circular Quay,34,0.0,0.0,0.1,15.0
+Trains,T3,Homebush,46,0.0,0.0,0.1,15.0
+Trains,T3,Leightonfield,47,0.0,0.0,0.09,15.0
+Trains,T3,Lewisham,42,0.0,0.0,0.1,15.0
+Trains,T3,Lidcombe,49,0.0,0.0,0.11,15.0
+Trains,T3,Macdonaldtown,43,0.0,0.0,0.09,15.0
+Trains,T3,Museum,36,0.0,0.0,0.08,15.0
+Trains,T3,Newtown,48,0.0,0.0,0.09,15.0
+Trains,T3,Petersham,42,0.0,0.0,0.1,15.0
+Trains,T3,Redfern,45,0.0,0.0,0.1,15.0
+Trains,T3,Regents Park,47,0.0,0.0,0.1,15.0
+Trains,T3,Sefton,47,0.0,0.0,0.09,15.0
+Trains,T3,St James,36,0.0,0.0,0.08,15.0
+Trains,T3,Stanmore,42,0.0,0.0,0.09,15.0
+Trains,T3,Strathfield,45,0.0,0.0,0.12,15.0
+Trains,T3,Summer Hill,39,0.0,0.0,0.12,15.0
+Trains,T3,Town Hall,34,0.0,0.0,0.13,15.0
+Trains,T3,Villawood,46,0.0,0.0,0.1,15.0
+Trains,T3,Warwick Farm,38,0.0,0.0,0.09,15.0
+Trains,T3,Wynyard,34,0.0,0.0,0.1,15.0
+Trains,T4,Allawah,368,0.5,1.4,0.17,10.0
+Trains,T4,Arncliffe,274,0.7,1.8,0.16,10.0
+Trains,T4,Banksia,270,0.0,1.9,0.15,10.0
+Trains,T4,Bondi Junction,485,6.8,7.2,0.52,7.0
+Trains,T4,Caringbah,332,0.9,0.9,0.16,15.0
+Trains,T4,Carlton,374,0.5,1.3,0.16,10.0
+Trains,T4,Central,988,2.1,4.1,0.28,6.0
+Trains,T4,Cronulla,177,7.9,9.6,0.36,15.0
+Trains,T4,Edgecliff,974,4.4,4.7,0.31,6.0
+Trains,T4,Gymea,335,0.9,0.9,0.16,15.0
+Trains,T4,Hurstville,505,4.4,6.3,0.37,10.0
+Trains,T4,Jannali,195,1.0,1.0,0.2,14.0
+Trains,T4,Kings Cross,974,2.6,4.5,0.3,6.0
+Trains,T4,Kirrawee,337,1.2,0.9,0.16,15.0
+Trains,T4,Kogarah,484,0.6,2.1,0.17,10.0
+Trains,T4,Martin Place,975,2.7,4.6,0.29,6.0
+Trains,T4,Miranda,336,0.6,0.9,0.16,15.0
+Trains,T4,Mortdale,143,4.2,0.7,0.2,10.1
+Trains,T4,Penshurst,277,1.4,1.4,0.2,10.0
+Trains,T4,Redfern,963,1.6,3.7,0.31,10.0
+Trains,T4,Rockdale,465,0.6,1.9,0.19,10.0
+Trains,T4,Sutherland,367,0.8,0.5,0.16,15.0
+Trains,T4,Sydenham,524,2.3,3.6,0.29,10.0
+Trains,T4,Tempe,274,0.4,1.1,0.17,10.0
+Trains,T4,Town Hall,987,2.1,3.5,0.27,6.0
+Trains,T4,Wolli Creek,716,0.7,2.2,0.22,10.0
+Trains,T4,Woolooware,326,0.9,0.9,0.17,15.0
+Trains,T5,Guildford,21,4.8,4.8,0.43,15.0
+Trains,T5,Parramatta,22,4.5,4.5,0.45,15.0
+Trains,T5,Toongabbie,20,5.0,0.0,0.27,14.5
+Trains,T5,Warwick Farm,20,5.0,5.0,0.43,15.0
+Trains,T5,Westmead,20,5.0,0.0,0.25,14.8
+Trains,T5,Yennora,20,5.0,5.0,0.44,15.0
+Trains,T6,Bankstown,180,1.7,2.8,0.16,15.0
+Trains,T6,Berala,358,0.0,0.0,0.07,15.0
+Trains,T6,Birrong,357,0.0,0.0,0.07,15.0
+Trains,T6,Lidcombe,184,2.2,2.2,0.15,15.0
+Trains,T6,Regents Park,354,0.0,0.3,0.09,15.0
+Trains,T6,Yagoona,359,0.0,0.0,0.07,15.0
+Trains,T7,Lidcombe,312,0.3,1.3,0.1,10.0
+Trains,T7,Olympic Park,305,0.3,0.3,0.18,10.0
+Trains,T8,Bardwell Park,396,0.0,0.0,0.06,15.0
+Trains,T8,Beverly Hills,393,0.0,0.0,0.06,15.0
+Trains,T8,Bexley North,393,0.0,0.0,0.06,15.0
+Trains,T8,Campbelltown,380,0.3,0.3,0.11,15.0
+Trains,T8,Central,1227,1.5,2.0,0.23,7.0
+Trains,T8,Circular Quay,636,1.1,1.7,0.25,3.0
+Trains,T8,Domestic Airport,832,1.3,1.6,0.19,8.0
+Trains,T8,East Hills,394,0.5,0.0,0.1,15.0
+Trains,T8,Erskineville,331,0.3,0.3,0.13,15.0
+Trains,T8,Glenfield,437,0.0,0.9,0.14,15.0
+Trains,T8,Green Square,830,1.6,1.4,0.19,8.0
+Trains,T8,Holsworthy,434,0.5,0.7,0.16,15.0
+Trains,T8,Ingleburn,425,0.0,0.5,0.1,15.0
+Trains,T8,International Airport,834,0.8,1.7,0.19,8.0
+Trains,T8,Kingsgrove,394,0.0,0.0,0.06,15.0
+Trains,T8,Leumeah,419,0.0,0.5,0.1,15.0
+Trains,T8,Macarthur,182,2.2,2.7,0.16,15.0
+Trains,T8,Macquarie Fields,437,0.0,0.5,0.11,15.0
+Trains,T8,Mascot,828,1.2,1.6,0.19,8.0
+Trains,T8,Minto,426,0.0,0.7,0.11,15.0
+Trains,T8,Museum,637,1.6,2.5,0.29,3.0
+Trains,T8,Narwee,394,0.0,0.0,0.06,15.0
+Trains,T8,Padstow,405,0.0,0.0,0.06,15.0
+Trains,T8,Panania,389,0.3,0.3,0.11,15.0
+Trains,T8,Redfern,335,0.3,0.6,0.12,15.0
+Trains,T8,Revesby,589,0.8,0.8,0.15,15.0
+Trains,T8,Riverwood,406,0.0,0.0,0.06,15.0
+Trains,T8,St James,640,2.2,4.4,0.33,3.0
+Trains,T8,St Peters,330,0.3,0.3,0.11,15.0
+Trains,T8,Sydenham,194,1.5,0.5,0.18,15.0
+Trains,T8,Town Hall,640,0.9,3.1,0.31,3.0
+Trains,T8,Turrella,397,0.0,0.0,0.07,15.0
+Trains,T8,Wolli Creek,784,1.1,1.4,0.16,11.3
+Trains,T8,Wynyard,636,2.0,2.8,0.29,3.0
+Trains,T9,Artarmon,368,0.0,0.0,0.13,15.0
+Trains,T9,Beecroft,375,0.0,0.5,0.1,15.0
+Trains,T9,Burwood,425,0.7,0.9,0.2,15.0
+Trains,T9,Central,410,0.2,0.2,0.12,15.0
+Trains,T9,Chatswood,363,0.0,0.0,0.13,15.0
+Trains,T9,Cheltenham,377,0.3,0.8,0.12,15.0
+Trains,T9,Concord West,385,0.8,0.3,0.19,15.0
+Trains,T9,Denistone,375,0.5,0.3,0.17,15.0
+Trains,T9,Eastwood,472,0.6,1.3,0.19,15.0
+Trains,T9,Epping,432,4.4,3.9,0.28,15.0
+Trains,T9,Gordon,180,3.9,6.1,0.22,15.0
+Trains,T9,Hornsby,188,0.0,0.0,0.12,15.0
+Trains,T9,Killara,364,0.0,0.0,0.12,15.0
+Trains,T9,Lindfield,364,1.6,1.4,0.18,15.0
+Trains,T9,Meadowbank,455,0.4,1.1,0.2,15.0
+Trains,T9,Milsons Point,376,0.3,0.3,0.13,15.0
+Trains,T9,Normanhurst,346,0.0,0.3,0.1,15.0
+Trains,T9,North Strathfield,385,0.8,0.5,0.19,15.0
+Trains,T9,North Sydney,376,0.3,0.3,0.14,15.0
+Trains,T9,Pennant Hills,366,0.0,0.5,0.1,15.0
+Trains,T9,Redfern,372,0.5,0.5,0.2,15.0
+Trains,T9,Rhodes,489,0.6,1.0,0.19,15.0
+Trains,T9,Roseville,368,0.0,0.0,0.14,15.0
+Trains,T9,St Leonards,377,0.0,0.0,0.13,15.0
+Trains,T9,Strathfield,489,1.8,0.8,0.2,15.0
+Trains,T9,Thornleigh,359,0.0,0.3,0.1,15.0
+Trains,T9,Town Hall,378,0.5,0.5,0.14,15.0
+Trains,T9,Waverton,383,0.0,0.0,0.14,15.0
+Trains,T9,West Ryde,489,0.4,0.2,0.17,15.0
+Trains,T9,Wollstonecraft,385,0.0,0.0,0.14,15.0
+Trains,T9,Wynyard,375,0.3,0.5,0.14,15.0

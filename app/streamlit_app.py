@@ -121,6 +121,40 @@ GLOSSARY = {
                          "Walks follow real streets and paths (OpenStreetMap) to today's entrances (TfNSW, 2020).",
     "Excess wait time": "Transport for London's measure for turn-up-and-go services: how much longer the average passenger waits "
                         "than the timetable implies, because trains bunch or leave gaps.",
+    "Planned connection": "For every arrival at a station and every other line (or bus route) leaving it, the first departure "
+                          "the timetable lets you catch: at least 3 minutes after you arrive for a train-to-train change, or 2 "
+                          "minutes plus the walk for a bus. Waits over 20 minutes aren't counted as a connection.",
+    "Missed connection": "The planned departure actually left before you could reach it, because your train or bus arrived late "
+                         "(or the other one left early). Counted per connection the timetable offers, not per passenger.",
+    "Extra wait": "When a connection is missed: how much later the next departure you can catch on the same line and direction "
+                  "actually left, compared with the one you planned on.",
+    "Delay gained": "How much later a train is leaving a station than it was leaving the one before: the time it lost on that "
+                    "stretch, including its stop. Negative = it made time up. Only where both times were measured from GPS.",
+    "Became 5+ min late": "The stretch where a train that started on time first ran 5 or more minutes late.",
+    "Late start": "A train leaving its first station 2 or more minutes late (from the feed's prediction, as GPS isn't used at origins).",
+    "Running time": "Time from a train leaving one station (last GPS fix near it) to arriving at the next (first fix near it). "
+                    "Speed = straight-line distance / running time, so curving track reads slower than it is.",
+    "Time lost to slow running": "A train's running time minus that stretch's best runs (the fastest 10% of trains): time lost to "
+                                 "congestion, signals, speed restrictions or waiting for a platform.",
+    "Train-minutes lost per day": "Time lost to slow running, added up over every train on the stretch, per day collected. Shows "
+                                  "where the most total time goes, so busy stretches rank high.",
+    "Bunched": "Two services arriving less than half the timetabled gap apart (e.g. under 5 minutes apart on a 10-minute "
+               "service). Only for services every 15 minutes or more often.",
+    "Big gap": "A gap between services more than 1.5 times the timetabled one (e.g. over 15 minutes on a 10-minute service).",
+    "Regularity": "How uneven the gaps are: the spread (standard deviation) of actual gap / timetabled gap. 0 = perfectly "
+                  "even; 1 = gaps typically off by a whole timetabled gap.",
+    "Platform time (dwell)": "How long a train spends at a platform. Metro: first GPS fix stopped at the platform to the first fix "
+                             "after leaving. Sydney Trains: time in the platform's signalling location, including braking and "
+                             "pulling away. A trip's first and last stops are left out.",
+    "Extra in peak": "A station's median platform time at 7 to 9am and 5 to 7pm minus its median at 10am to 3pm. Comparing a "
+                     "station with itself cancels out the measurement differences between stations.",
+    "Occupancy level": "The operator's category for how full a vehicle is: many seats available, few seats available, or "
+                       "standing room only. From load sensors on newer trains and Metro; TfNSW doesn't publish how buses set it.",
+    "% standing": "Share of departures (trains, Metro) or bus-minutes reported as standing room only.",
+    "Fill time": "The first time a Park&Ride car park reached 95% of its spaces that weekday morning, interpolated between the "
+                 "15-minute readings. Typical = median over the weekdays collected.",
+    "Peak trains after full": "Share of the station's scheduled departures from 6 to 10am (all lines, both directions) that leave "
+                              "after the car park is full: the service a commuter who drives in later can't park for.",
 }
 
 
@@ -778,6 +812,400 @@ def entrances():
            "A shortlist for feasibility work, not a design.")
 
 
+# ------------------------------------------------- operations pages ---
+# Built by analysis/operations.py from the realtime data collected so far; re-run it as more days come in.
+
+OPS_PREVIEW = ("Built from the realtime feeds collected so far (Sydney Trains and Metro from 26 Oct 2026, buses from 27 Oct). "
+               "A few weekdays only, and collection pauses overnight (about 10:30pm to 7:45am, PC asleep), so the morning "
+               "peak before 8am is thin. Read the patterns as a first look, not a verdict.")
+
+
+@st.cache_data
+def load_ops(name: str, version: float) -> pd.DataFrame:
+    return pd.read_csv(DATA / f"{name}.csv", dtype={"line": str, "from_line": str, "to_line": str})
+
+
+def ops(*names: str):
+    """The operations CSVs, or None (with a note) if analysis/operations.py hasn't been run yet."""
+    paths = [DATA / f"{n}.csv" for n in names]
+    if not all(p.exists() for p in paths):
+        st.info("No data yet. Run `python -m analysis.reliability` then `python -m analysis.operations`.")
+        return None
+    out = [load_ops(n, p.stat().st_mtime) for n, p in zip(names, paths)]
+    return out if len(out) > 1 else out[0]
+
+
+def clock(h: float) -> str:
+    if pd.isna(h):
+        return ""
+    hh, mm = divmod(int(round(h * 60)), 60)
+    return f"{hh}:{mm:02d}"
+
+
+def rate(df: pd.DataFrame, by: list[str]) -> pd.DataFrame:
+    """Missed share and waits from summed counts (so days, hours and line pairs combine correctly)."""
+    g = df.groupby(by, as_index=False)[["connections", "missed", "extra_wait_min"]].sum()
+    g["pct_missed"] = 100 * g["missed"] / g["connections"]
+    g["wait_if_missed"] = g["extra_wait_min"] / g["missed"].where(g["missed"] > 0)
+    g["extra_per_100"] = 100 * g["extra_wait_min"] / g["connections"]
+    return g
+
+
+def pooled(df: pd.DataFrame, by: list[str], weight: str, cols: list[str]) -> pd.DataFrame:
+    """Weighted average of percentage columns over the rows being combined."""
+    w = df.assign(**{c: df[c] * df[weight] for c in cols}).groupby(by, as_index=False)[[weight, *cols]].sum()
+    for c in cols:
+        w[c] = w[c] / w[weight]
+    return w
+
+
+def connections_page():
+    st.title("Missed connections")
+    data = ops("connections", "connections_hour")
+    if data is None:
+        return
+    pairs, hours = data
+    preview(OPS_PREVIEW)
+    st.markdown("<p class='lead'>When a train or bus runs late, how often does it make people miss the connection the "
+                "timetable promised them, and how long do they then wait?</p>", unsafe_allow_html=True)
+    explain("Planned connection", "Missed connection", "Extra wait")
+    kinds = [k for k in ["Train to train", "Bus to train", "Train to bus"] if k in set(pairs["kind"])]
+    kind = st.radio("Change", kinds, horizontal=True)
+    p, h = pairs[pairs["kind"] == kind], hours[hours["kind"] == kind]
+    tot = rate(p, ["kind"]).iloc[0]
+    k = st.columns(4)
+    k[0].metric("Planned connections seen", f"{tot['connections']:,.0f}")
+    k[1].metric("Missed", f"{tot['pct_missed']:.1f}%")
+    k[2].metric("Average extra wait when missed", f"{tot['wait_if_missed']:.1f} min", help=define("Extra wait"))
+    k[3].metric("Extra minutes per 100 connections", f"{tot['extra_per_100']:.0f}")
+
+    st.subheader("Stations where connections are missed most")
+    min_n = st.slider("Only stations with at least this many planned connections", 50, 2000, 300, step=50)
+    by_st = rate(p, ["station"])
+    by_st = by_st[by_st["connections"] >= min_n].nlargest(20, "pct_missed")
+    st.altair_chart(alt.Chart(by_st).mark_bar(cornerRadiusEnd=3).encode(
+        x=alt.X("pct_missed:Q", title="% of planned connections missed"),
+        y=alt.Y("station:N", sort="-x", title=None),
+        color=alt.Color("wait_if_missed:Q", scale=alt.Scale(scheme="orangered"), title="Extra wait if missed (min)"),
+        tooltip=["station", alt.Tooltip("connections:Q", format=","), alt.Tooltip("pct_missed:Q", format=".1f", title="% missed"),
+                 alt.Tooltip("wait_if_missed:Q", format=".1f", title="Extra wait if missed (min)")]).properties(
+        height=24 * len(by_st) + 30), width="stretch")
+    st.caption("On lines every few minutes (Metro) a miss costs little: the colour shows the wait it caused.")
+
+    st.subheader("By hour")
+    hr = rate(h, ["hour"])
+    st.altair_chart(alt.Chart(hr).mark_bar(color=RED, cornerRadiusEnd=2).encode(
+        x=alt.X("hour:O", title="Hour of arrival (Sydney time)", axis=alt.Axis(labelAngle=0)),
+        y=alt.Y("pct_missed:Q", title="% missed"),
+        tooltip=["hour", alt.Tooltip("connections:Q", format=","), alt.Tooltip("pct_missed:Q", format=".1f"),
+                 alt.Tooltip("wait_if_missed:Q", format=".1f", title="Extra wait if missed (min)")]).properties(height=220),
+        width="stretch")
+
+    st.subheader("One station, line by line")
+    stations = rate(p, ["station"]).sort_values("connections", ascending=False)["station"].tolist()
+    station = st.selectbox("Station", stations, index=stations.index("Tallawong") if "Tallawong" in stations else 0)
+    one = rate(p[p["station"] == station], ["from_line", "to_line"]).sort_values("connections", ascending=False)
+    st.dataframe(one.rename(columns={"from_line": "Arriving on", "to_line": "Changing to", "connections": "Connections",
+                                     "pct_missed": "% missed", "wait_if_missed": "Extra wait if missed (min)"})[
+        ["Arriving on", "Changing to", "Connections", "% missed", "Extra wait if missed (min)"]].round(1),
+        hide_index=True, width="stretch")
+    sh = rate(h[h["station"] == station], ["hour"])
+    st.altair_chart(alt.Chart(sh).mark_bar(color=BLUE, cornerRadiusEnd=2).encode(
+        x=alt.X("hour:O", title="Hour of arrival", axis=alt.Axis(labelAngle=0)), y=alt.Y("pct_missed:Q", title="% missed"),
+        tooltip=["hour", "connections", alt.Tooltip("pct_missed:Q", format=".1f")]).properties(height=180), width="stretch")
+    source("analysis/connections.py. Counts are per connection the timetable offers, not per passenger (nobody publishes how "
+           "many people change where). Train times are measured from GPS; bus times are the operator's own predictions. "
+           "Buses are counted at stops within 250 m of a station.")
+
+
+def delay_origins_page():
+    st.title("Where delays start")
+    data = ops("delay_gains", "late_starts")
+    if data is None:
+        return
+    gains, starts = data
+    preview(OPS_PREVIEW)
+    st.markdown("<p class='lead'>A late train is usually late everywhere after the place it lost the time. Find that place "
+                "and you find what to fix.</p>", unsafe_allow_html=True)
+    explain("Delay gained", "Became 5+ min late", "Late start")
+    gains = gains.assign(stretch=gains["from_station"] + " → " + gains["station"])
+    lines = gains.groupby("line")["trains"].sum().sort_values(ascending=False).index.tolist()
+    line = st.selectbox("Line", ["All lines"] + lines)
+    g = gains if line == "All lines" else gains[gains["line"] == line]
+    min_n = st.slider("Only stretches with at least this many trains measured", 10, 300, 50, step=10)
+    g = g[g["trains"] >= min_n]
+    c1, c2 = st.columns(2)
+    with c1:
+        st.subheader("Most time lost per train")
+        top = g.nlargest(15, "avg_gain_s").assign(avg_gain_min=lambda d: d["avg_gain_s"] / 60)
+        st.altair_chart(alt.Chart(top).mark_bar(color=RED, cornerRadiusEnd=3).encode(
+            x=alt.X("avg_gain_min:Q", title="Average delay gained (min)"),
+            y=alt.Y("stretch:N", sort="-x", title=None),
+            tooltip=["line", "stretch", "trains", alt.Tooltip("avg_gain_min:Q", format=".2f", title="Minutes gained"),
+                     alt.Tooltip("pct_gain_2min:Q", format=".0f", title="% of trains losing 2+ min")]).properties(
+            height=24 * len(top) + 30), width="stretch")
+    with c2:
+        st.subheader("Where trains first became 5+ min late")
+        late = g[g["became_late5"] > 0].nlargest(15, "became_late5")
+        if late.empty:
+            st.caption("No trains here became 5+ minutes late in the data so far.")
+        else:
+            st.altair_chart(alt.Chart(late).mark_bar(color=BLUE, cornerRadiusEnd=3).encode(
+                x=alt.X("became_late5:Q", title="Trains"), y=alt.Y("stretch:N", sort="-x", title=None),
+                tooltip=["line", "stretch", "trains", "became_late5"]).properties(height=24 * len(late) + 30), width="stretch")
+    st.subheader("Trains that start late")
+    s = starts if line == "All lines" else starts[starts["line"] == line]
+    st.dataframe(s.sort_values("pct_start_late2", ascending=False).rename(columns={
+        "line": "Line", "station": "Starts at", "trips": "Trips", "pct_start_late2": "% leaving 2+ min late",
+        "avg_start_delay_s": "Average delay leaving (s)"})[["Line", "Starts at", "Trips", "% leaving 2+ min late",
+                                                            "Average delay leaving (s)"]], hide_index=True, width="stretch")
+    source("analysis/delay_origins.py. Delay gained uses only station pairs where both times were measured from GPS. "
+           "Departures from a trip's first station are the feed's prediction, so late starts are indicative.")
+
+
+def slow_segments_page():
+    st.title("Slow stretches")
+    seg = ops("slow_segments")
+    if seg is None:
+        return
+    preview(OPS_PREVIEW)
+    st.markdown("<p class='lead'>Between which stations do trains crawl, and where is the most time lost against what the "
+                "track allows on a good run?</p>", unsafe_allow_html=True)
+    explain("Running time", "Time lost to slow running", "Train-minutes lost per day")
+    seg = seg.assign(stretch=seg["from_station"] + " → " + seg["station"])
+    present = [m for m in ["Trains", "Metro", "TrainLink"] if m in set(seg["mode"])]
+    modes = st.pills("Transport", present, selection_mode="multi", default=[m for m in present if m != "TrainLink"]) or present
+    s = seg[seg["mode"].isin(modes)]
+    worst = s["lost_min_per_day"].quantile(0.95) if len(s) else 1
+    s = s.assign(colour=[hex_rgb(RED, 230) if v >= worst else hex_rgb(BLUE, 90 + int(140 * min(v / worst, 1)))
+                         for v in s["lost_min_per_day"]], width=1 + 6 * (s["lost_min_per_day"] / worst).clip(0, 1))
+    layer = pdk.Layer("LineLayer", s, get_source_position=["from_lon", "from_lat"], get_target_position=["lon", "lat"],
+                      get_color="colour", get_width="width", width_units="'pixels'", pickable=True)
+    st.pydeck_chart(pdk.Deck(layers=[layer], initial_view_state=VIEW, map_provider="carto", map_style=ESRI_STYLE,
+                             tooltip={"html": "<b>{stretch}</b> ({lines})<br>{trains} trains, median {median_kmh} km/h<br>"
+                                              "{lost_s} s lost per train, {lost_min_per_day} train-minutes a day",
+                                      "style": {"backgroundColor": "#0b0b0b", "color": "white", "fontSize": "12px"}}),
+                    height=520)
+    st.caption("Thicker and darker = more train-minutes lost a day; red = the worst 5%. Drawn straight between stations, "
+               "one line per direction (they overlap).")
+    c1, c2 = st.columns(2)
+    with c1:
+        st.subheader("Most train-minutes lost a day")
+        t = s.nlargest(15, "lost_min_per_day")
+        st.altair_chart(alt.Chart(t).mark_bar(color=RED, cornerRadiusEnd=3).encode(
+            x=alt.X("lost_min_per_day:Q", title="Train-minutes lost per day"), y=alt.Y("stretch:N", sort="-x", title=None),
+            tooltip=["stretch", "lines", "trains", alt.Tooltip("lost_s:Q", title="Seconds lost per train"),
+                     alt.Tooltip("peak_lost_s:Q", title="... in peak hours"), "median_kmh"]).properties(
+            height=24 * len(t) + 30), width="stretch")
+    with c2:
+        st.subheader("Slowest stretches (over 1 km)")
+        t = s[s["dist_km"] >= 1].nsmallest(15, "median_kmh")
+        st.altair_chart(alt.Chart(t).mark_bar(color=BLUE, cornerRadiusEnd=3).encode(
+            x=alt.X("median_kmh:Q", title="Median speed, km/h (straight line)"), y=alt.Y("stretch:N", sort="x", title=None),
+            tooltip=["stretch", "lines", "trains", "dist_km", "median_run_s", "best_run_s", "p90_run_s"]).properties(
+            height=24 * len(t) + 30), width="stretch")
+    source("analysis/slow_segments.py. Running time is from the last GPS fix near one station to the first near the next, so "
+           "it leaves out the stops. Straight-line distance understates curving track: compare stretches with each other.")
+
+
+def headways_page():
+    st.title("Bunching and gaps")
+    data = ops("headways", "headway_stops")
+    if data is None:
+        return
+    hw, stops = data
+    preview(OPS_PREVIEW)
+    st.markdown("<p class='lead'>On a turn-up-and-go service the spacing matters more than the timetable. Two buses together "
+                "followed by a long gap means a longer wait and a fuller vehicle.</p>", unsafe_allow_html=True)
+    explain("Bunched", "Big gap", "Regularity", "Excess wait time")
+    modes = [m for m in ["Bus", "Metro", "Trains", "TrainLink"] if m in set(hw["mode"])]
+    mode = st.radio("Transport", modes, horizontal=True)
+    h = hw[hw["mode"] == mode]
+    lines = pooled(h, ["line"], "gaps", ["pct_bunched", "pct_big_gap"])
+    k = st.columns(3)
+    allm = pooled(h.assign(all=1), ["all"], "gaps", ["pct_bunched", "pct_big_gap"]).iloc[0]
+    k[0].metric("Gaps between services measured", f"{allm['gaps']:,.0f}")
+    k[1].metric("Bunched", f"{allm['pct_bunched']:.1f}%", help=define("Bunched"))
+    k[2].metric("Big gaps", f"{allm['pct_big_gap']:.1f}%", help=define("Big gap"))
+    min_n = st.slider("Only lines with at least this many gaps measured", 20, 1000, 100, step=10)
+    lines = lines[lines["gaps"] >= min_n].nlargest(25, "pct_bunched")
+    long = lines.melt(id_vars=["line", "gaps"], value_vars=["pct_bunched", "pct_big_gap"], var_name="kind", value_name="pct")
+    long["kind"] = long["kind"].map({"pct_bunched": "Bunched", "pct_big_gap": "Big gap"})
+    colours = alt.Scale(domain=["Bunched", "Big gap"], range=[RED, GREY])
+    st.subheader("Least evenly spaced lines")
+    st.altair_chart(alt.Chart(long).mark_bar().encode(
+        x=alt.X("pct:Q", title="% of gaps between services"), y=alt.Y("line:N", sort=lines["line"].tolist(), title=None),
+        color=alt.Color("kind:N", scale=colours, title=None), yOffset="kind:N",
+        tooltip=["line", "kind", alt.Tooltip("pct:Q", format=".1f"), "gaps"]).properties(height=30 * len(lines) + 30),
+        width="stretch")
+    st.subheader("By hour")
+    hr = pooled(h, ["hour"], "gaps", ["pct_bunched", "pct_big_gap"]).rename(columns={"pct_bunched": "Bunched", "pct_big_gap": "Big gap"})
+    st.altair_chart(alt.Chart(hr.melt(id_vars=["hour"], value_vars=["Bunched", "Big gap"], var_name="kind", value_name="pct"))
+                    .mark_line(point=True).encode(
+        x=alt.X("hour:O", title="Hour (Sydney time)", axis=alt.Axis(labelAngle=0)), y=alt.Y("pct:Q", title="% of gaps"),
+        color=alt.Color("kind:N", scale=colours, title=None),
+        tooltip=["hour", "kind", alt.Tooltip("pct:Q", format=".1f")]).properties(height=220), width="stretch")
+    st.subheader("Worst places")
+    s = stops[(stops["mode"] == mode) & (stops["gaps"] >= 30)].nlargest(20, "pct_bunched")
+    st.dataframe(s.rename(columns={"line": "Line", "station": "At or next to", "gaps": "Gaps measured",
+                                   "pct_bunched": "% bunched", "pct_big_gap": "% big gap", "regularity": "Regularity",
+                                   "sched_gap_min": "Timetabled gap (min)"}).drop(columns="mode"), hide_index=True, width="stretch")
+    source("analysis/headways.py. Services every 15 minutes or more often only. Buses are measured at stops within 250 m of a "
+           "station, from the operator's own predicted times; trains and Metro from GPS. See the Reliability page for excess "
+           "wait time on frequent train platforms.")
+
+
+def dwell_page():
+    st.title("Dwell times")
+    data = ops("dwell", "dwell_stations")
+    if data is None:
+        return
+    dw, stn = data
+    preview(OPS_PREVIEW)
+    st.markdown("<p class='lead'>How long trains stand at each platform, and which stations slow down in the peak, a sign "
+                "of crowded platforms and doors.</p>", unsafe_allow_html=True)
+    explain("Platform time (dwell)", "Extra in peak")
+    mode = st.radio("Transport", ["Trains", "Metro"], horizontal=True)
+    s = stn[(stn["mode"] == mode) & (stn["stops"] >= 50)].dropna(subset=["extra_peak_s"])
+    st.subheader("Stations that slow down most in the peak")
+    t = s.nlargest(20, "extra_peak_s")
+    st.altair_chart(alt.Chart(t).mark_bar(color=RED, cornerRadiusEnd=3).encode(
+        x=alt.X("extra_peak_s:Q", title="Extra platform time, peak vs midday (seconds, median)"),
+        y=alt.Y("station:N", sort="-x", title=None),
+        tooltip=["station", "stops", alt.Tooltip("offpeak_median_s:Q", title="Midday (s)"),
+                 alt.Tooltip("peak_median_s:Q", title="Peak (s)")]).properties(height=24 * len(t) + 30), width="stretch")
+    st.subheader("Platform time by hour, busiest stations")
+    busiest = s.nlargest(25, "stops")["station"].tolist()
+    d = dw[(dw["mode"] == mode) & dw["station"].isin(busiest)]
+    lo, hi = d["median_s"].quantile([0.05, 0.95]).tolist() if len(d) else (0, 1)
+    st.altair_chart(alt.Chart(d).mark_rect().encode(
+        x=alt.X("hour:O", title="Hour (Sydney time)", axis=alt.Axis(labelAngle=0)),
+        y=alt.Y("station:N", sort=busiest, title=None),
+        color=alt.Color("median_s:Q", scale=alt.Scale(scheme="orangered", domain=[lo, hi], clamp=True), title="Median (s)"),
+        tooltip=["station", "hour", "stops", "median_s", "p90_s"]).properties(height=20 * len(busiest) + 30), width="stretch")
+    source("analysis/dwell.py. Metro: from the first GPS fix stopped at the platform to the first fix after leaving (~30 s "
+           "resolution). Sydney Trains: time spent in the platform's signalling location, which includes braking in and "
+           "pulling out, so it reads longer than the doors-open time. Compare stations within a mode.")
+
+
+def crowding_page():
+    st.title("Crowding")
+    data = ops("crowding", "crowding_bus")
+    if data is None:
+        return
+    cr, bus = data
+    preview(OPS_PREVIEW)
+    st.markdown("<p class='lead'>Where and when are trains, Metro and buses full enough that people stand?</p>",
+                unsafe_allow_html=True)
+    explain("Occupancy level", "% standing")
+
+    m = cr[cr["mode"] == "Metro"]
+    if len(m):
+        st.subheader("Metro: share of departures with standing room only")
+        dirs = m.groupby("towards")["reports"].sum().sort_values(ascending=False)
+        towards = st.radio("Towards", dirs.index[:2].tolist(), horizontal=True)
+        d = m[m["towards"] == towards]
+        order = d.drop_duplicates("station").sort_values("order")["station"].tolist()
+        st.altair_chart(alt.Chart(d).mark_rect().encode(
+            x=alt.X("hour:O", title="Hour of departure (Sydney time)", axis=alt.Axis(labelAngle=0)),
+            y=alt.Y("station:N", sort=order, title=None),
+            color=alt.Color("pct_standing:Q", scale=alt.Scale(scheme="orangered", domain=[0, 100]), title="% standing"),
+            tooltip=["station", "hour", "reports", alt.Tooltip("pct_standing:Q", format=".0f", title="% standing room only"),
+                     alt.Tooltip("pct_few_seats:Q", format=".0f", title="% few seats or worse")]).properties(
+            height=22 * len(order) + 30), width="stretch")
+
+    st.subheader("Train lines")
+    r = cr[cr["mode"] != "Metro"]
+    lines = pooled(r, ["line"], "reports", ["pct_few_seats", "pct_standing"])
+    lines = lines[lines["reports"] >= 50].sort_values("pct_few_seats", ascending=False)
+    st.dataframe(lines.rename(columns={"line": "Line", "reports": "Departures with occupancy", "pct_few_seats": "% few seats or worse",
+                                       "pct_standing": "% standing"}).round(1), hide_index=True, width="stretch")
+    if len(lines):
+        line = st.selectbox("Line, station by station", lines["line"].tolist())
+        d = r[r["line"] == line]
+        towards = d.groupby("towards")["reports"].sum().idxmax()
+        d = d[d["towards"] == towards]
+        order = d.drop_duplicates("station").sort_values("order")["station"].tolist()
+        st.altair_chart(alt.Chart(d).mark_rect().encode(
+            x=alt.X("hour:O", title="Hour of departure", axis=alt.Axis(labelAngle=0)), y=alt.Y("station:N", sort=order, title=None),
+            color=alt.Color("pct_few_seats:Q", scale=alt.Scale(scheme="orangered", domain=[0, 100]), title="% few seats or worse"),
+            tooltip=["station", "hour", "reports", alt.Tooltip("pct_few_seats:Q", format=".0f"),
+                     alt.Tooltip("pct_standing:Q", format=".0f")]).properties(height=18 * len(order) + 30), width="stretch")
+        st.caption(f"Trains towards {towards}, the direction with the most reports.")
+
+    st.subheader("Busiest bus routes")
+    hours = st.slider("Hours", 0, 23, (6, 10))
+    b = pooled(bus[bus["hour"].between(*hours)], ["line"], "reports", ["pct_few_seats", "pct_standing"])
+    b = b[b["reports"] >= 200].nlargest(20, "pct_standing")
+    st.altair_chart(alt.Chart(b).mark_bar(color=MODE_COLOURS["Bus"], cornerRadiusEnd=3).encode(
+        x=alt.X("pct_standing:Q", title="% of bus-minutes with standing room only"),
+        y=alt.Y("line:N", sort="-x", title=None),
+        tooltip=["line", alt.Tooltip("reports:Q", title="Bus-minutes"), alt.Tooltip("pct_standing:Q", format=".1f"),
+                 alt.Tooltip("pct_few_seats:Q", format=".1f", title="% few seats or worse")]).properties(
+        height=24 * len(b) + 30), width="stretch")
+    source("analysis/crowding.py. Trains and Metro: the occupancy as each train left each station. Buses: every bus in "
+           "service, once a minute, so long routes count more. School routes (S...) run only at school times. Metro reports "
+           "occupancy on every train, Sydney Trains on about half (trains with load sensors), buses on every bus.")
+
+
+def carparks_page():
+    st.title("Commuter car parks")
+    data = ops("carpark_fill", "carpark_curves")
+    if data is None:
+        return
+    fill, curves = data
+    preview("Park&Ride occupancy collected every 15 minutes from 26 Oct 2026; weekdays only.")
+    st.markdown("<p class='lead'>When does each commuter car park fill, and how much of the morning's train service is "
+                "left for people who arrive after that?</p>", unsafe_allow_html=True)
+    explain("Fill time", "Peak trains after full")
+    seen = fill[fill["fill_seen"] & fill["fill_hour"].notna()]
+    s = fill.groupby(["carpark", "station"], dropna=False).agg(
+        spaces=("spaces", "max"), days=("date", "size"), days_full=("fill_hour", "count"),
+        full_by=("fill_hour", "median"), am_departures=("am_departures", "max")).reset_index()
+    s = s.merge(seen.groupby("carpark").agg(fill_hour=("fill_hour", "median"), pct_after=("pct_am_after_full", "median"))
+                .reset_index(), on="carpark", how="left")
+    s["observed"] = s["fill_hour"].notna()
+    s["fill_hour"] = s["fill_hour"].fillna(s["full_by"])  # not seen filling: only known to be full by the first reading
+    s["Typical fill time"] = [clock(h) if o or pd.isna(h) else f"by {clock(h)}" for h, o in zip(s["fill_hour"], s["observed"])]
+    full = s.dropna(subset=["fill_hour"]).sort_values("fill_hour")
+    k = st.columns(3)
+    k[0].metric("Car parks", f"{len(s)}")
+    k[1].metric("Full on most weekdays", f"{(s['days_full'] > s['days'] / 2).sum()}")
+    if len(full):
+        k[2].metric("First to fill", full.iloc[0]["carpark"], full.iloc[0]["Typical fill time"], delta_color="off")
+    st.caption("The collector runs on a home PC that sleeps overnight, so readings usually start between 7 and 8am. A car park "
+               "already full by then shows as \"by\" that time: it filled earlier, and its share of trains after full is unknown.")
+    st.subheader("Fill time and the trains left after it")
+    rail = full.dropna(subset=["station"]).assign(tph=lambda d: d["am_departures"] / 4)
+    st.altair_chart(alt.Chart(rail).mark_circle(opacity=0.8).encode(
+        x=alt.X("fill_hour:Q", title="Typical fill time (hour, Sydney)", scale=alt.Scale(zero=False)),
+        color=alt.Color("observed:N", scale=alt.Scale(domain=[True, False], range=[BLUE, GREY]),
+                        legend=alt.Legend(title="Filling seen", labelExpr="datum.value ? 'Yes' : 'No, full by then'")),
+        y=alt.Y("tph:Q", title="Trains per hour, 6 to 10am (both directions)"),
+        size=alt.Size("spaces:Q", title="Spaces"),
+        tooltip=["carpark", "station", "spaces", "Typical fill time", alt.Tooltip("tph:Q", format=".1f", title="Trains per hour"),
+                 alt.Tooltip("pct_after:Q", format=".0f", title="% of 6-10am trains after full")]).properties(height=380),
+        width="stretch")
+    st.dataframe(s.sort_values("fill_hour").rename(columns={
+        "carpark": "Car park", "station": "Station", "spaces": "Spaces", "days": "Weekdays seen", "days_full": "Days it filled",
+        "am_departures": "Trains 6-10am", "pct_after": "% of those after full"})[
+        ["Car park", "Station", "Spaces", "Typical fill time", "Days it filled", "Weekdays seen", "Trains 6-10am",
+         "% of those after full"]], hide_index=True, width="stretch")
+    st.subheader("A morning, car park by car park")
+    names = sorted(curves["carpark"].unique())
+    default = [n for n in names if n.startswith(("Tallawong", "Kellyville"))][:4] or names[:3]
+    pick = st.multiselect("Car parks", names, default=default)
+    day = st.selectbox("Day", sorted(curves["date"].unique(), reverse=True))
+    c = curves[curves["carpark"].isin(pick) & (curves["date"] == day) & curves["time_local"].between(4, 12)]
+    st.altair_chart(alt.Chart(c).mark_line().encode(
+        x=alt.X("time_local:Q", title="Time (hour, Sydney)", scale=alt.Scale(domain=[4, 12])),
+        y=alt.Y("pct_full:Q", title="% full", scale=alt.Scale(domain=[0, 100])), color=alt.Color("carpark:N", title=None),
+        tooltip=["carpark", alt.Tooltip("time_local:Q", format=".2f", title="Hour"), "pct_full"]).properties(height=300),
+        width="stretch")
+    source("analysis/carpark_fill.py. Full = 95% of spaces, interpolated between the 15-minute readings. Train counts are "
+           "scheduled departures on a typical weekday (latest timetable). Car parks at B-Line bus stops have no station.")
+
+
 def hunter():
     st.title("Newcastle and the Hunter")
     h = META["hunter"]
@@ -837,7 +1265,9 @@ ABS population estimates, TfNSW TZP24 projections, OpenStreetMap, Bureau of Mete
 time-of-day accessibility; transit gap index (Currie 2010); excess wait time (TfL). Travel times use a connection-scan search over
 the full timetable. Delays are measured from train GPS positions.
 
-**Scope:** reliability is Sydney Trains and Metro only; buses are timetable only; light rail and ferries are not included.
+**Scope:** reliability is Sydney Trains and Metro, measured from GPS; the operations pages (connections, bunching,
+crowding) add buses from the operator's realtime feed; access analyses use the train, Metro and bus timetables; light
+rail and ferries appear only on the Live replay and Line delays pages.
 Committed projects (Metro West, the Western Sydney Airport line, Bankstown Metro) are not yet modelled.
 
 Code, decisions log and data pipeline: see the project README.
@@ -853,6 +1283,13 @@ pg = st.navigation([
     st.Page(trains_vs_metro, title="Trains vs Metro", icon="🚇"),
     st.Page(reliability, title="Reliability (preview)", icon="⏱️"),
     st.Page(line_delays, title="Line delays by hour", icon="🕒"),
+    st.Page(delay_origins_page, title="Where delays start", icon="📍"),
+    st.Page(slow_segments_page, title="Slow stretches", icon="🐢"),
+    st.Page(connections_page, title="Missed connections", icon="🔁"),
+    st.Page(headways_page, title="Bunching and gaps", icon="🚌"),
+    st.Page(dwell_page, title="Dwell times", icon="⏸️"),
+    st.Page(crowding_page, title="Crowding", icon="🧍"),
+    st.Page(carparks_page, title="Car parks", icon="🅿️"),
     st.Page(replay, title="Live replay", icon="▶️"),
     st.Page(hunter, title="Newcastle & Hunter", icon="🚂"),
     st.Page(glossary, title="Glossary", icon="📖"),

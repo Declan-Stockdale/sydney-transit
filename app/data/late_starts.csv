@@ -1,0 +1,94 @@
+mode,line,station,trips,pct_start_late2,avg_start_delay_s
+Metro,M1,Bankstown,60,0.0,6.5
+Metro,M1,Rouse Hill,27,3.7,88.6
+Metro,M1,Sydenham,655,1.5,-84.2
+Metro,M1,Tallawong,661,32.7,83.0
+TrainLink,BMT,Bathurst,10,0.0,22.0
+TrainLink,HUN,Newcastle Interchange,59,1.7,34.6
+TrainLink,HUN,Telarah,55,12.7,55.9
+TrainLink,SCO,Bomaderry,30,13.3,65.1
+TrainLink,SCO,Kiama,10,20.0,84.3
+TrainLink,SHL,Campbelltown,18,5.6,82.6
+TrainLink,SHL,Menangle Park,14,14.3,82.0
+TrainLink,SHL,Moss Vale,31,12.9,67.7
+Trains,BMT,Bell,48,2.1,-89.8
+Trains,BMT,Central,103,3.9,-91.4
+Trains,BMT,Mount Victoria,14,14.3,22.1
+Trains,BMT,Springwood,14,21.4,-63.9
+Trains,CCN,Blacktown,20,5.0,64.8
+Trains,CCN,Central,162,15.4,-10.5
+Trains,CCN,Gosford,18,38.9,43.6
+Trains,CCN,Hornsby,17,11.8,-12.1
+Trains,CCN,Newcastle Interchange,88,29.5,14.6
+Trains,CCN,Strathfield,14,42.9,149.7
+Trains,CCN,Wyee,23,13.0,410.5
+Trains,CCN,Wyong,30,20.0,-44.3
+Trains,SCO,Bondi Junction,40,12.5,-1.2
+Trains,SCO,Central,51,21.6,-270.6
+Trains,SCO,Gerringong,34,2.9,13.9
+Trains,SCO,Helensburgh,15,0.0,-55.1
+Trains,SCO,Kiama,110,32.7,21.4
+Trains,SCO,Port Kembla,69,11.6,-4.7
+Trains,SCO,Thirroul,19,21.1,51.5
+Trains,SCO,Waterfall,66,12.1,19.7
+Trains,SCO,Wollongong,28,17.9,-64.1
+Trains,SHL,Campbelltown,60,13.3,93.4
+Trains,SHL,Macarthur,59,18.6,30.3
+Trains,SHL,Menangle Park,12,33.3,93.7
+Trains,STH,Campbelltown,20,25.0,529.4
+Trains,STH,Central,14,21.4,476.1
+Trains,T1,Berowra,149,10.7,-3.5
+Trains,T1,Blacktown,12,8.3,-339.2
+Trains,T1,Central,830,13.0,43.0
+Trains,T1,Chatswood,10,10.0,-34.4
+Trains,T1,Emu Plains,110,8.2,-22.1
+Trains,T1,Hornsby,174,3.4,-7.2
+Trains,T1,Lidcombe,10,20.0,53.3
+Trains,T1,Milsons Point,10,20.0,26.0
+Trains,T1,North Sydney,86,3.5,-58.7
+Trains,T1,Parramatta,10,10.0,-29.9
+Trains,T1,Penrith,128,29.7,21.6
+Trains,T1,Redfern,14,28.6,53.0
+Trains,T1,Richmond,94,14.9,-95.7
+Trains,T1,Schofields,39,10.3,-29.2
+Trains,T1,Strathfield,26,26.9,78.9
+Trains,T1,Wynyard,12,8.3,-36.7
+Trains,T2,Central,644,2.5,-0.3
+Trains,T2,Granville,10,10.0,3.9
+Trains,T2,Homebush,45,6.7,12.5
+Trains,T2,Leppington,222,5.0,-24.0
+Trains,T2,Museum,13,0.0,-5.5
+Trains,T2,Parramatta,176,2.8,-12.4
+Trains,T2,Redfern,101,3.0,4.6
+Trains,T3,Central,134,1.5,5.3
+Trains,T3,Liverpool,112,3.6,-25.3
+Trains,T4,Bondi Junction,516,21.3,51.8
+Trains,T4,Central,22,4.5,11.9
+Trains,T4,Cronulla,234,23.1,-13.1
+Trains,T4,Edgecliff,12,8.3,33.7
+Trains,T4,Hurstville,159,11.3,-53.7
+Trains,T4,Mortdale,20,15.0,24.0
+Trains,T4,Redfern,12,0.0,-20.2
+Trains,T4,Sutherland,25,0.0,-125.2
+Trains,T4,Waterfall,114,16.7,-93.5
+Trains,T4,Wolli Creek,11,0.0,-0.5
+Trains,T5,Blacktown,47,10.6,13.7
+Trains,T5,Leppington,115,2.6,-45.7
+Trains,T5,Richmond,18,38.9,109.7
+Trains,T5,Schofields,92,10.9,-10.5
+Trains,T6,Bankstown,218,2.3,-6.8
+Trains,T6,Lidcombe,219,0.9,-9.4
+Trains,T7,Lidcombe,344,6.7,30.2
+Trains,T7,Olympic Park,339,4.4,23.9
+Trains,T8,Campbelltown,18,5.6,-117.7
+Trains,T8,Central,668,6.0,19.6
+Trains,T8,Holsworthy,11,0.0,-63.5
+Trains,T8,Macarthur,221,1.8,-13.8
+Trains,T8,Revesby,207,1.4,-13.2
+Trains,T8,Sydenham,210,3.3,-5.6
+Trains,T8,Town Hall,17,0.0,-67.4
+Trains,T9,Burwood,10,0.0,-30.7
+Trains,T9,Central,487,12.3,26.4
+Trains,T9,Epping,66,7.6,-56.0
+Trains,T9,Gordon,205,11.7,1.7
+Trains,T9,Hornsby,217,2.3,-23.0
